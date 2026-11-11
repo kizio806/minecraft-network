@@ -1,0 +1,130 @@
+name: ${COMPOSE_PROJECT_NAME:-minecraft-network}
+
+services:
+  proxy:
+    image: ${VELOCITY_IMAGE:-itzg/mc-proxy:java21}
+    restart: unless-stopped
+    ports:
+      - "${MC_PROXY_PORT:-25565}:25565/tcp"
+    environment:
+      TYPE: VELOCITY
+      VERSION: latest
+      EULA: "TRUE"
+    volumes:
+      - ../servers/proxy:/server
+      - ../configs/velocity:/config:ro
+    depends_on:
+      - lobby
+      - auth
+      - survival
+    networks: [minecraft]
+
+  lobby:
+    image: ${PURPUR_IMAGE:-itzg/minecraft-server:java21}
+    restart: unless-stopped
+    environment:
+      TYPE: PURPUR
+      VERSION: ${MC_VERSION:-1.21.11}
+      EULA: "TRUE"
+      MEMORY: 1G
+      ONLINE_MODE: "FALSE"
+    volumes:
+      - ../servers/lobby:/data
+      - ../configs/purpur:/config:ro
+    networks: [minecraft]
+
+  auth:
+    image: ${PURPUR_IMAGE:-itzg/minecraft-server:java21}
+    restart: unless-stopped
+    environment:
+      TYPE: PURPUR
+      VERSION: ${MC_VERSION:-1.21.11}
+      EULA: "TRUE"
+      MEMORY: 1G
+      ONLINE_MODE: "FALSE"
+    volumes:
+      - ../servers/auth:/data
+      - ../configs/purpur:/config:ro
+    networks: [minecraft]
+
+  survival:
+    image: ${PURPUR_IMAGE:-itzg/minecraft-server:java21}
+    restart: unless-stopped
+    environment:
+      TYPE: PURPUR
+      VERSION: ${MC_VERSION:-1.21.11}
+      EULA: "TRUE"
+      MEMORY: 4G
+      ONLINE_MODE: "FALSE"
+    volumes:
+      - ../servers/survival:/data
+      - ../configs/purpur:/config:ro
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    networks: [minecraft]
+
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-minecraft}
+      POSTGRES_USER: ${POSTGRES_USER:-minecraft}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes: [postgres-data:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks: [internal]
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes: [redis-data:/data]
+    healthcheck: { test: [CMD, redis-cli, ping], interval: 10s, timeout: 5s, retries: 5 }
+    networks: [internal]
+
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    restart: unless-stopped
+    ports: ["${PROMETHEUS_PORT:-9090}:9090"]
+    volumes: [../infrastructure/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro]
+    networks: [monitoring]
+
+  grafana:
+    image: grafana/grafana:11.2.0
+    restart: unless-stopped
+    ports: ["${GRAFANA_PORT:-3000}:3000"]
+    volumes: [grafana-data:/var/lib/grafana]
+    networks: [monitoring]
+
+  loki:
+    image: grafana/loki:3.1.1
+    restart: unless-stopped
+    ports: ["${LOKI_PORT:-3100}:3100"]
+    volumes: [../infrastructure/monitoring/loki-config.yml:/etc/loki/local-config.yaml:ro]
+    command: -config.file=/etc/loki/local-config.yaml
+    networks: [monitoring]
+
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    restart: unless-stopped
+    ports: ["${UPTIME_KUMA_PORT:-3001}:3001"]
+    volumes: [uptime-data:/app/data]
+    networks: [monitoring]
+
+volumes:
+  postgres-data:
+  redis-data:
+  grafana-data:
+  uptime-data:
+
+networks:
+  minecraft:
+  internal:
+    internal: true
+  monitoring:
+
