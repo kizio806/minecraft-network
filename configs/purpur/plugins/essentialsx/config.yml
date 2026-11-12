@@ -16,7 +16,6 @@ warn-on-smite: true
 drop-items-if-full: false
 notify-no-new-mail: false
 item-spawn-blacklist: []
-permission-based-item-spawn: true
 per-warp-permission: true
 sort-list-by-groups: false
 login-attack-delay: 5

@@ -11,6 +11,9 @@ servers/*/plugins/*/database/
 servers/*/plugins/*/cache/
 servers/*/plugins/*.db
 servers/*/plugins/*.sqlite*
+servers/*/plugins/
+servers/*/config/
+servers/*/server.properties
 servers/*/*.jar
 servers/*/plugins/*.jar
 servers/*/usercache.json
