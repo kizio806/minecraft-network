@@ -1,0 +1,41 @@
+# WorldGuard configuration for Lobby
+protection:
+  item-durability: true
+  use-player-move-event: true
+  use-player-teleport-event: true
+simulation:
+  sponge:
+    enable: false
+    radius: 3
+    simulate-sponge: false
+physics:
+  no-physics-gravel: false
+  disable-water-damage-blocks: []
+ignition:
+  block-tnt: true
+  block-tnt-block-damage: true
+  block-lighter: true
+mobs:
+  block-creeper-explosions: true
+  block-creeper-block-damage: true
+  block-wither-explosions: true
+  block-wither-block-damage: true
+  block-wither-skull-explosions: true
+  block-ender-dragon-block-damage: true
+  block-fireball-explosions: true
+  block-fireball-block-damage: true
+  anti-wolf-leash-abuse: true
+  block-enderman-pickup: true
+  disable-spawn-types: []
+event-handling:
+  intercept-chat: false
+  deop-on-join: false
+  block-unregistered-interactions: []
+security:
+  deop-everyone-on-join: false
+  block-in-game-op-command: false
+host-keys: {}
+summary-on-start: false
+op-perms: false
+build-permission-nodes:
+  enable: true

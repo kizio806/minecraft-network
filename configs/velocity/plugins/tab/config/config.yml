@@ -1,0 +1,29 @@
+# TAB Velocity 6.2.0 - proxy-only configuration
+header-footer:
+  enabled: true
+  designs:
+    default:
+      header:
+        - "<gradient:#5ee7df:#b490ca><bold>Minecraft Network</bold></gradient>"
+        - ""
+      footer:
+        - ""
+        - "<gray>Online: <white>%online%"
+tablist-name-formatting:
+  enabled: true
+scoreboard-teams:
+  enabled: true
+  enable-collision: true
+  invisible-nametags: false
+playerlist-objective:
+  enabled: true
+  value: "%ping%"
+  fancy-value: "&7Ping: %ping%"
+  title: "Network"
+  render-type: INTEGER
+scoreboard:
+  enabled: false
+proxy-support:
+  enabled: false
+use-bukkit-permissions-manager: false
+use-online-uuid-in-tablist: true

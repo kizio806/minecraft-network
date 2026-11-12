@@ -1,0 +1,253 @@
+schema-version: 1
+generated-by: plugin-manager
+plugins:
+  veloauth:
+    project: awl91tjn
+    version: "1.6.2"
+    version-id: utSLTyeT
+    source: modrinth
+    download-url: https://cdn.modrinth.com/data/awl91tjn/versions/utSLTyeT/veloauth-latest.jar
+    filename: veloauth-latest.jar
+    sha512: 10608795866f18eef54f363eed34bbf33c884e6942a6d1f378feed4a3c3504b2991a542ee02cef0d17377fd0a79aa3c708ebe037c25f0c3c7f7dacb1e444c6a5
+    size: 27499380
+    game-versions: ["1.21.11"]
+    loaders: [velocity]
+    dependencies: []
+    resolved-at: "2026-10-07T19:44:57.447511Z"
+  luckperms:
+    project: Vebnzrzj
+    version: "v5.5.71-velocity"
+    version-id: tamnmXad
+    source: modrinth
+    download-url: https://cdn.modrinth.com/data/Vebnzrzj/versions/tamnmXad/LuckPerms-Velocity-5.5.71.jar
+    filename: LuckPerms-Velocity-5.5.71.jar
+    sha512: a619da8804727bed7b2b2ee5383974329a3c09181a67745484fdffd0f4b6c5b13c44aa88e0d2b30d13f3068d9b0f3e26863abba9855f80a7eb5f9455ca6c40d4
+    size: 1512294
+    game-versions: ["1.21.11"]
+    loaders: [velocity]
+    dependencies: []
+    resolved-at: "2026-08-06T19:40:25.429053Z"
+  minimotd:
+    project: 16vhQOQN
+    version: "2.2.2"
+    version-id: VJZkuJ7o
+    source: modrinth
+    download-url: https://cdn.modrinth.com/data/16vhQOQN/versions/VJZkuJ7o/minimotd-velocity-2.2.2.jar
+    filename: minimotd-velocity-2.2.2.jar
+    sha512: 0dfe1329c9fe4a134341d049d1fc8bfc9d42f9f7f041bed23cde2df70a9d4dd79504f323eba078ba258bb12df388b215b3e483b9031f45f8a3b799a4764bd542
+    size: 832636
+    game-versions: ["1.21.11"]
+    loaders: [velocity]
+    dependencies: []
+    resolved-at: "2025-12-14T17:38:36.814828Z"
+  tab:
+    project: gG7VFbG0
+    version: "6.2.0"
+    version-id: UDraViyI
+    source: modrinth
+    download-url: https://cdn.modrinth.com/data/gG7VFbG0/versions/UDraViyI/TAB%20v6.2.0.jar
+    filename: "TAB v6.2.0.jar"
+    sha512: b09aa679e40b526273b6c59109ad69c135ee41cf2b26c636a1edc5662b83928278000bbb028088d5be55dd71f0eb239dba5289df265b6141307b251b2c8133e3
+    size: 8482800
+    game-versions: ["1.21.11"]
+    loaders: [velocity]
+    dependencies: []
+    resolved-at: "2026-09-17T15:45:17.572792Z"
+  velocityscoreboardapi:
+    project: geXu0xsn
+    version: "2.1.1"
+    version-id: 8bShOuaK
+    source: modrinth
+    download-url: https://cdn.modrinth.com/data/geXu0xsn/versions/8bShOuaK/VelocityScoreboardAPIv%202.1.1.jar
+    filename: "VelocityScoreboardAPIv 2.1.1.jar"
+    sha512: c8d39697d259faa784917c2609cf39888e6daab626b9df644041827cbaf80c8f2b4fffd5c049479dfb307635a10a723e8689a82154042b67cc123de7a022b126
+    size: 642535
+    game-versions: ["1.21.11"]
+    loaders: [velocity]
+    dependencies: []
+    resolved-at: "2026-09-16T15:13:07.473171Z"
+  skinsrestorer:
+    project: TsLS8Py5
+    version: "15.12.6"
+    version-id: ziIzW16f
+    source: modrinth
+    download-url: https://cdn.modrinth.com/data/TsLS8Py5/versions/ziIzW16f/SkinsRestorer.jar
+    filename: SkinsRestorer.jar
+    sha512: 0ec5070bff7db5098d3fe04b53e6bcd59d74806184b3599ada48ce5576ff4346eece020a3106ba84bdfb703bd138da6d232b7cabf625394291f7728b8dc04497
+    size: 8016648
+    game-versions: ["1.21.11"]
+    loaders: [velocity, paper]
+    dependencies: []
+    resolved-at: "2026-09-20T19:20:06.279633Z"
+  skinsrestorer-bukkit:
+    project: TsLS8Py5
+    version: "15.12.6"
+    version-id: ziIzW16f
+    source: modrinth
+    download-url: https://cdn.modrinth.com/data/TsLS8Py5/versions/ziIzW16f/SkinsRestorer.jar
+    filename: SkinsRestorer.jar
+    sha512: 0ec5070bff7db5098d3fe04b53e6bcd59d74806184b3599ada48ce5576ff4346eece020a3106ba84bdfb703bd138da6d232b7cabf625394291f7728b8dc04497
+    size: 8016648
+    game-versions: ["1.21.11"]
+    loaders: [paper, velocity]
+    dependencies: []
+    resolved-at: "2026-09-20T19:20:06.279633Z"
+  luckperms-bukkit:
+    project: Vebnzrzj
+    version: "v5.5.71-bukkit"
+    version-id: b0mk8uS6
+    source: modrinth
+    download-url: https://cdn.modrinth.com/data/Vebnzrzj/versions/b0mk8uS6/LuckPerms-Bukkit-5.5.71.jar
+    filename: LuckPerms-Bukkit-5.5.71.jar
+    sha512: 188a91f0a543d23bfda32385fca6db63d61e49c8a422bd452a260bd9cbc6a7d7fe45071199e9fca8f3ce43c2b41ee84fd315bd15464577028ff3951a7d4fab27
+    size: 1501521
+    game-versions: ["1.21.11"]
+    loaders: [paper]
+    dependencies: []
+    resolved-at: "2026-08-06T19:40:25.429053Z"
+  placeholderapi:
+    project: lKEzGugV
+    version: "2.11.7"
+    version-id: sn9LYZkM
+    source: modrinth
+    download-url: https://cdn.modrinth.com/data/lKEzGugV/versions/sn9LYZkM/PlaceholderAPI-2.11.7.jar
+    filename: PlaceholderAPI-2.11.7.jar
+    sha512: 73c92097ad5e1ef3e2f65bff2c1f180834e10d9e4eab9e928ae594d310dfd6ba8db0bd2899ce8ce769c8e1eecf36fd469d668202b18455701f44f34ca8da8831
+    size: 953837
+    game-versions: ["1.21.11"]
+    loaders: [paper]
+    dependencies: []
+    resolved-at: "2026-08-15T12:00:00.000000Z"
+  fancynpcs:
+    project: EeyAn23L
+    version: "2.12.1"
+    version-id: LigxTtVw
+    source: modrinth
+    download-url: https://cdn.modrinth.com/data/EeyAn23L/versions/LigxTtVw/FancyNpcs-2.12.1.jar
+    filename: FancyNpcs-2.12.1.jar
+    sha256: a3464906d6c797781a29831706ebd5cdfa6d076fa094da2f0e7574b436fb9532
+    sha512: a370600889f7c08058fc0a7ead3549382efa6e17d3f95f7224822921e3899260d51ad6fe0fb3fe36fa4f61903698de27d1e4ce9804e9ee716733b55f5251ea07
+    size: 6754124
+    game-versions: ["1.21.10", "1.21.11", "1.21.6", "1.21.7", "1.21.8", "1.21.9", "26.1.2", "26.2", "26.3"]
+    loaders: [folia, paper]
+    dependencies: []
+    resolved-at: "2026-09-21T19:04:43.307644Z"
+  worldedit:
+    project: 1u6JkXh5
+    version: "7.3.18"
+    version-id: XlUIRmF8
+    source: modrinth
+    download-url: https://cdn.modrinth.com/data/1u6JkXh5/versions/XlUIRmF8/worldedit-bukkit-7.3.18.jar
+    filename: worldedit-bukkit-7.3.18.jar
+    sha512: 12931d4762d1a0e3f5fd2bf60ed7526b97699d52528c57715d4eced30ba151616aaa165515ce3885c0bcba3e5413847d78f94a8d5ff2d58bd03d83b38b19e45f
+    size: 6703395
+    game-versions: ["1.21.11"]
+    loaders: [paper]
+    dependencies: []
+    resolved-at: "2026-06-25T14:00:00.000000Z"
+  worldguard:
+    project: DKY9btbd
+    version: "7.0.16"
+    version-id: EZl3moba
+    source: modrinth
+    download-url: https://cdn.modrinth.com/data/DKY9btbd/versions/EZl3moba/worldguard-bukkit-7.0.16.jar
+    filename: worldguard-bukkit-7.0.16.jar
+    sha512: 70ed07f145a1b686e270bad3ba235a3a5e70005d8357c13e3130bf032b048add1aa1dd000f5521f77409c53a141111da2f6bf3eb610654c05f47666769d11d4c
+    size: 1172160
+    game-versions: ["1.21.11"]
+    loaders: [paper]
+    dependencies: [worldedit]
+    resolved-at: "2026-06-25T14:30:00.000000Z"
+  worldguardextraflags:
+    project: "aromaa/WorldGuardExtraFlags#WorldGuardExtraFlags.jar"
+    version: "4.2.4"
+    version-id: "v4.2.4"
+    source: github
+    download-url: https://github.com/aromaa/WorldGuardExtraFlags/releases/download/v4.2.4/WorldGuardExtraFlags.jar
+    filename: WorldGuardExtraFlags.jar
+    sha256: 43baf19d4d1d2274239cec60bfcd540433a7c03fb77fbb75a55e879f6e492114
+    sha512: 43c700ed7646ad6fc051daa25dfa0793b11c6df16dd83888d61cc09060b9f656ee63fde0942ed173fdff7775cbff228aa46df68d77d16b2d3cde2848dcc516dd
+    size: 114789
+    game-versions: ["1.21.11"]
+    loaders: [paper]
+    dependencies: [worldguard]
+    resolved-at: "2026-06-16T10:18:33.000000Z"
+  multiverse-core:
+    project: 3wmN97b8
+    version: "5.5.3"
+    version-id: 68aSO5t5
+    source: modrinth
+    download-url: https://cdn.modrinth.com/data/3wmN97b8/versions/68aSO5t5/multiverse-core-5.5.3.jar
+    filename: multiverse-core-5.5.3.jar
+    sha512: a1cdaf93d402b3541dd6fd60d92d5d87cbb9bf64bb411310fa1a79d9ed8132be98c67ab187957825bb26c7703d74c14d2bcd81787dccda00970ca68d865a4823
+    size: 4338211
+    game-versions: ["1.21.11"]
+    loaders: [paper]
+    dependencies: []
+    resolved-at: "2026-08-20T12:00:00.000000Z"
+  essentialsx:
+    project: hXiIvTyT
+    version: "2.22.0"
+    version-id: nY6VN1XH
+    source: modrinth
+    download-url: https://cdn.modrinth.com/data/hXiIvTyT/versions/nY6VN1XH/EssentialsX-2.22.0.jar
+    filename: EssentialsX-2.22.0.jar
+    sha512: 472ecf71924801723643ca6e1f9931297de5aa0874a544f8a719e2e2f7c81af81ef7bcbd38b6e43f0260a9dae6abe42c97907e70e2430e326ff8cff12ebd61cf
+    size: 4861125
+    game-versions: ["1.21.11"]
+    loaders: [paper]
+    dependencies: []
+    resolved-at: "2026-07-15T15:00:00.000000Z"
+  essentialsxspawn:
+    project: "EssentialsX/Essentials#EssentialsXSpawn-2.22.0.jar"
+    version: "2.22.0"
+    version-id: "2.22.0"
+    source: github
+    download-url: https://github.com/EssentialsX/Essentials/releases/download/2.22.0/EssentialsXSpawn-2.22.0.jar
+    filename: EssentialsXSpawn-2.22.0.jar
+    sha256: dd5377c4c921b9b67814209f4f6646ffbb959729003e721ec5e63c47c7c010b8
+    sha512: 7097478ec02bc46e1dce326520e7dd0cf38bcce0f7810c1c89cfcc2fef8a88a7dc27c5a946d1256abad589185c5015c615e2cb4eab181ea7362428fac581b964
+    size: 18661
+    game-versions: ["1.21.11"]
+    loaders: [paper]
+    dependencies: [essentialsx]
+    resolved-at: "2026-07-15T15:00:00.000000Z"
+  deluxemenus:
+    project: kKZkPgJ7
+    version: "1.14.1-Release"
+    version-id: PNKQ6RMs
+    source: modrinth
+    download-url: https://cdn.modrinth.com/data/kKZkPgJ7/versions/PNKQ6RMs/DeluxeMenus-1.14.1-Release.jar
+    filename: DeluxeMenus-1.14.1-Release.jar
+    sha512: c6f01e85ee5b96bba4e65571db133c45fbf157baec4160ecc83eb9f744cbc914e31079bb70cecd9b64fa329564b2e8c842e43c9976a365a54ccc5eb719ff8b65
+    size: 4075217
+    game-versions: ["1.21.11"]
+    loaders: [paper]
+    dependencies: [placeholderapi]
+    resolved-at: "2026-04-01T12:00:00.000000Z"
+  commandpanels:
+    project: towqcvHT
+    version: "4.1.6"
+    version-id: XsA8LGOi
+    source: modrinth
+    download-url: https://cdn.modrinth.com/data/towqcvHT/versions/XsA8LGOi/CommandPanels.jar
+    filename: CommandPanels.jar
+    sha512: 4c7f9bbb9c362e8d2686ad9b9a3c609cb94e69aadb29b5eee13fc3fb4b5c611c0360a535317a951e528b8df22cc5a1fb3d7ba64bb1c58d5302731fdee64f8733
+    size: 251550
+    game-versions: ["1.21.11"]
+    loaders: [paper]
+    dependencies: []
+    resolved-at: "2026-05-10T16:00:00.000000Z"
+  decentholograms:
+    project: w02MKsTg
+    version: "2.10.2"
+    version-id: fbE7wARc
+    source: modrinth
+    download-url: https://cdn.modrinth.com/data/w02MKsTg/versions/fbE7wARc/DecentHolograms-2.10.2.jar
+    filename: DecentHolograms-2.10.2.jar
+    sha512: f2247802a175cf0c71f0e069ab4c3b2ff2aba683051e474ff54f2ad3ea08da5156de7e11f768087fadbf7bdeac491b5935b2ebb2f4d8fc9f48b3df41558936ce
+    size: 4014227
+    game-versions: ["1.21.11"]
+    loaders: [paper]
+    dependencies: []
+    resolved-at: "2026-08-11T18:00:00.000000Z"

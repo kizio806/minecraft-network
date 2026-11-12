@@ -1,0 +1,11 @@
+schema-version: 1
+components:
+  nanolimbo:
+    version: "1.12.0"
+    tag: v1.12.0
+    source: github
+    repository: Nan1t/NanoLimbo
+    download-url: https://github.com/Nan1t/NanoLimbo/releases/download/v1.12.0/NanoLimbo.jar
+    filename: NanoLimbo.jar
+    sha256: 0c9e3bb302333dfe26135af5e366a05dcc41aef59b356f76369c6e32e3efa585
+    minecraft: ["1.21.11"]

@@ -1,0 +1,22 @@
+# SkinsRestorer Purpur / Paper Backend Configuration (Lobby)
+# In proxy mode, the backend plugin applies skins forwarded from Velocity.
+storage:
+  defaultSkins:
+    enabled: false
+    applyForPremium: false
+    list: []
+  disallowAutoUpdateSkin: false
+  skinExpiresAfter: 15
+  uuidExpiresAfter: 60
+proxy:
+  notAllowedCommandServers:
+    enabled: true
+    ifNoServerBlockCommand: true
+    allowList: false
+    list:
+      - auth
+server:
+  fetchRecommendedSkins: true
+advanced:
+  disableOnJoinSkins: false
+  noConnections: false

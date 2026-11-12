@@ -1,0 +1,6 @@
+# DeluxeMenus configuration for Lobby
+debug: false
+check_updates: false
+gui_menus:
+  navigation:
+    file: navigation.yml

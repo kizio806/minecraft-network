@@ -1,0 +1,22 @@
+# SkinsRestorer Velocity 15.12.6
+# The same configuration must later be deployed to every backend using SkinsRestorer.
+storage:
+  defaultSkins:
+    enabled: false
+    applyForPremium: false
+    list: []
+  disallowAutoUpdateSkin: false
+  skinExpiresAfter: 15
+  uuidExpiresAfter: 60
+proxy:
+  notAllowedCommandServers:
+    enabled: true
+    ifNoServerBlockCommand: true
+    allowList: false
+    list:
+      - auth
+server:
+  fetchRecommendedSkins: true
+advanced:
+  disableOnJoinSkins: false
+  noConnections: false

@@ -4,15 +4,68 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
-  structure:
-    runs-on: ubuntu-latest
+  validate:
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Validate required files and tags
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -f docker-compose.yml
+          test -f cmd/network/main.go
+          ! rg -n '(^|[:/])latest([" ]|$)' docker .env.example
+          install -d secrets
+          touch secrets/postgres_password secrets/luckperms_password secrets/forwarding_secret secrets/grafana_admin_password
       - name: Validate Compose
         env:
-          POSTGRES_PASSWORD: ci-placeholder
-        run: docker compose -f docker/docker-compose.yml config --quiet
-      - name: Check shell syntax
-        run: bash -n scripts/*.sh
-
+          VELOCITY_IMAGE: itzg/mc-proxy:java25@sha256:3f774514bbeb8842a9b147abd03ab3b6f1fd3f45119831f1bfdb98e159d80b24
+          PURPUR_IMAGE: itzg/minecraft-server:java21@sha256:4ab5210150b3fa0f5ece85be5398b4ade95d4c111c0242e0c922ec929efd1ae9
+          PURPUR_LOBBY_IMAGE: itzg/minecraft-server:java25@sha256:7d4a888284c2f8d468f620f2534de648cb8eacba48df8d4d20b6ad1ef201f3a3
+          VELOCITY_VERSION: 4.2.0
+          MC_VERSION: 1.21.11
+          NANOLIMBO_IMAGE: eclipse-temurin:21-jre@sha256:0b99b3376fbb50dbf9c0af8535fdd5b8eb0d3fdfc8b1e4967f383b6919f6901a
+          MC_MONITOR_IMAGE: itzg/mc-monitor:0.17.0@sha256:0d6b89c29d93cfcfcfee7bfd8e3758ddf00e20eb157e3e9a6560a93fe7fe84d1
+        run: docker compose -f docker-compose.yml config --quiet
+      - name: Reject mutable image references
+        env:
+          VELOCITY_IMAGE: itzg/mc-proxy:java25@sha256:3f774514bbeb8842a9b147abd03ab3b6f1fd3f45119831f1bfdb98e159d80b24
+          PURPUR_IMAGE: itzg/minecraft-server:java21@sha256:4ab5210150b3fa0f5ece85be5398b4ade95d4c111c0242e0c922ec929efd1ae9
+          PURPUR_LOBBY_IMAGE: itzg/minecraft-server:java25@sha256:7d4a888284c2f8d468f620f2534de648cb8eacba48df8d4d20b6ad1ef201f3a3
+          NANOLIMBO_IMAGE: eclipse-temurin:21-jre@sha256:0b99b3376fbb50dbf9c0af8535fdd5b8eb0d3fdfc8b1e4967f383b6919f6901a
+          MC_MONITOR_IMAGE: itzg/mc-monitor:0.17.0@sha256:0d6b89c29d93cfcfcfee7bfd8e3758ddf00e20eb157e3e9a6560a93fe7fe84d1
+        run: |
+          set -Eeuo pipefail
+          while IFS= read -r image; do
+            [[ "$image" =~ @sha256:[0-9a-f]{64}$ ]] || { echo "Unpinned image: $image" >&2; exit 1; }
+          done < <(docker compose -f docker-compose.yml config --images)
+      - name: Check Bash syntax
+        run: |
+          mapfile -t shell_files < <(find scripts infrastructure -type f -name '*.sh' -print)
+          ((${#shell_files[@]} == 0)) || bash -n "${shell_files[@]}"
+      - name: Validate plugin manager
+        run: |
+          go test ./...
+          go vet ./...
+          test -z "$(gofmt -l cmd internal)"
+          go run ./cmd/plugin-manager validate
+          go build -trimpath -ldflags='-X github.com/kizio806/minecraft-network/internal/networkcli.Version=ci' -o /tmp/network ./cmd/network
+          go build -trimpath -o /tmp/plugin-manager ./cmd/plugin-manager
+          /tmp/network --version
+          /tmp/plugin-manager validate
+      - name: ShellCheck
+        run: |
+          mapfile -t shell_files < <(find scripts infrastructure -type f -name '*.sh' -print)
+          ((${#shell_files[@]} == 0)) || shellcheck "${shell_files[@]}"
+      - name: YAML lint
+        run: |
+          python3 -m pip install --user yamllint
+          python3 -m yamllint -d relaxed docker infrastructure .github
+      - name: Gitleaks
+        run: docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.18.4 detect --source=/repo --no-banner
+      - name: Trivy configuration scan
+        run: docker run --rm -v "$PWD:/repo" aquasec/trivy:0.55.2 config --exit-code 1 --severity HIGH,CRITICAL /repo

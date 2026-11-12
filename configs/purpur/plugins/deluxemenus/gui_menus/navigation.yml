@@ -1,0 +1,22 @@
+menu_title: '&8Network Navigation'
+open_command:
+  - menu
+  - lobby
+size: 27
+open_requirement:
+  requirements:
+    permission:
+      type: has permission
+      permission: deluxemenus.menu.navigation
+items:
+  'survival':
+    material: GRASS_BLOCK
+    slot: 13
+    display_name: '&a&lSurvival SMP'
+    lore:
+      - '&7Click to connect to Survival SMP server.'
+      - ''
+      - '&eStatus: &aOnline'
+    click_commands:
+      - '[message] &7Connecting to Survival...'
+      - '[connect] survival'

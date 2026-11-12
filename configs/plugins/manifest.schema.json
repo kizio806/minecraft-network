@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema-version", "environment", "plugins"],
+  "additionalProperties": false,
+  "properties": {
+    "schema-version": {"const": 1},
+    "environment": {
+      "type": "object",
+      "required": ["minecraft-version", "backend", "proxy"],
+      "additionalProperties": false,
+      "properties": {
+        "minecraft-version": {"const": "1.21.11"},
+        "backend": {"const": "purpur"},
+        "proxy": {"const": "velocity"},
+        "java": {"type": "string"}
+      }
+    },
+    "plugins": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["display-name", "enabled", "source", "project", "version", "version-id", "platform", "servers", "release-channel", "update-policy", "dependencies", "incompatible-with"],
+        "additionalProperties": false,
+        "properties": {
+          "display-name": {"type": "string"}, "enabled": {"type": "boolean"}, "source": {"enum": ["modrinth", "github"]}, "project": {"type": "string"}, "version": {"type": "string", "pattern": "^(?!latest$).+"}, "version-id": {"type": "string", "pattern": "^(?!latest$).+"}, "platform": {"enum": ["velocity", "paper"]}, "servers": {"type": "array", "items": {"enum": ["proxy", "lobby", "survival"]}}, "release-channel": {"enum": ["release", "beta", "alpha"]}, "update-policy": {"const": "manual"}, "dependencies": {"type": "array", "items": {"type": "string"}}, "incompatible-with": {"type": "array", "items": {"type": "string"}}, "required-java": {"type": "string"}, "config-dir": {"type": "string"}, "config-target-dir": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"}, "license": {"type": "string"}
+        }
+      }
+    }
+  }
+}

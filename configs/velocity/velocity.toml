@@ -1,7 +1,18 @@
-# Skeleton only. Generate and review the real Velocity configuration during deployment.
-# Do not commit forwarding secrets.
 config-version = "2.7"
 bind = "0.0.0.0:25565"
-online-mode = true
+motd = "<gold>Minecraft Network"
+online-mode = false
+force-key-authentication = true
 player-info-forwarding-mode = "modern"
+forwarding-secret-file = "/run/secrets/forwarding_secret"
+ping-passthrough = "DISABLED"
+enable-player-address-logging = false
 
+[servers]
+auth = "auth:25565"
+lobby = "lobby:25565"
+survival = "survival:25565"
+try = ["lobby", "survival"]
+
+[forced-hosts]
+"localhost" = ["lobby"]

@@ -1,0 +1,332 @@
+schema-version: 1
+
+environment:
+  minecraft-version: "1.21.11"
+  backend: purpur
+  proxy: velocity
+  java: "25"
+
+plugins:
+  # ==========================================
+  # Velocity Proxy Plugins
+  # ==========================================
+  veloauth:
+    display-name: VeloAuth
+    enabled: true
+    source: modrinth
+    project: awl91tjn
+    version: "1.6.2"
+    version-id: utSLTyeT
+    platform: velocity
+    servers: [proxy]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: [authme, authmevelocity, fastlogin]
+    required-java: "25"
+    config-dir: configs/velocity/plugins/veloauth
+    license: MIT
+  luckperms:
+    display-name: LuckPerms (Velocity)
+    enabled: true
+    source: modrinth
+    project: Vebnzrzj
+    version: "v5.5.71-velocity"
+    version-id: tamnmXad
+    platform: velocity
+    servers: [proxy]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: [authme, fastlogin]
+    required-java: "25"
+    config-dir: configs/velocity/plugins/luckperms
+    license: MIT
+  minimotd:
+    display-name: MiniMOTD
+    enabled: true
+    source: modrinth
+    project: 16vhQOQN
+    version: "2.2.2"
+    version-id: VJZkuJ7o
+    platform: velocity
+    servers: [proxy]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "25"
+    config-dir: configs/velocity/plugins/minimotd
+    license: MIT
+  tab:
+    display-name: TAB
+    enabled: true
+    source: modrinth
+    project: gG7VFbG0
+    version: "6.2.0"
+    version-id: UDraViyI
+    platform: velocity
+    servers: [proxy]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "25"
+    config-dir: configs/velocity/plugins/tab
+    config-target-dir: TAB
+    license: Apache-2.0
+  velocityscoreboardapi:
+    display-name: VelocityScoreboardAPI
+    enabled: true
+    source: modrinth
+    project: geXu0xsn
+    version: "2.1.1"
+    version-id: 8bShOuaK
+    platform: velocity
+    servers: [proxy]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "25"
+    license: Apache-2.0
+  skinsrestorer:
+    display-name: SkinsRestorer
+    enabled: true
+    source: modrinth
+    project: TsLS8Py5
+    version: "15.12.6"
+    version-id: ziIzW16f
+    platform: velocity
+    servers: [proxy]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "25"
+    config-dir: configs/velocity/plugins/skinsrestorer
+    config-target-dir: SkinsRestorer
+    license: GPL-3.0-only
+
+  # ==========================================
+  # Lobby Backend Plugins (Purpur / Paper)
+  # ==========================================
+  luckperms-bukkit:
+    display-name: LuckPerms (Bukkit/Purpur)
+    enabled: true
+    source: modrinth
+    project: Vebnzrzj
+    version: "v5.5.71-bukkit"
+    version-id: b0mk8uS6
+    platform: paper
+    servers: [lobby]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/purpur/plugins/luckperms
+    config-target-dir: LuckPerms
+    license: MIT
+  placeholderapi:
+    display-name: PlaceholderAPI
+    enabled: true
+    source: modrinth
+    project: lKEzGugV
+    version: "2.11.7"
+    version-id: sn9LYZkM
+    platform: paper
+    servers: [lobby]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/purpur/plugins/placeholderapi
+    config-target-dir: PlaceholderAPI
+    license: GPL-3.0-only
+  fancynpcs:
+    display-name: FancyNpcs
+    enabled: true
+    source: modrinth
+    project: EeyAn23L
+    version: "2.12.1"
+    version-id: LigxTtVw
+    platform: paper
+    servers: [lobby]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: [citizens, citizens2]
+    required-java: "25"
+    license: MIT
+  worldedit:
+    display-name: WorldEdit
+    enabled: true
+    source: modrinth
+    project: 1u6JkXh5
+    version: "7.3.18"
+    version-id: XlUIRmF8
+    platform: paper
+    servers: [lobby]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/purpur/plugins/worldedit
+    config-target-dir: WorldEdit
+    license: GPL-3.0-only
+  worldguard:
+    display-name: WorldGuard
+    enabled: true
+    source: modrinth
+    project: DKY9btbd
+    version: "7.0.16"
+    version-id: EZl3moba
+    platform: paper
+    servers: [lobby]
+    release-channel: release
+    update-policy: manual
+    dependencies: [worldedit]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/purpur/plugins/worldguard
+    config-target-dir: WorldGuard
+    license: GPL-3.0-only
+  worldguardextraflags:
+    display-name: WorldGuard Extra Flags
+    enabled: true
+    source: github
+    project: "aromaa/WorldGuardExtraFlags#WorldGuardExtraFlags.jar"
+    version: "4.2.4"
+    version-id: "v4.2.4"
+    platform: paper
+    servers: [lobby]
+    release-channel: release
+    update-policy: manual
+    dependencies: [worldguard]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/purpur/plugins/worldguardextraflags
+    config-target-dir: WorldGuardExtraFlags
+    license: MIT
+  multiverse-core:
+    display-name: Multiverse-Core
+    enabled: true
+    source: modrinth
+    project: 3wmN97b8
+    version: "5.5.3"
+    version-id: 68aSO5t5
+    platform: paper
+    servers: [lobby]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/purpur/plugins/multiverse-core
+    config-target-dir: Multiverse-Core
+    license: BSD-2-Clause
+  essentialsx:
+    display-name: EssentialsX
+    enabled: true
+    source: modrinth
+    project: hXiIvTyT
+    version: "2.22.0"
+    version-id: nY6VN1XH
+    platform: paper
+    servers: [lobby]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/purpur/plugins/essentialsx
+    config-target-dir: Essentials
+    license: GPL-3.0-only
+  essentialsxspawn:
+    display-name: EssentialsX Spawn
+    enabled: true
+    source: github
+    project: "EssentialsX/Essentials#EssentialsXSpawn-2.22.0.jar"
+    version: "2.22.0"
+    version-id: "2.22.0"
+    platform: paper
+    servers: [lobby]
+    release-channel: release
+    update-policy: manual
+    dependencies: [essentialsx]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/purpur/plugins/essentialsxspawn
+    config-target-dir: EssentialsSpawn
+    license: GPL-3.0-only
+  deluxemenus:
+    display-name: DeluxeMenus
+    enabled: true
+    source: modrinth
+    project: kKZkPgJ7
+    version: "1.14.1-Release"
+    version-id: PNKQ6RMs
+    platform: paper
+    servers: [lobby]
+    release-channel: release
+    update-policy: manual
+    dependencies: [placeholderapi]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/purpur/plugins/deluxemenus
+    config-target-dir: DeluxeMenus
+    license: GPL-3.0-only
+  commandpanels:
+    display-name: CommandPanels
+    enabled: true
+    source: modrinth
+    project: towqcvHT
+    version: "4.1.6"
+    version-id: XsA8LGOi
+    platform: paper
+    servers: [lobby]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/purpur/plugins/commandpanels
+    config-target-dir: CommandPanels
+    license: GPL-3.0-only
+  decentholograms:
+    display-name: DecentHolograms
+    enabled: true
+    source: modrinth
+    project: w02MKsTg
+    version: "2.10.2"
+    version-id: fbE7wARc
+    platform: paper
+    servers: [lobby]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/purpur/plugins/decentholograms
+    config-target-dir: DecentHolograms
+    license: GPL-3.0-only
+  skinsrestorer-bukkit:
+    display-name: SkinsRestorer (Paper/Lobby)
+    enabled: true
+    source: modrinth
+    project: TsLS8Py5
+    version: "15.12.6"
+    version-id: ziIzW16f
+    platform: paper
+    servers: [lobby]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/purpur/plugins/skinsrestorer
+    config-target-dir: SkinsRestorer
+    license: GPL-3.0-only

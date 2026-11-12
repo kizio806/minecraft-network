@@ -1,4 +1,5 @@
-# Auth runtime
+# NanoLimbo auth/limbo runtime
 
-World and generated server files are intentionally absent from Git.
+This private backend is the holding server used by VeloAuth. It is not a password database and must never be exposed directly. VeloAuth owns Premium verification, registration, password hashing, session state and transfer to Lobby/Survival.
 
+The runtime artifact is NanoLimbo `1.12.0`; no JAR is committed. See `configs/plugins/components.yml` and `configs/plugins/components.lock.yml`; stage it through the reviewed deployment process.

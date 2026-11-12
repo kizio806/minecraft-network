@@ -1,0 +1,23 @@
+# CommandPanels configuration for Lobby
+Check-Updates: false
+panel-file-type: yml
+enable-economy: false
+enable-hotbar: false
+auto-open-commands: []
+panels:
+  rules:
+    perm: default
+    rows: 3
+    title: '&8Network Rules'
+    commands:
+      - rules
+    item:
+      'book':
+        material: BOOK
+        slot: 13
+        name: '&e&lNetwork Rules'
+        lore:
+          - '&71. Be respectful to all players.'
+          - '&72. No griefing, cheating, or exploiting.'
+          - '&73. Keep chat appropriate.'
+          - '&74. Obey network staff decisions.'

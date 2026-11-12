@@ -1,0 +1,17 @@
+# Multiverse-Core configuration for Lobby
+version: 5.0
+messagecooldown: 5000
+teleportcooldown: 1000
+worldnameprefix: false
+enforcegamemodes: true
+usecustomchatformat: false
+firstspawnworld: world
+teleportintercept: true
+firstspawnoverride: true
+displaypermerrors: true
+globaldebug: 0
+silentstart: false
+auto_purging: false
+use_custom_portal_search: false
+custom_portal_search_radius: 128
+use_bungee: true
