@@ -172,6 +172,9 @@ func (a App) lifecycle(ctx context.Context, cfg Config, action string, services 
 		return &ExitError{3, err}
 	}
 	args := []string{action}
+	if action == "start" {
+		args = []string{"up", "-d"}
+	}
 	args = append(args, services...)
 	_, err := a.compose(ctx, cfg, args...)
 	if err != nil {
