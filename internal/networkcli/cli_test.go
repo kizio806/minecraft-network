@@ -159,7 +159,7 @@ func TestLifecycleCommandOrderAndFailure(t *testing.T) {
 	if err := (App{Out: &out, Runner: f}).lifecycle(context.Background(), c, "start", []string{"proxy"}); err != nil {
 		t.Fatal(err)
 	}
-	if len(f.calls) != 2 || f.calls[0][len(f.calls[0])-2] != "config" || f.calls[1][len(f.calls[1])-2] != "start" {
+	if len(f.calls) != 2 || f.calls[0][len(f.calls[0])-2] != "config" || f.calls[1][len(f.calls[1])-3] != "up" {
 		t.Fatalf("unexpected calls: %#v", f.calls)
 	}
 	f2 := &fakeRunner{err: errors.New("compose failed")}
@@ -186,7 +186,7 @@ func TestLifecycleUsesMockDockerExecutable(t *testing.T) {
 		t.Fatal(err)
 	}
 	lines := strings.Split(strings.TrimSpace(string(b)), "\n")
-	if len(lines) != 2 || !strings.Contains(lines[0], "config --quiet") || !strings.Contains(lines[1], "start proxy") {
+	if len(lines) != 2 || !strings.Contains(lines[0], "config --quiet") || !strings.Contains(lines[1], "up -d proxy") {
 		t.Fatalf("unexpected docker calls: %q", string(b))
 	}
 }
