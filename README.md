@@ -31,6 +31,34 @@ Instalacja produkcyjna jest opisana krok po kroku w [docs/deployment.md](docs/de
 
 Głównym interfejsem jest natywny program Go: `network install|start|stop|restart|status|logs|backup|restore|update|health`. Skrypty Bash są ograniczone do bootstrapu hosta i przygotowania firewalla.
 
+## Testowanie
+
+```bash
+go test -count=1 ./...
+go test -count=1 -race ./...
+go vet ./...
+go build -trimpath -o /tmp/network ./cmd/network
+go build -trimpath -o /tmp/plugin-manager ./cmd/plugin-manager
+go run ./cmd/plugin-manager validate
+docker compose -f docker-compose.yml config --quiet
+```
+
+Do testu lokalnego po przygotowaniu `.env`, sekretów i pluginów:
+
+```bash
+go build -trimpath -o /tmp/network ./cmd/network
+/tmp/network install
+docker compose -f docker-compose.yml up -d postgres proxy auth lobby survival
+/tmp/network health
+docker compose -f docker-compose.yml ps
+```
+
+Pełny monitoring można uruchomić osobno po sprawdzeniu dostępnego miejsca:
+
+```bash
+docker compose -f docker-compose.yml --profile cache up -d
+```
+
 ## Roadmapa
 
 1. Test restore i smoke testy na odizolowanym hoście.

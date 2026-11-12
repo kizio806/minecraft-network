@@ -12,6 +12,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Set up Go
+        uses: actions/setup-go@v7.0.0
+        with:
+          go-version-file: go.mod
+          cache: true
       - name: Validate required files and tags
         shell: bash
         run: |
@@ -49,7 +54,11 @@ jobs:
           ((${#shell_files[@]} == 0)) || bash -n "${shell_files[@]}"
       - name: Validate plugin manager
         run: |
+          set -Eeuo pipefail
+          go version
+          go env GOTOOLCHAIN GOVERSION
           go test ./...
+          go test -race ./...
           go vet ./...
           test -z "$(gofmt -l cmd internal)"
           go run ./cmd/plugin-manager validate
