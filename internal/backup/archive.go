@@ -20,33 +20,39 @@ var ErrArchiveEntryTooLarge = errors.New("archive entry exceeds maximum allowed 
 const maxSingleRestoreFileSize int64 = 500 << 20 // 500 MB limit per extracted entry
 
 // CreateBackupArchive bundles repository directories and extra staged files into a compressed tarball.
-func CreateBackupArchive(root, stage, destination string) error {
+func CreateBackupArchive(root, stage, destination string) (retErr error) {
 	f, err := os.OpenFile(destination+".tmp", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
 	if err != nil {
 		return err
 	}
-	defer f.Close()
+	defer func() {
+		if cerr := f.Close(); retErr == nil && cerr != nil {
+			retErr = cerr
+		}
+	}()
 	gz := gzip.NewWriter(f)
 	tw := tar.NewWriter(gz)
 	paths := []string{"configs", "docker", "infrastructure", "servers", "secrets", ".env"}
 	for _, rel := range paths {
 		if err := AddTree(tw, root, rel); err != nil && !errors.Is(err, os.ErrNotExist) {
-			return err
+			retErr = err
+			return
 		}
 	}
 	if err := AddPath(tw, filepath.Join(stage, "postgres.dump"), "database/postgres.dump"); err != nil && !errors.Is(err, os.ErrNotExist) {
-		return err
+		retErr = err
+		return
 	}
 	if err := tw.Close(); err != nil {
-		return err
+		retErr = err
+		return
 	}
 	if err := gz.Close(); err != nil {
-		return err
+		retErr = err
+		return
 	}
-	if err := f.Close(); err != nil {
-		return err
-	}
-	return os.Rename(destination+".tmp", destination)
+	retErr = os.Rename(destination+".tmp", destination)
+	return
 }
 
 // AddPath appends a single file to a tar writer with the given archive path.
