@@ -1,0 +1,65 @@
+name: "🔌 Plugin Proposal"
+description: "Propose adding a new plugin to the declarative supply chain"
+title: "plugin: "
+labels: ["plugin", "supply-chain"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Plugins must be open-source (Modrinth or GitHub release), Paper 1.21.x compatible, and verified with SHA-512 hashes. Closed-source SpigotMC JARs are forbidden.
+
+  - type: input
+    id: plugin_name
+    attributes:
+      label: Plugin Name
+      placeholder: "e.g., ChunkyBorder"
+    validations:
+      required: true
+
+  - type: input
+    id: upstream_url
+    attributes:
+      label: Upstream Source URL (Modrinth / GitHub)
+      placeholder: "https://modrinth.com/plugin/..."
+    validations:
+      required: true
+
+  - type: input
+    id: license
+    attributes:
+      label: Open Source License
+      placeholder: "e.g., GPL-3.0, MIT, Apache-2.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: target_server
+    attributes:
+      label: Target Server
+      options:
+        - "proxy"
+        - "lobby"
+        - "survival"
+        - "auth"
+    validations:
+      required: true
+
+  - type: textarea
+    id: justification
+    attributes:
+      label: Gameplay or Architectural Justification
+      description: Why should this plugin be included in the template?
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: vetting
+    attributes:
+      label: Vetting Checklist
+      options:
+        - label: "Verified source code is public and actively maintained"
+          required: true
+        - label: "Paper 1.21.x tested and confirmed zero deprecation warnings"
+          required: true
+        - label: "Does not require Redis or external uncontainerized services"
+          required: true

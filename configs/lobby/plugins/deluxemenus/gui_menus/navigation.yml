@@ -1,0 +1,71 @@
+menu_title: '&__THEME_PRIMARY__&l✦ &__THEME_SECONDARY__&l__MSG_MENU_TITLE__ &__THEME_PRIMARY__&l✦'
+open_command:
+  - menu
+  - lobby
+  - serwery
+  - tryby
+  - wybierz
+register_command: true
+size: 27
+
+items:
+  'border_top':
+    material: ORANGE_STAINED_GLASS_PANE
+    slots: [0, 1, 2, 3, 5, 6, 7, 8, 18, 19, 20, 21, 23, 24, 25, 26]
+    display_name: ' '
+
+  'discord_info':
+    material: BOOK
+    slot: 11
+    display_name: '&#5865F2&l__MSG_MENU_DISCORD_TITLE__'
+    lore:
+      - '__MSG_MENU_DISCORD_LORE_1__'
+      - ''
+      - '__MSG_MENU_DISCORD_LORE_2__'
+      - '__MSG_MENU_DISCORD_LORE_3__'
+      - '__MSG_MENU_DISCORD_LORE_4__'
+      - ''
+      - '__MSG_MENU_DISCORD_ADDRESS__'
+      - ''
+      - '__MSG_MENU_DISCORD_CLICK__'
+    click_commands:
+      - '[message] __MSG_MENU_DISCORD_MSG__'
+      - '[sound] UI_BUTTON_CLICK'
+
+  'survival':
+    material: GRASS_BLOCK
+    slot: 13
+    display_name: '&__THEME_PRIMARY__&l✦ &__THEME_SECONDARY__&l__MSG_MENU_SURVIVAL_TITLE__ &__THEME_ACCENT__&l✦'
+    lore:
+      - '__MSG_MENU_SURVIVAL_LORE_1__'
+      - ''
+      - '__MSG_MENU_SURVIVAL_LORE_2__'
+      - '__MSG_MENU_SURVIVAL_LORE_3__'
+      - '__MSG_MENU_SURVIVAL_LORE_4__'
+      - '__MSG_MENU_SURVIVAL_LORE_5__'
+      - ''
+      - '__MSG_MENU_SURVIVAL_STATUS__'
+      - ''
+      - '__MSG_MENU_SURVIVAL_CLICK__'
+    click_commands:
+      - '[message] &__THEME_SECONDARY__&l__NETWORK_SHORT_NAME__ &8» __MSG_MENU_SURVIVAL_MSG__'
+      - '[sound] ENTITY_PLAYER_LEVELUP'
+      - '[connect] survival'
+
+  'website_info':
+    material: NETHER_STAR
+    slot: 15
+    display_name: '&__THEME_PRIMARY__&l__MSG_MENU_WEBSITE_TITLE__'
+    lore:
+      - '__MSG_MENU_WEBSITE_LORE_1__'
+      - ''
+      - '__MSG_MENU_WEBSITE_LORE_2__'
+      - '__MSG_MENU_WEBSITE_LORE_3__'
+      - '__MSG_MENU_WEBSITE_LORE_4__'
+      - ''
+      - '__MSG_MENU_WEBSITE_ADDRESS__'
+      - ''
+      - '__MSG_MENU_WEBSITE_CLICK__'
+    click_commands:
+      - '[message] &__THEME_PRIMARY__&l__MSG_MENU_WEBSITE_MSG__'
+      - '[sound] UI_BUTTON_CLICK'

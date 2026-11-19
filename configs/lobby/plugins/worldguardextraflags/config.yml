@@ -1,0 +1,11 @@
+# WorldGuard ExtraFlags Plus configuration for Lobby
+update-checker: false
+metrics: false
+prefix: '&6[ExtraFlags]&r '
+custom-flags:
+  allow-block-place: true
+  allow-block-break: true
+  allow-chat: true
+  allow-commands: true
+  godmode: true
+  fly: true

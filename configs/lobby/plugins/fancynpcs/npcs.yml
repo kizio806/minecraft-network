@@ -1,0 +1,26 @@
+npcs:
+  survival_guide:
+    name: "survival_guide"
+    displayName: "<gradient:__THEME_PRIMARY__:__THEME_SECONDARY__><bold>__MSG_NPC_SURVIVAL_DISPLAY__</bold></gradient>"
+    type: "PLAYER"
+    location:
+      world: "lobby"
+      x: 0.5
+      y: 65.0
+      z: 5.5
+      yaw: 180.0
+      pitch: 0.0
+    skin: "Steve"
+    turn_to_player: true
+    show_in_tab: false
+    actions:
+      RIGHT_CLICK:
+        - action: "message"
+          data: "<gradient:__THEME_PRIMARY__:__THEME_SECONDARY__><bold>__NETWORK_SHORT_NAME__</bold></gradient> <dark_gray>» <yellow>__MSG_NPC_SURVIVAL_CONNECTING__</yellow>"
+        - action: "send_to_server"
+          data: "survival"
+      LEFT_CLICK:
+        - action: "message"
+          data: "<gradient:__THEME_PRIMARY__:__THEME_SECONDARY__><bold>__NETWORK_SHORT_NAME__</bold></gradient> <dark_gray>» <yellow>__MSG_NPC_SURVIVAL_CONNECTING__</yellow>"
+        - action: "send_to_server"
+          data: "survival"

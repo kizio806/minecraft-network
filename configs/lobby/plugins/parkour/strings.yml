@@ -1,0 +1,7 @@
+Parkour:
+  Prefix: "__MSG_PARKOUR_PREFIX__"
+  Join: "__MSG_PARKOUR_JOIN__"
+  Leave: "__MSG_PARKOUR_LEAVE__"
+  Restarting: "__MSG_PARKOUR_RESTART__"
+  FinishCourse1: "__MSG_PARKOUR_FINISH__"
+  CheckpointCreated: "__MSG_PARKOUR_CHECKPOINT__"

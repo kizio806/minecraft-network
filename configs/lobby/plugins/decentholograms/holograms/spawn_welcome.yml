@@ -1,0 +1,19 @@
+location: lobby:0.5:68.0:-2.5
+enabled: true
+pages:
+  1:
+    lines:
+      - content: '<gradient:__THEME_PRIMARY__:__THEME_SECONDARY__><bold>✦ __NETWORK_SHORT_NAME__ ✦</bold></gradient>'
+        height: 0.35
+      - content: '__MSG_WELCOME_HOLOGRAM_1__'
+        height: 0.28
+      - content: ''
+        height: 0.15
+      - content: '&6» &eDiscord:&f __NETWORK_DISCORD__'
+        height: 0.25
+      - content: '&6» &eWebsite:&f __NETWORK_WEBSITE__'
+        height: 0.25
+      - content: ''
+        height: 0.15
+      - content: '__MSG_WELCOME_HOLOGRAM_2__'
+        height: 0.3

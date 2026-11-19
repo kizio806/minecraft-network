@@ -1,0 +1,260 @@
+# UltimateTeams Messages Configuration
+team:
+  create:
+    incorrect_usage: '__MSG_TEAMS_USAGE_CREATE__'
+    name_too_short: '__MSG_TEAMS_NAME_TOO_SHORT__'
+    name_too_long: '__MSG_TEAMS_NAME_TOO_LONG__'
+    successful: '__MSG_TEAMS_SUCCESSFUL_CREATE__'
+    name_taken: '__MSG_TEAMS_NAME_TAKEN__'
+    name_banned: '__MSG_TEAMS_NAME_BANNED__'
+    name_contains_space: '__MSG_TEAMS_NAME_SPACES__'
+    name_cannot_contain_colours: '[Team name cannot contain & or # colours.](dark_aqua)'
+    failed: '[Team could not be created!](dark_aqua)'
+    broadcast_chat: '[%TEAMOWNER%] created a new team: %TEAM%!'
+    broadcast_title1: '[%TEAMOWNER%] created a team!'
+    broadcast_title2: '[Team: %TEAM%!]'
+  rename:
+    successful: '[Successfully renamed team to %TEAM%!](dark_aqua)'
+  disband:
+    warning: '__MSG_TEAMS_DISBAND_WARNING__'
+    successful: '__MSG_TEAMS_DISBAND_SUCCESSFUL__'
+    failure: '[Failed to disband team!](dark_aqua)'
+  transfer:
+    successful: '__MSG_TEAMS_TRANSFER_SUCCESSFUL__'
+    new_owner_message: '[You are now the leader of team %TEAM%!](dark_aqua)'
+    failure_not_same_team: '[This player is not in your team!](dark_aqua)'
+    failure_owner_offline: '[Cannot transfer leadership - player is offline.](dark_aqua)'
+    failed_cannot_transfer_to_self: '[You cannot transfer leadership to yourself!](dark_aqua)'
+    failed_target_in_team: '[That player is already in a team!](dark_aqua)'
+    incorrect_usage: '[Usage: /team transfer <player>.](dark_aqua)'
+  invite:
+    no_valid_player: '[Please specify a player to invite!](dark_aqua)'
+    not_team_owner: '[You must be a team leader or manager to invite!](dark_aqua)'
+    self_error: '[You cannot invite yourself!](dark_aqua)'
+    fee_will_exceed_limit: '[Team bank limit reached!](dark_aqua)'
+    cant_join_fee_will_exceed_limit: '[Team bank limit reached!](dark_aqua)'
+    invitee_not_found: '[Player %INVITED% is offline!](dark_aqua)'
+    invited_already_in_team: '[Player %INVITED% is already in a team!](dark_aqua)'
+    max_size_reached: '[Team member limit reached (%LIMIT%)!](dark_aqua)'
+    successful: '[Team invitation sent to %INVITED%!](dark_aqua)'
+    failed: '[Failed to send invitation to %INVITED%!](dark_aqua)'
+    invite_pending: '__MSG_TEAMS_INVITE_PENDING__'
+    request: |-
+      [%PLAYER%] wants to join your team.
+      Type /team invite %PLAYER% to send an invitation.
+    request_failed: '[Team leader is offline!](dark_aqua)'
+    request_sent_successfully: '[Join request sent to %TEAMOWNER%!](dark_aqua)'
+    request_failed_own_team: '[This is your own team!](dark_aqua)'
+    request_failed_already_in_team: '[You are already in a team!](dark_aqua)'
+    deny_failed_no_invite: '[You have no pending invitations.](dark_aqua)'
+    denied: '[Invitation declined.](dark_aqua)'
+    denied_inviter: '[%PLAYER% declined your invitation.](dark_aqua)'
+    deny_fail: '[Failed to decline invitation.](dark_aqua)'
+    received_message:
+    - '&7&m                                                    &r'
+    - '[Team Invitation](gold bold)'
+    - '[You received an invitation to join team](yellow) [%TEAM%](gold) [from](yellow) [%INVITER%](gold)'
+    - ''
+    - '[[✔ ACCEPT]](green bold run_command=/team invite accept hover=[Click to accept invitation](green)) [[✖ DECLINE]](red bold run_command=/team invite deny hover=[Click to decline invitation](red))'
+    - '&7&m                                                    &r'
+    error_invites_disabled: '[%NAME% has team invitations disabled!](dark_aqua)'
+  join:
+    successful: '[Successfully joined team %TEAM%!](dark_aqua)'
+    failed: '[Failed to join team %TEAM%!](dark_aqua)'
+    failed_no_valid_team: '[Team not found!](dark_aqua)'
+    failed_no_invite: '[You do not have an active invite to this team!](dark_aqua)'
+    broadcast_chat: '[Player %PLAYER% joined the team!](dark_aqua)'
+  leave:
+    failed_owner: '[You are the team leader! Use /team disband or transfer leadership.](dark_aqua)'
+    successful: '[You left team %TEAM%.](dark_aqua)'
+    failed: '[Failed to leave team. Try again later.](dark_aqua)'
+    broadcast_chat: '[Player %PLAYER% left the team!](dark_aqua)'
+  warp:
+    successful: '[Successfully created team warp: %WARP_NAME%!](dark_aqua)'
+    name_used: '[A warp with this name already exists!](dark_aqua)'
+    limit_reached: '[Team warp limit reached!](dark_aqua)'
+    deleted_successful: '[Successfully deleted team warp: %WARP_NAME%!](dark_aqua)'
+    not_found: '[Warp not found!](dark_aqua)'
+    cooldown_start: '[Teleporting in %SECONDS%s! Do not move!](dark_aqua)'
+    teleported_successful: '[Teleported to team warp!](dark_aqua)'
+    no_warps: '[Your team does not have any warps yet!](red)'
+    menu:
+      header:
+      - '[Team Warps for](dark_aqua) [%TEAM%](gold)[:](dark_aqua)'
+      - ''
+      warp: '[[%WARP_NAME%]](#1055C9 hover=%WARP_INFO% run_command=/team warp %WARP_NAME%)'
+      warp_info:
+      - '[Click to teleport to](gray) [%WARP_NAME%](gold)'
+  kick:
+    successful: '[Player %KICKEDPLAYER% was kicked from the team.](dark_aqua)'
+    kicked_player_message: '[You were kicked from team %TEAM%!](dark_aqua)'
+    target_not_in_team: '[Player %KICKEDPLAYER% is not in your team.](dark_aqua)'
+    player_not_found: '[Player %KICKEDPLAYER% not found.](dark_aqua)'
+    must_be_owner: '[You must be the team leader!](dark_aqua)'
+    incorrect_usage: '[Usage: /team kick <player>.](dark_aqua)'
+    failed_cannot_kick_yourself: '[You cannot kick yourself! Use /team leave.](dark_aqua)'
+  prefix:
+    change_successful: '[Successfully changed team prefix to: ](dark_aqua)%TEAMPREFIX%[!](dark_aqua)'
+    too_long: '[Team prefix is too long - max length is %CHARMAX% chars.](dark_aqua)'
+    too_short: '[Team prefix is too short - min length is %CHARMIN% chars.](dark_aqua)'
+    invalid_prefix: '[Specify a new prefix: /team prefix <prefix>](aqua)'
+    already_taken: '[This team prefix is already taken!](dark_aqua)'
+    is_banned: '[This team prefix is banned!](dark_aqua)'
+    must_be_owner: '[You must be the team leader!](dark_aqua)'
+  motd:
+    cannot_contain_colours: '[Team description cannot contain colours.](dark_aqua)'
+    change_successful: '[Successfully changed team description to:](dark_aqua) %MOTD%[!](dark_aqua)'
+    not_valid: '[Description contains illegal characters!](dark_aqua)'
+    disabled: '[Team description disabled.](dark_aqua)'
+    not_set: '&7No team description set.'
+    too_long: '[Description too long - max %CHARMAX% chars.](dark_aqua)'
+    too_short: '[Description too short - min %CHARMIN% chars.](dark_aqua)'
+  list:
+    no_teams: |-
+      &7No teams currently on the server!
+      &eCreate your own team by typing &6/team create <name>&e!
+    header: |
+      &7----- &6Team List&7 -----
+      &eActive teams:
+    footer: '&7-----'
+  info:
+    header: |-
+      &7----- &6Team Info&7 -----
+      &eName: &f%TEAM%
+      &ePrefix: &7(&r%TEAMPREFIX%&7)
+    owner_online: '&eLeader: &a%OWNER%'
+    owner_offline: '&eLeader: &c%OWNER% &7&o(offline)'
+    members_header: '&eMembers: &f(%NUMBER%)'
+    managers_header: '&eManagers: &f(%NUMBER%)'
+    members_online: '&a%MEMBER%'
+    members_offline: '&c%MEMBER% &7&o(offline)'
+    allies_header: '&eAllies:'
+    ally_list_entry: '&a%ALLYTEAM%'
+    ally_list_not_found: '&7No allies'
+    enemies_header: '&eEnemies:'
+    enemy_list_entry: '&c%ENEMYTEAM%'
+    enemy_list_not_found: '&7No enemies'
+    pvp_enabled: '&eFriendly fire: &a&oENABLED'
+    pvp_disabled: '&eFriendly fire: &c&oDISABLED'
+    home_set: '&eTeam Home: &a&oSET'
+    home_not_set: '&eTeam Home: &c&oNOT SET'
+    footer: '&7-----'
+    not_in_team: '&cYou must be in a team!'
+  ally:
+    added_successful: '[Added team %ALLYTEAM% to allies!](dark_aqua)'
+    added_notification: '[Team %TEAMOWNER% added your team as allies!](dark_aqua)'
+    failed_to_add: '[Cannot add ally. Leader must be online!](dark_aqua)'
+    failed_already_ally: '[That team is already your ally!](dark_aqua)'
+    failed_player_not_owner: '[%ALLYOWNER% is not the team leader!](dark_aqua)'
+    removed_successful: '[Removed team %ALLYTEAM% from allies!](dark_aqua)'
+    removed_owner_notification: '[Leader removed alliance with team %TEAM%!](dark_aqua)'
+    removed_other_notification: '[Team %TEAM% broke the alliance!](dark_aqua)'
+    failed_cannot_ally_self: '[You cannot ally your own team!](dark_aqua)'
+    max_amount_reached: '[Ally limit reached (%LIMIT%)!](dark_aqua)'
+    failed_cannot_ally_enemy: '[You cannot ally an enemy team!](dark_aqua)'
+  enemy:
+    added_successful: '[Declared team %ENEMYTEAM% as enemy!](dark_aqua)'
+    added_notification: '[Team %TEAMOWNER% declared your team as enemy!](dark_aqua)'
+    failed_to_add: '[Cannot add enemy. Leader must be online!](dark_aqua)'
+    failed_already_enemy: '[That team is already your enemy!](dark_aqua)'
+    failed_player_not_owner: '[That player is not the team leader!](dark_aqua)'
+    removed_successful: '[Removed team %ENEMYTEAM% from enemies!](dark_aqua)'
+    removed_notification: '[Team %TEAMOWNER% ended hostility!](dark_aqua)'
+    failed_cannot_enemy_self: '[You cannot enemy your own team!](dark_aqua)'
+    max_amount_reached: '[Enemy limit reached (%LIMIT%)!](dark_aqua)'
+    failed_cannot_enemy_ally: '[You cannot enemy an ally!](dark_aqua)'
+    war_declared_title1: '[WAR DECLARED WITH:](red bold)'
+    war_declared_title2: '[%TEAMOWNER%](gold)'
+    peace_declared_title1: '[PEACE DECLARED WITH:](green bold)'
+    peace_declared_title2: '[%TEAMOWNER%](gold)'
+    war_received_title1: '[WAR DECLARED WITH:](red bold)'
+    war_received_title2: '[%TEAMOWNER%](gold)'
+    peace_received_title1: '[PEACE DECLARED WITH:](green bold)'
+    peace_received_title2: '[%TEAMOWNER%](gold)'
+  pvp:
+    enabled: |-
+      [Successfully](dark_aqua) [enabled](green) [friendly fire.](dark_aqua)
+      [Team members can now damage each other!](dark_aqua)
+    disabled: |-
+      [Successfully](dark_aqua) [disabled](red) [friendly fire.](dark_aqua)
+      [Team members are protected from friendly attacks!](dark_aqua)
+    failed_not_in_team: '[You must join a team first!](dark_aqua)'
+    is_disabled: '[Friendly fire in your team is disabled!](dark_aqua)'
+    is_disabled_for_allies: '[You cannot attack allied team members!](dark_aqua)'
+  home:
+    set_successful: '[Team home set at your location!](dark_aqua)'
+    delete_successful: '[Team home deleted!](dark_aqua)'
+    cooldown_wait: '[You must wait %TIMELEFT% seconds!](dark_aqua)'
+    cooldown_start: '[Teleporting in %SECONDS%s! Do not move!](dark_aqua)'
+    teleport_successful: '[Teleported to team home!](dark_aqua)'
+    teleport_moved: '[Teleport cancelled - you moved!](dark_aqua)'
+    teleport_damage: '[Teleport cancelled - took damage!](dark_aqua)'
+    no_home_set: '[Your team has no home set (/team sethome)!](dark_aqua)'
+    failed_not_in_team: '[You must join a team first!](dark_aqua)'
+  chat:
+    failed_not_in_team: '[You must be in a team to use team chat!](dark_aqua)'
+    cooldown_wait: '[Wait %TIMELEFT% seconds before sending another message!](dark_aqua)'
+    toggle_on: '[Team chat:](dark_aqua) [ENABLED](green bold)[.](dark_aqua)'
+    toggle_off: '[Team chat:](dark_aqua) [DISABLED](red bold)[.](dark_aqua)'
+    spy_toggle_on: '[Team chat spy:](dark_aqua) [ENABLED](green bold)[.](dark_aqua)'
+    spy_toggle_off: '[Team chat spy:](dark_aqua) [DISABLED](red bold)[.](dark_aqua)'
+  allychat:
+    incorrect_usage: |-
+      [Ally chat usage:](gold)
+      [/allychat <message>](dark_aqua)
+    toggle_on: '[Ally chat:](dark_aqua) [ENABLED](green bold)[.](dark_aqua)'
+    toggle_off: '[Ally chat:](dark_aqua) [DISABLED](red bold)[.](dark_aqua)'
+  manager:
+    promote_self_error: '[You cannot promote yourself!](dark_aqua)'
+    promote_successful: '[Player %PLAYER% was promoted to team manager!](dark_aqua)'
+    demote_self_error: '[You cannot demote yourself!](dark_aqua)'
+    demote_successful: '[Player %PLAYER% was demoted.](dark_aqua)'
+  permission:
+    not_found: '[Permission %PERM% not found.](dark_aqua)'
+    added_successful: '[Permission %PERM% added.](dark_aqua)'
+    removed_successful: '[Permission %PERM% removed.](dark_aqua)'
+  echest:
+    opened: '[Opened team ender chest #%NUMBER%](dark_aqua)'
+    not_exist: '[Team ender chest #%NUMBER% does not exist!](red)'
+invites:
+  invites_disabled: '[Team invitations disabled.](green)'
+  invites_enabled: '[Team invitations enabled.](green)'
+economy:
+  not_enough_money: '[Not enough money. Required: %MONEY%](dark_aqua)'
+  invalid_amount: '[Invalid amount: %MONEY%](dark_aqua)'
+  limit_reached: '[Team bank limit reached!](dark_aqua)'
+  deposited: '[Deposited %CURRENCY%%MONEY% into team bank!](dark_aqua)'
+  withdraw:
+    success: '[Withdrew %CURRENCY%%MONEY% from team bank!](dark_aqua)'
+    not_enough_funds: '[Not enough funds in team bank!](dark_aqua)'
+general:
+  no_colour_permission: '[No permission to use colour codes!](dark_aqua)'
+  player_not_found: '[Player not found.](dark_aqua)'
+  must_be_owner: '[You must be the team leader!](dark_aqua)'
+  team_not_found: '[Team not found.](dark_aqua)'
+  function_disabled: '[This function is currently disabled.](dark_aqua)'
+  no_permission: '[No permission!](red)'
+  plugin_reload_begin: '[UltimateTeams: Reloading configuration...](green)'
+  plugin_reload_successful: '[UltimateTeams: Configuration reloaded successfully!](green)'
+  incorrect_command_usage: '[Unknown command. Type /team for help.](dark_aqua)'
+  player_only_command: '[Command available only for in-game players!](dark_red)'
+commands:
+  team_help:
+  - '&6--- Team Commands (UltimateTeams) ---'
+  - '&e/team create <name> &7- Create a new team'
+  - '&e/team disband &7- Disband your team'
+  - '&e/team invite <player> &7- Invite a player to your team'
+  - '&e/team invite accept/deny &7- Accept/decline invitation'
+  - '&e/team leave &7- Leave current team'
+  - '&e/team kick <player> &7- Kick a player from team'
+  - '&e/team info [name] &7- Display team information'
+  - '&e/team list &7- Display list of teams'
+  - '&e/team prefix <prefix> &7- Set team prefix'
+  - '&e/team transfer <player> &7- Transfer team leadership'
+  - '&e/team ally add/remove <leader> &7- Manage alliances'
+  - '&e/team enemy add/remove <leader> &7- Manage hostility'
+  - '&e/team pvp &7- Toggle friendly fire'
+  - '&e/team sethome &7- Set team home'
+  - '&e/team home &7- Teleport to team home'
+  - '&e/team echest &7- Open team ender chest'
+  - '&e/team chat &7- Toggle team chat'

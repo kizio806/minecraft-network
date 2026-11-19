@@ -1,0 +1,13 @@
+groups:
+  - name: infrastructure
+    rules:
+      - alert: NodeDiskAlmostFull
+        expr: 100 * (1 - node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"}) > 85
+        for: 10m
+        labels: {severity: warning}
+        annotations: {summary: "Filesystem usage exceeds 85%"}
+      - alert: ContainerRestarting
+        expr: changes(container_start_time_seconds[10m]) > 0
+        for: 5m
+        labels: {severity: warning}
+        annotations: {summary: "A container restarted"}

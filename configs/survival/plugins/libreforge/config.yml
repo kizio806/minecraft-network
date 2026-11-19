@@ -1,0 +1,133 @@
+# Options for lrcdb (https://lrcdb.auxilor.io), a website to share configs
+# with other server owners, so you can get more configs without making them
+# yourself!
+
+raytrace-distance: 80
+cannot-afford-type:
+  message-enabled: true
+  sound:
+    sound: BLOCK_NOTE_BLOCK_PLING
+    pitch: 0.5
+    enabled: true
+  in-actionbar: true
+show-libreforge-info: true
+cooldown:
+  message-enabled: true
+  sound:
+    sound: BLOCK_NOTE_BLOCK_PLING
+    pitch: 0.5
+    enabled: true
+  in-actionbar: true
+cannot-afford-price:
+  message-enabled: true
+  sound:
+    sound: BLOCK_NOTE_BLOCK_PLING
+    pitch: 0.5
+    enabled: true
+  in-actionbar: true
+point-names:
+  souls: Souls
+cannot-afford:
+  message-enabled: true
+  sound:
+    sound: BLOCK_NOTE_BLOCK_PLING
+    pitch: 0.5
+    enabled: true
+  in-actionbar: true
+display:
+  item-flags:
+  - hide_attributes
+  enabled: false
+refresh:
+  inventory-click:
+    timeout: 500
+  repair-interval: 20
+  held:
+    require-meta: true
+  entities:
+    interval: 60
+    enabled: true
+  players:
+    skip-afk-players: true
+  max-new-states-per-tick: 50
+  cooldown: 0
+  pickup:
+    require-meta: true
+    enabled: true
+  reload-interval: 600
+dates:
+  timezone: ''
+triggers:
+  hotkeys:
+    shift_hotkey_advancements:
+      enabled: false
+    hotkey_drop:
+      enabled: false
+    shift_hotkey_swap_hands:
+      enabled: false
+    shift_hotkey_drop:
+      enabled: false
+    shift_hotkey_8:
+      enabled: false
+    shift_hotkey_9:
+      enabled: false
+    shift_hotkey_1:
+      enabled: false
+    shift_hotkey_2:
+      enabled: false
+    shift_hotkey_3:
+      enabled: false
+    shift_hotkey_4:
+      enabled: false
+    shift_hotkey_5:
+      enabled: false
+    shift_hotkey_6:
+      enabled: false
+    shift_hotkey_7:
+      enabled: false
+    hotkey_swap_hands:
+      enabled: false
+    hotkey_advancements:
+      enabled: false
+    hotkey_4:
+      enabled: false
+    hotkey_3:
+      enabled: false
+    hotkey_2:
+      enabled: false
+    hotkey_1:
+      enabled: false
+    hotkey_8:
+      enabled: false
+    hotkey_7:
+      enabled: false
+    hotkey_6:
+      enabled: false
+    hotkey_5:
+      enabled: false
+    hotkey_9:
+      enabled: false
+  gain-currency:
+    vault-poll-interval: 100
+effects:
+  use-setblock-break: false
+  telekinesis:
+    always-process-blocks: true
+    on-players: true
+  multiply_drops:
+    prevent-duplication: true
+    whitelist: []
+opt-in:
+  take_damage_blocks_entity_damage: false
+lrcdb:
+  author: Unknown Author
+  share-configs:
+    publicly: false
+    enabled: true
+  key: ''
+conditions:
+  default-state-off-main-thread: true
+integrations:
+  rosestacker:
+    trigger-per-killed-entity: true
+

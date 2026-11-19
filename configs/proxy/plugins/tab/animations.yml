@@ -1,0 +1,38 @@
+# TAB Velocity Animations
+# Fully dynamic themed animations
+
+title:
+  change-interval: 300
+  texts:
+    - "<__THEME_PRIMARY__>&l✦ <gradient:__THEME_PRIMARY__:__THEME_SECONDARY__><bold>__NETWORK_SHORT_NAME__</bold></gradient> <__THEME_PRIMARY__>&l✦"
+    - "<__THEME_SECONDARY__>&l✦ <gradient:__THEME_SECONDARY__:__THEME_ACCENT__><bold>__NETWORK_SHORT_NAME__</bold></gradient> <__THEME_SECONDARY__>&l✦"
+    - "<__THEME_ACCENT__>&l✦ <gradient:__THEME_ACCENT__:__THEME_SECONDARY__><bold>__NETWORK_SHORT_NAME__</bold></gradient> <__THEME_ACCENT__>&l✦"
+    - "<__THEME_SECONDARY__>&l✦ <gradient:__THEME_SECONDARY__:__THEME_PRIMARY__><bold>__NETWORK_SHORT_NAME__</bold></gradient> <__THEME_SECONDARY__>&l✦"
+
+bar:
+  change-interval: 150
+  texts:
+    - "&8&m-------------------------"
+    - "&__THEME_PRIMARY__&m-&8&m------------------------"
+    - "&8&m-&__THEME_PRIMARY__&m--&8&m----------------------"
+    - "&8&m---&__THEME_PRIMARY__&m--&8&m--------------------"
+    - "&8&m-----&__THEME_PRIMARY__&m--&8&m------------------"
+    - "&8&m-------&__THEME_PRIMARY__&m--&8&m----------------"
+    - "&8&m---------&__THEME_PRIMARY__&m--&8&m--------------"
+    - "&8&m-----------&__THEME_PRIMARY__&m--&8&m------------"
+    - "&8&m-------------&__THEME_PRIMARY__&m--&8&m----------"
+    - "&8&m---------------&__THEME_PRIMARY__&m--&8&m--------"
+    - "&8&m-----------------&__THEME_PRIMARY__&m--&8&m------"
+    - "&8&m-------------------&__THEME_PRIMARY__&m--&8&m----"
+    - "&8&m---------------------&__THEME_PRIMARY__&m--&8&m--"
+    - "&8&m-----------------------&__THEME_PRIMARY__&m--&8&m"
+    - "&8&m------------------------&__THEME_PRIMARY__&m-"
+    - "&8&m-------------------------"
+
+arrow:
+  change-interval: 300
+  texts:
+    - "&__THEME_PRIMARY__»"
+    - "&__THEME_SECONDARY__»"
+    - "&__THEME_ACCENT__»"
+    - "&__THEME_SECONDARY__»"

@@ -1,0 +1,8 @@
+# eco Framework Core Configuration for AgcSmp
+# Shared utilities, extensions, and GUI helpers
+
+metrics: false
+check-for-updates: false
+
+# Language settings
+language: english

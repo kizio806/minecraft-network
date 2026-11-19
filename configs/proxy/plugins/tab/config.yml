@@ -1,0 +1,150 @@
+# TAB Velocity 6.2.0 - Network Configuration
+# Theme: Gold / Amber Sunset (#f6d365 -> #fda085 -> #ff7e5f)
+
+header-footer:
+  enabled: true
+  designs:
+    default:
+      header:
+        - ""
+        - "%animation:title%"
+        - "__MSG_TAB_SUB_HEADER__"
+        - ""
+      footer:
+        - ""
+        - "__MSG_TAB_FOOTER_ONLINE__"
+        - "__MSG_TAB_FOOTER_LINKS__"
+        - "__MSG_TAB_FOOTER_WISH__"
+        - ""
+
+tablist-name-formatting:
+  enabled: true
+  disable-condition: ""
+
+scoreboard-teams:
+  enabled: true
+  enable-collision: true
+  invisible-nametags: false
+  sorting-types:
+    - "GROUPS:wlasciciel,administrator,vip,default"
+    - "PLACEHOLDER_A_TO_Z:%player%"
+  case-sensitive-sorting: false
+  can-see-friendly-invisibles: false
+
+playerlist-objective:
+  enabled: true
+  value: "%ping%"
+  fancy-value: "&a%ping%ms"
+  title: "Ping"
+  render-type: INTEGER
+
+belowname-objective:
+  enabled: true
+  value: "%health%"
+  fancy-value: "&c%health%❤"
+  fancy-value-default: ""
+  title: "&c❤"
+
+scoreboard:
+  enabled: true
+  toggle-command: /sb
+  remember-toggle-choice: true
+  hidden-by-default: false
+  delay-on-join-milliseconds: 0
+  scoreboards:
+    lobby:
+      display-condition: "%server%=lobby"
+      title: "%animation:title%"
+      lines:
+        - "&7%date% &8• &7%time%"
+        - "%animation:bar%"
+        - "&6Profil gracza:"
+        - " %animation:arrow% &7Nick: &f%player%"
+        - " %animation:arrow% &7Ranga: &f%group%"
+        - ""
+        - "&6Serwer:"
+        - " %animation:arrow% &7Tryb: &eLobby"
+        - " %animation:arrow% &7Online: &f%online%&8/&7__NETWORK_MAX_PLAYERS__"
+        - " %animation:arrow% &7Ping: &a%ping%ms"
+        - ""
+        - "__MSG_TAB_NAV_TITLE__"
+        - "__MSG_TAB_NAV_MENU__"
+        - " %animation:arrow% &6Discord: &f__NETWORK_DISCORD__"
+        - "%animation:bar%"
+        - "&e__NETWORK_DOMAIN__"
+    survival:
+      display-condition: "%server%=survival"
+      title: "%animation:title%"
+      lines:
+        - "&7%date% &8• &7%time%"
+        - "%animation:bar%"
+        - "__MSG_TAB_PLAYER_TITLE__"
+        - "__MSG_TAB_PLAYER_NICK__"
+        - "__MSG_TAB_PLAYER_RANK__"
+        - "__MSG_TAB_PLAYER_TEAM__"
+        - ""
+        - "__MSG_TAB_SMP_TITLE__"
+        - "__MSG_TAB_SMP_MODE__"
+        - "__MSG_TAB_SMP_PVP__"
+        - " %animation:arrow% &7Online: &f%online%&8/&7__NETWORK_MAX_PLAYERS__"
+        - " %animation:arrow% &7Ping: &a%ping%ms"
+        - ""
+        - "__MSG_TAB_COMMUNITY_TITLE__"
+        - " %animation:arrow% &6Discord: &f__NETWORK_DISCORD__"
+        - "%animation:bar%"
+        - "&e__NETWORK_DOMAIN__"
+    default:
+      title: "%animation:title%"
+      lines:
+        - "&7%date% &8• &7%time%"
+        - "%animation:bar%"
+        - "__MSG_TAB_PLAYER_TITLE__"
+        - "__MSG_TAB_PLAYER_NICK__"
+        - "__MSG_TAB_PLAYER_RANK__"
+        - ""
+        - "__MSG_TAB_SERVER_TITLE__"
+        - " %animation:arrow% &7Online: &f%online%&8/&7__NETWORK_MAX_PLAYERS__"
+        - " %animation:arrow% &7Ping: &a%ping%ms"
+        - "%animation:bar%"
+        - "&e__NETWORK_DOMAIN__"
+
+placeholder-output-replacements:
+  "%UltimateTeams_team_prefix%":
+    "%UltimateTeams_team_prefix%": ""
+  "%UltimateTeams_team_name%":
+    "%UltimateTeams_team_name%": "__MSG_TAB_TEAM_NONE__"
+    "&7No Team": "__MSG_TAB_TEAM_NONE__"
+    "": "__MSG_TAB_TEAM_NONE__"
+  "%pvpmanager_pvp_status%":
+    "true": "__MSG_TAB_STATUS_ENABLED__"
+    "false": "__MSG_TAB_STATUS_DISABLED__"
+    "enabled": "__MSG_TAB_STATUS_ENABLED__"
+    "disabled": "__MSG_TAB_STATUS_DISABLED__"
+    "%pvpmanager_pvp_status%": "__MSG_TAB_STATUS_DISABLED__"
+
+placeholder-refresh-intervals:
+  default-refresh-interval: 500
+  "%server%": 1000
+  "%online%": 1000
+  "%ping%": 1000
+  "%health%": 200
+  "%UltimateTeams_team_name%": 1000
+  "%UltimateTeams_team_prefix%": 1000
+  "%pvpmanager_pvp_status%": 1000
+
+placeholders:
+  date-format: "dd.MM.yyyy"
+  time-format: "HH:mm:ss"
+  time-offset: 1
+  locale: pl-PL
+
+components:
+  minimessage-support: true
+  disable-shadow-for-heads: true
+
+proxy-support:
+  enabled: false
+
+use-bukkit-permissions-manager: false
+use-online-uuid-in-tablist: true
+config-version: 7

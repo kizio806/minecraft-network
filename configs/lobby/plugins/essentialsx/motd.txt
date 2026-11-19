@@ -1,0 +1,9 @@
+&8&m--------------------------------------------------
+  &__THEME_PRIMARY__&l✦ &__THEME_SECONDARY__&l__NETWORK_SHORT_NAME__ &__THEME_ACCENT__&l✦ &7- &f__MSG_MOTD_LINE_2__
+  __MSG_MOTD_WELCOME__
+
+  &6» &eDiscord:&f __NETWORK_DISCORD__
+  &6» &eWebsite:&f __NETWORK_WEBSITE__
+
+  __MSG_MOTD_PROMPT__
+&8&m--------------------------------------------------

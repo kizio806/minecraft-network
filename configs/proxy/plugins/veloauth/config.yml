@@ -1,0 +1,25 @@
+# Minimal VeloAuth 1.6.x configuration. The plugin's generated configuration
+# remains authoritative; review it after the first controlled startup.
+language: pl
+detect-client-language: true
+
+auth-server:
+  mode: external
+  server-name: auth
+  timeout-seconds: 300
+
+premium:
+  check-enabled: true
+  allow-cracked-on-premium-nicks: false
+  bypass-auth-server: true
+
+database:
+  storage-type: POSTGRESQL
+  hostname: postgres
+  port: 5432
+  database: veloauth
+  user: veloauth_user
+  password: "__VELOAUTH_PASSWORD__"
+  postgresql:
+    ssl-enabled: false
+    ssl-mode: "disable"

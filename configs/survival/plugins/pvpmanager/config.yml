@@ -1,0 +1,205 @@
+# +--------------------------------------------------------------------------+ #
+# <                     PvPManager Configuration File                        > #
+# <--------------------------------------------------------------------------> #
+# <                  AgcSmp Production Configuration                         > #
+# +--------------------------------------------------------------------------+ #
+
+General Settings:
+  Locale: EN
+  Use Scoreboard Teams: false
+  World Exclusions: []
+
+Combat Tag:
+  Enabled: true
+  Time: 15
+  Glowing: true
+  Untag On Kill: false
+  Self Tag: false
+  EnderPearl Renews Tag: true
+  WindCharge Renews Tag: true
+  Trident Renews Tag: true
+  Close Inventory On Tag: true
+  Duel Mode: false
+  
+  Display:
+    Nametags:
+      Enabled: false
+      Prefix: '&4⚔ &8(&7%pvpmanager_combat_timeleft%s&8) &c'
+      Suffix: ' &f%pvpmanager_player_health%&c❤'
+    Action Bar:
+      Enabled: true
+      Message: '&8[&c&l__MSG_PVP_COMBAT_PREFIX__&8] &7<time>s &8• &a<barsLeft>&#AA5555<barsPassed> &8• &7%pvpmanager_current_enemy% &8(&c%pvpmanager_current_enemy_health%❤&8)'
+      Symbol: '▊'
+      Total Bars: 20
+    Boss Bar:
+      Enabled: true
+      Message: '__MSG_PVP_COMBAT_BAR__'
+      BarColor: RED
+      BarStyle: SOLID
+  
+  Actions Blocked:
+    EnderPearls: false
+    ChorusFruits: false
+    Teleport: true
+    Unsafe Teleports: false
+    Eat: false
+    Totem of Undying: false
+    Place Blocks: false
+    Break Blocks: false
+    Open Inventory: false
+    Lunge Cooldown: 3
+    Elytra:
+      Block Gliding: true
+      Unequip On Glide Spam: true
+      Block Fireworks: true
+      Firework Power Limit: -1
+      Firework Cooldown: 5
+    Interact:
+      Enabled: false
+      List:
+        - 'DOOR'
+        - 'FENCE_GATE'
+        - 'BUTTON'
+        - 'BED'
+        - 'PRESSURE_PLATE'
+        - 'SLAB'
+        - 'STAIRS'
+        - 'CARPET'
+    Commands:
+      Enabled: true
+      Whitelist: false
+      Folder List: false
+      List:
+        - 'spawn'
+        - 'tp'
+        - 'tpa'
+        - 'tpaccept'
+        - 'tpahere'
+        - 'home'
+        - 'warp'
+        - 'back'
+        - 'hub'
+        - 'lobby'
+        - 'server'
+        - 'ec'
+        - 'enderchest'
+        - 'feed'
+        - 'heal'
+
+  Punishments:
+    Enabled: true
+    Broadcast: true
+    Broadcast On Kick: false
+    Drop:
+      Inventory: true
+      Exp: true
+      Armor: true
+    Commands On Punishment: []
+
+PvP:
+  Default PvP: false
+  Allow Toggle: true
+  Cooldown: 10
+
+Newbie Protection:
+  Enabled: false
+  Time: 600
+  Allow Player Disable: false
+  Block Pick Items: false
+  Block Place Blocks: false
+  Block Break Blocks: false
+  Protect From Everything: false
+  Boss Bar:
+    Enabled: false
+    Message: '__MSG_PVP_NEWBIE_BAR__'
+    BarColor: YELLOW
+    BarStyle: SOLID
+  Command Blacklist: []
+
+Item Cooldowns:
+  Combat:
+    CHORUS_FRUIT: 5
+    ENDER_PEARL: 10
+    WIND_CHARGE: 5
+    TRIDENT: 5
+    GOLDEN_APPLE: 30
+    ENCHANTED_GOLDEN_APPLE: 60
+  Global:
+    TRIDENT: 2
+    GOLDEN_APPLE: 30
+    ENCHANTED_GOLDEN_APPLE: 60
+
+Player Kills:
+  Money Reward: 0.0
+  Money Penalty: 0.0
+  Money Steal: false
+  Exp Steal: 0.0
+  Commands On Kill:
+    Cooldown: -1
+    Commands: []
+  Commands On Respawn: []
+  WorldGuard Exclusions: []
+    
+  Anti Kill Abuse:
+    Enabled: true
+    Max Kills: 5
+    Time Limit: 20
+    Warn Before: true
+    Commands on Abuse:
+      - 'kick {player} __MSG_PVP_ABUSE_KICK__'
+    Respawn Protection: 3
+
+Other Settings:
+  PvP Blood: true
+  Ignore No Damage Hits: true
+  Player Drop Mode: ALWAYS
+  Show health under name:
+    Enabled: false
+    Display Name: '&c❤'
+
+Disable On Hit:
+  Fly: true
+  Restore Fly: true
+  GameMode: true
+  Disguise: true
+  GodMode: true
+  Elytra: true
+  Invisibility: false
+
+Database:
+  Type: SQLite
+
+Placeholders:
+  Boolean Format:
+    True: '#6fc93e✓'
+    False: '#c9453e✗'
+
+Update Check:
+  Enabled: false
+  Auto Update: false
+
+Metrics:
+  Opt-out: true
+  
+Harmful Potions:
+  - SLOW
+  - SLOWNESS
+  - SLOW_DIGGING
+  - MINING_FATIGUE
+  - CONFUSION
+  - NAUSEA
+  - BLINDNESS
+  - HUNGER
+  - WEAKNESS
+  - POISON
+  - WITHER
+  - GLOWING
+  - LEVITATION
+  - UNLUCK
+  - BAD_OMEN
+  - INFESTED
+
+Debug Mode: false
+
+Config Version: 210
+Database Version: 1

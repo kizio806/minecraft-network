@@ -1,0 +1,869 @@
+schema-version: 1
+plugins:
+    anarchyexploitfixes:
+        project: pILEwgSo
+        version: 2.7.12-Modern
+        version-id: xCZkiqjU
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/pILEwgSo/versions/xCZkiqjU/AnarchyExploitFixes-Folia-2.7.12.jar
+        filename: AnarchyExploitFixes-Folia-2.7.12.jar
+        sha256: ""
+        sha512: 06bb048ad03bc1ec9e4baf7a67c970e795fde314d2d1bc46635a550bd431be4e5e0d5c772d3ee1690d17cdf0ae0f1a7fe4b56f69080941718f8674600280746e
+        size: 3249014
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - nbt-api
+        resolved-at: "2026-11-15T15:00:00Z"
+    bettersleeping:
+        project: Nuytemans-Dieter/BetterSleeping#BetterSleeping.jar
+        version: 4.0.2
+        version-id: v4.0.2
+        source: github
+        download-url: https://github.com/Nuytemans-Dieter/BetterSleeping/releases/download/v4.0.2/BetterSleeping.jar
+        filename: BetterSleeping.jar
+        sha256: 5a9685771ca30249b897d1edd57c91c85c77b967dc0bd90ae1575177b5e5264e
+        sha512: 9310060c8d5ae4f2aac261784bc7482ba2065d7968495d06608a5fea074b38c7eb654da83b247baa480c38248c6627636a80bb41a7a292433f17b02f0abfab4f
+        size: 1322941
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-11-15T19:00:00Z"
+    betterstructures:
+        project: KYXglN2M
+        version: 2.7.12
+        version-id: UCCei1Tz
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/KYXglN2M/versions/UCCei1Tz/BetterStructures.jar
+        filename: BetterStructures.jar
+        sha256: ""
+        sha512: 55f1b0f66581479d51c29755db0fc7ab48a577ddd9d6f5320fca3c611afb8049003647e7a0a56aea5de496fc6a8f3b4236bdfc9e14a19c1ad612705a1e33bbdf
+        size: 7339680
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - worldedit
+        resolved-at: "2026-11-15T18:45:00Z"
+    chunky:
+        project: fALzjamp
+        version: 1.5.66
+        version-id: RBuKjN4k
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/fALzjamp/versions/RBuKjN4k/Chunky-Paper-1.5.66.jar
+        filename: Chunky-Paper-1.5.66.jar
+        sha256: ""
+        sha512: c67b14569b8624d8d4ca550f0a064703e144d388073b4c34a913c3bd34ea39351bef504542101d7f85b499b4de95c24d027a62ee64aad3f9a7051ae4bec80c52
+        size: 396960
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-11-15T15:00:00Z"
+    coreprotect:
+        project: Lu3KuzdV
+        version: "24.1"
+        version-id: 3sehX6Sg
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/Lu3KuzdV/versions/3sehX6Sg/CoreProtect-CE-24.1.jar
+        filename: CoreProtect-CE-24.1.jar
+        sha256: ""
+        sha512: 76aad727528ddb990bbee5069f8ef3fcd018ae0bcdea89b965be2485e828633eb068672e841be64e550c8474f901a24d8c15c7bd44c2bd6c96244e1e58de0c95
+        size: 1113283
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+            - purpur
+        dependencies: []
+        resolved-at: "2026-11-15T12:00:00Z"
+    decentholograms:
+        project: w02MKsTg
+        version: 2.10.2
+        version-id: fbE7wARc
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/w02MKsTg/versions/fbE7wARc/DecentHolograms-2.10.2.jar
+        filename: DecentHolograms-2.10.2.jar
+        sha256: ""
+        sha512: f2247802a175cf0c71f0e069ab4c3b2ff2aba683051e474ff54f2ad3ea08da5156de7e11f768087fadbf7bdeac491b5935b2ebb2f4d8fc9f48b3df41558936ce
+        size: 4014227
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-08-11T18:00:00.000000Z"
+    deluxemenus:
+        project: kKZkPgJ7
+        version: 1.14.1-Release
+        version-id: PNKQ6RMs
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/kKZkPgJ7/versions/PNKQ6RMs/DeluxeMenus-1.14.1-Release.jar
+        filename: DeluxeMenus-1.14.1-Release.jar
+        sha256: ""
+        sha512: c6f01e85ee5b96bba4e65571db133c45fbf157baec4160ecc83eb9f744cbc914e31079bb70cecd9b64fa329564b2e8c842e43c9976a365a54ccc5eb719ff8b65
+        size: 4075217
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - placeholderapi
+        resolved-at: "2026-04-01T12:00:00.000000Z"
+    dimension-toggler:
+        project: x8wNfvtt
+        version: 1.0.0
+        version-id: GUSgWaCM
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/x8wNfvtt/versions/GUSgWaCM/ToggleDimensions-1.0.jar
+        filename: ToggleDimensions-1.0.jar
+        sha256: ""
+        sha512: 73d429d6f0a942847645c3d9f60144ff6cd53752626b0c00913f8b6fde7de3d08b6dfe8adb7285debf1091ed30efbb16182cd17e80b49b4f26afd843674b6ae0
+        size: 4282
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-11-15T15:00:00Z"
+    eco:
+        project: E4spwmyA
+        version: "2026.46"
+        version-id: olHJLVru
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/E4spwmyA/versions/olHJLVru/eco-2026.46-modrinth.jar
+        filename: eco-2026.46-modrinth.jar
+        sha256: ""
+        sha512: 0413042ca4d8dd481ec1ae010a37419b36f4bd60f7822b0aca3d8284e03699a272d937cf521c6fcb6c12007bc79d99d62f98aad33ea4d441708309fe0c063b27
+        size: 14362151
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-11-15T19:00:00Z"
+    ecoenchants:
+        project: EcoEnchants
+        version: "2026.46"
+        version-id: "2026.46"
+        source: auxilor
+        download-url: https://repo.auxilor.io/repository/maven-public/com/willfp/EcoEnchants/2026.46/EcoEnchants-2026.46.jar
+        filename: EcoEnchants-2026.46.jar
+        sha256: ""
+        sha512: 842802f26cbdabc45b63a571ce382e16ee4237e324fc88702ed9f17f5c26cc24985616d892455d1854e31fb9f7831d23c735b8727d5177c0138c65650e17fe01
+        size: 328462
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - eco
+        resolved-at: "2026-11-15T19:00:00Z"
+    ecoitems:
+        project: EcoItems
+        version: "2026.46"
+        version-id: "2026.46"
+        source: auxilor
+        download-url: https://repo.auxilor.io/repository/maven-public/com/willfp/EcoItems/2026.46/EcoItems-2026.46.jar
+        filename: EcoItems-2026.46.jar
+        sha256: ""
+        sha512: 4ed55859e664e1cfc343cb5a81be57dca34723fb6e789b3f30ee5b62da2f07d1293e22631cf97036e8e2b83a785ce182b1626c3be4dd9496acbc61898378176e
+        size: 1271861
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - eco
+        resolved-at: "2026-11-15T19:00:00Z"
+    libreforge:
+        project: libreforge
+        version: "2026.46"
+        version-id: "2026.46"
+        source: auxilor
+        download-url: https://repo.auxilor.io/repository/maven-releases/com/willfp/libreforge/2026.46/libreforge-2026.46-all.jar
+        filename: libreforge.jar
+        sha256: ""
+        sha512: 04294460cd1c6f6f8f11b78ad94c09333d17971392ce5cbf8343e623b6b84e366f8620dfb573b7db3b86ab77c59f99167dc48c2ab6fc56b503bb57380b89c836
+        size: 4338450
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - eco
+        resolved-at: "2026-11-15T19:00:00Z"
+    ecoskills:
+        project: EcoSkills
+        version: "2026.46"
+        version-id: "2026.46"
+        source: auxilor
+        download-url: https://repo.auxilor.io/repository/maven-public/com/willfp/EcoSkills/2026.46/EcoSkills-2026.46.jar
+        filename: EcoSkills-2026.46.jar
+        sha256: ""
+        sha512: 60794a2dfe9000396609ebcd6f63cf712c1a97826318d5771f781d66bfab0d3d59ae2c387f5954f97e3a3c3c5d1b14520b76a3b73369992e439099344e766a83
+        size: 333043
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - eco
+        resolved-at: "2026-11-15T19:00:00Z"
+    essentialsx:
+        project: hXiIvTyT
+        version: 2.22.0
+        version-id: nY6VN1XH
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/hXiIvTyT/versions/nY6VN1XH/EssentialsX-2.22.0.jar
+        filename: EssentialsX-2.22.0.jar
+        sha256: ""
+        sha512: 472ecf71924801723643ca6e1f9931297de5aa0874a544f8a719e2e2f7c81af81ef7bcbd38b6e43f0260a9dae6abe42c97907e70e2430e326ff8cff12ebd61cf
+        size: 4861125
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-07-15T15:00:00.000000Z"
+    essentialsxchat:
+        project: EssentialsX/Essentials#EssentialsXChat-2.22.0.jar
+        version: 2.22.0
+        version-id: 2.22.0
+        source: github
+        download-url: https://github.com/EssentialsX/Essentials/releases/download/2.22.0/EssentialsXChat-2.22.0.jar
+        filename: EssentialsXChat-2.22.0.jar
+        sha256: e5b0211f98af1eaba712d9294997639a39209db1fc842394a0923820073ec65a
+        sha512: 93d60889a463475f2a7ce204115f8f0cfb4be0347e6c060774cd4734ec0ba036c5789b0eef183cca735069063698ae99301056556f0511fb8e80eb0545366cd1
+        size: 21800
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - essentialsx
+        resolved-at: "2026-11-12T18:30:00Z"
+    essentialsxspawn:
+        project: EssentialsX/Essentials#EssentialsXSpawn-2.22.0.jar
+        version: 2.22.0
+        version-id: 2.22.0
+        source: github
+        download-url: https://github.com/EssentialsX/Essentials/releases/download/2.22.0/EssentialsXSpawn-2.22.0.jar
+        filename: EssentialsXSpawn-2.22.0.jar
+        sha256: dd5377c4c921b9b67814209f4f6646ffbb959729003e721ec5e63c47c7c010b8
+        sha512: 7097478ec02bc46e1dce326520e7dd0cf38bcce0f7810c1c89cfcc2fef8a88a7dc27c5a946d1256abad589185c5015c615e2cb4eab181ea7362428fac581b964
+        size: 18661
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - essentialsx
+        resolved-at: "2026-07-15T15:00:00.000000Z"
+    fancynpcs:
+        project: EeyAn23L
+        version: 2.12.1
+        version-id: LigxTtVw
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/EeyAn23L/versions/LigxTtVw/FancyNpcs-2.12.1.jar
+        filename: FancyNpcs-2.12.1.jar
+        sha256: a3464906d6c797781a29831706ebd5cdfa6d076fa094da2f0e7574b436fb9532
+        sha512: a370600889f7c08058fc0a7ead3549382efa6e17d3f95f7224822921e3899260d51ad6fe0fb3fe36fa4f61903698de27d1e4ce9804e9ee716733b55f5251ea07
+        size: 6754124
+        game-versions:
+            - 1.21.10
+            - 1.21.11
+            - 1.21.6
+            - 1.21.7
+            - 1.21.8
+            - 1.21.9
+            - 26.1.2
+            - "26.2"
+            - "26.3"
+        loaders:
+            - folia
+            - paper
+        dependencies: []
+        resolved-at: "2026-09-21T19:04:43.307644Z"
+    grimac:
+        project: LJNGWSvH
+        version: 2.3.75-5c12799
+        version-id: GqmXpEbb
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/LJNGWSvH/versions/GqmXpEbb/grimac-bukkit-2.3.75-5c12799.jar
+        filename: grimac-bukkit-2.3.75-5c12799.jar
+        sha256: ""
+        sha512: 759a26b9ee9d2f225901c112aded3555aff54d8bac00de3223299a4a9e6a7aa824f411fdc607dc55be5fcb5997b5d3bdddf3edcc34179fb9101001205247c61f
+        size: 13064550
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - packetevents
+        resolved-at: "2026-11-15T15:00:00Z"
+    gsit:
+        project: GOHbQGyX
+        version: 3.8.0
+        version-id: ybfOKLzp
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/GOHbQGyX/versions/ybfOKLzp/GSit-3.8.0.jar
+        filename: GSit-3.8.0.jar
+        sha256: ""
+        sha512: df3f3e1de5e466071330c7b96ce84508c445bde64470f18660ad1e06b07d13e540acf88495c5b925dfd922c3d18548fa5695936c750636da18cf01d3ee349470
+        size: 878711
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-11-15T19:00:00Z"
+    interactivechat:
+        project: VOenPQ01
+        version: 2026.1.3.0
+        version-id: XMxzktgX
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/VOenPQ01/versions/XMxzktgX/InteractiveChat-2026.1.3.0.jar
+        filename: InteractiveChat-2026.1.3.0.jar
+        sha256: ""
+        sha512: 8a3bfee932e3b08a5f0c0cf1623520c4740d18d7cf32f4e1b039fa008d98c2ecb1401c03a0337a2a619ea8ee1313fb72c6d16b603a4069cbfe6995752703ac8f
+        size: 7808218
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - placeholderapi
+            - packetevents
+        resolved-at: "2026-11-15T19:00:00Z"
+    invsee-plus-plus:
+        project: bYazc7fd
+        version: 0.31.22
+        version-id: LmdQx1rG
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/bYazc7fd/versions/LmdQx1rG/InvSee%2B%2B.jar
+        filename: InvSee++.jar
+        sha256: ""
+        sha512: e86454aeb5f5a21c6918974cbd3f838d7c21092ae701f1380f035f247f663c968480419e7b0e2833534d1be414454d22fe960393fe9aaa960650c30f62db9683
+        size: 2355501
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-11-15T15:00:00Z"
+    libertybans:
+        project: PgXAUxLZ
+        version: 1.1.4
+        version-id: 7WLjonzv
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/PgXAUxLZ/versions/7WLjonzv/LibertyBans_Release-1.1.4.jar
+        filename: LibertyBans_Release-1.1.4.jar
+        sha256: ""
+        sha512: 1943587f73a8ad6e3f1f8ef4bab037437f381e8ccd5811474dda4ea03c029b307c367061954b2751d9c945d6742731eaeb44f1e0ad4c3f2b740319c78ccc50ec
+        size: 401873
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-11-15T15:00:00Z"
+    luckperms:
+        project: Vebnzrzj
+        version: v5.5.71-velocity
+        version-id: tamnmXad
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/Vebnzrzj/versions/tamnmXad/LuckPerms-Velocity-5.5.71.jar
+        filename: LuckPerms-Velocity-5.5.71.jar
+        sha256: ""
+        sha512: a619da8804727bed7b2b2ee5383974329a3c09181a67745484fdffd0f4b6c5b13c44aa88e0d2b30d13f3068d9b0f3e26863abba9855f80a7eb5f9455ca6c40d4
+        size: 1512294
+        game-versions:
+            - 1.21.11
+        loaders:
+            - velocity
+        dependencies: []
+        resolved-at: "2026-08-06T19:40:25.429053Z"
+    luckperms-bukkit:
+        project: Vebnzrzj
+        version: v5.5.71-bukkit
+        version-id: b0mk8uS6
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/Vebnzrzj/versions/b0mk8uS6/LuckPerms-Bukkit-5.5.71.jar
+        filename: LuckPerms-Bukkit-5.5.71.jar
+        sha256: ""
+        sha512: 188a91f0a543d23bfda32385fca6db63d61e49c8a422bd452a260bd9cbc6a7d7fe45071199e9fca8f3ce43c2b41ee84fd315bd15464577028ff3951a7d4fab27
+        size: 1501521
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-08-06T19:40:25.429053Z"
+    minimotd:
+        project: 16vhQOQN
+        version: 2.2.2
+        version-id: VJZkuJ7o
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/16vhQOQN/versions/VJZkuJ7o/minimotd-velocity-2.2.2.jar
+        filename: minimotd-velocity-2.2.2.jar
+        sha256: ""
+        sha512: 0dfe1329c9fe4a134341d049d1fc8bfc9d42f9f7f041bed23cde2df70a9d4dd79504f323eba078ba258bb12df388b215b3e483b9031f45f8a3b799a4764bd542
+        size: 832636
+        game-versions:
+            - 1.21.11
+        loaders:
+            - velocity
+        dependencies: []
+        resolved-at: "2025-12-14T17:38:36.814828Z"
+    nbt-api:
+        project: nfGCP9fk
+        version: 2.16.1
+        version-id: h7feK39u
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/nfGCP9fk/versions/h7feK39u/item-nbt-api-plugin-2.16.1.jar
+        filename: item-nbt-api-plugin-2.16.1.jar
+        sha256: ""
+        sha512: 1957deb03d07109b0cbf78a54f1030546e6fb3147c400b28d24ef585f527bb503965f4f777b2bc18b06bc682a164a2ffd42ba0468659b2f4bed6729df3e52be0
+        size: 268496
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-11-15T15:00:00Z"
+    packetevents:
+        project: HYKaKraK
+        version: 2.14.0+spigot
+        version-id: m78nFxYg
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/HYKaKraK/versions/m78nFxYg/packetevents-spigot-2.14.0.jar
+        filename: packetevents-spigot-2.14.0.jar
+        sha256: ""
+        sha512: 18a942cb55f64783a63b28deea2cebbbe782e5d6a1089f6700430e183bfbce0a45398a640ed0dff4361b55190dcf47017f2ca7788f4a5c8c9efad1f549a63fe3
+        size: 5723413
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+            - spigot
+        dependencies: []
+        resolved-at: "2026-11-15T15:00:00Z"
+    placeholderapi:
+        project: lKEzGugV
+        version: 2.11.7
+        version-id: sn9LYZkM
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/lKEzGugV/versions/sn9LYZkM/PlaceholderAPI-2.11.7.jar
+        filename: PlaceholderAPI-2.11.7.jar
+        sha256: ""
+        sha512: 73c92097ad5e1ef3e2f65bff2c1f180834e10d9e4eab9e928ae594d310dfd6ba8db0bd2899ce8ce769c8e1eecf36fd469d668202b18455701f44f34ca8da8831
+        size: 953837
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-08-15T12:00:00.000000Z"
+    pvpmanager:
+        project: 1Ffl2uIq
+        version: 4.0.30
+        version-id: eKgXGdO2
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/1Ffl2uIq/versions/eKgXGdO2/PvPManager.jar
+        filename: PvPManager.jar
+        sha256: ""
+        sha512: 6c8300c37976131871ab1b9aa9a4de7c13849a5e64f2b98b598483d473faa61f8f989779754be75bcc814f410a5a1d00b42cdadd74557bef3c41e0c5dbe40f7e
+        size: 1221890
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - vault
+        resolved-at: "2026-11-15T15:00:00Z"
+    raycasted-anti-esp:
+        project: bCjNZu0C
+        version: 0.7.2-Paper-0.10.2
+        version-id: rhtqEgK7
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/bCjNZu0C/versions/rhtqEgK7/RaycastedAntiESP-0.7.2-Paper-0.10.2-RELEASE.jar
+        filename: RaycastedAntiESP-0.7.2-Paper-0.10.2-RELEASE.jar
+        sha256: ""
+        sha512: 8f70fbd840e1c031d1ce871e98c9867ee07ab4f870733d9886ba9f627e9a9988b81dc1246fbe5646c14760b02cf108af5aa14fa24579866920270bd5cb1ea3ed
+        size: 469269
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - packetevents
+        resolved-at: "2026-11-15T15:00:00Z"
+    skinsrestorer:
+        project: TsLS8Py5
+        version: 15.12.6
+        version-id: ziIzW16f
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/TsLS8Py5/versions/ziIzW16f/SkinsRestorer.jar
+        filename: SkinsRestorer.jar
+        sha256: ""
+        sha512: 0ec5070bff7db5098d3fe04b53e6bcd59d74806184b3599ada48ce5576ff4346eece020a3106ba84bdfb703bd138da6d232b7cabf625394291f7728b8dc04497
+        size: 8016648
+        game-versions:
+            - 1.21.11
+        loaders:
+            - velocity
+            - paper
+        dependencies: []
+        resolved-at: "2026-09-20T19:20:06.279633Z"
+    skinsrestorer-bukkit:
+        project: TsLS8Py5
+        version: 15.12.6
+        version-id: ziIzW16f
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/TsLS8Py5/versions/ziIzW16f/SkinsRestorer.jar
+        filename: SkinsRestorer.jar
+        sha256: ""
+        sha512: 0ec5070bff7db5098d3fe04b53e6bcd59d74806184b3599ada48ce5576ff4346eece020a3106ba84bdfb703bd138da6d232b7cabf625394291f7728b8dc04497
+        size: 8016648
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+            - velocity
+        dependencies: []
+        resolved-at: "2026-09-20T19:20:06.279633Z"
+    tab:
+        project: gG7VFbG0
+        version: 6.2.0
+        version-id: UDraViyI
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/gG7VFbG0/versions/UDraViyI/TAB%20v6.2.0.jar
+        filename: TAB v6.2.0.jar
+        sha256: ""
+        sha512: b09aa679e40b526273b6c59109ad69c135ee41cf2b26c636a1edc5662b83928278000bbb028088d5be55dd71f0eb239dba5289df265b6141307b251b2c8133e3
+        size: 8482800
+        game-versions:
+            - 1.21.11
+        loaders:
+            - velocity
+        dependencies: []
+        resolved-at: "2026-09-17T15:45:17.572792Z"
+    tab-bridge:
+        project: kG3hVbBX
+        version: 6.2.3
+        version-id: gFxQoURR
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/kG3hVbBX/versions/gFxQoURR/TAB-Bridge%20v6.2.3%20-%20Bukkit.jar
+        filename: TAB-Bridge v6.2.3 - Bukkit.jar
+        sha256: ""
+        sha512: d0449d1fdb36b95c5c5d3d85febefd53193f474252cbbca7b2e10840add7f4c1a33442a106c52740674abe8007c7c31491686e60c1138c64796426eb69f993d7
+        size: 91517
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - placeholderapi
+        resolved-at: "2026-11-15T15:00:00Z"
+    terraformgenerator:
+        project: 8JQgYY94
+        version: 28.1.0
+        version-id: GgKBUf9C
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/8JQgYY94/versions/GgKBUf9C/TerraformGenerator-28.1.0.jar
+        filename: TerraformGenerator-28.1.0.jar
+        sha256: ""
+        sha512: 3b9a8709db0223c1c33894cd2f70b7a577a53c102a72fbe5eec9ca99f652fb347b6d9b0e58931c71bd24485edf7754a4745e6eebdf15019f9db09822fcbc9784
+        size: 2872646
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-11-15T18:45:00Z"
+    ultimate-teams:
+        project: O5OQXCl8
+        version: 5.0.3
+        version-id: lMAye6s1
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/O5OQXCl8/versions/lMAye6s1/UltimateTeams-5.0.3.jar
+        filename: UltimateTeams-5.0.3.jar
+        sha256: ""
+        sha512: c0f5c575e9b54f94b1de115c40dcdcdb83b2a24b5c9a534eb53a7e789126be9a7eab8d93e23cde57f34a945c43b3684c68302544f71d5b4f98d80f45cdcab5c5
+        size: 1867730
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - placeholderapi
+        resolved-at: "2026-11-15T15:00:00Z"
+    ultimateantibot:
+        project: K5DNl62U
+        version: 4.1.2-ABYSS
+        version-id: uts8tVPz
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/K5DNl62U/versions/uts8tVPz/UltimateAntibot-velocity-4.1.2-ABYSS.jar
+        filename: UltimateAntibot-velocity-4.1.2-ABYSS.jar
+        sha256: ""
+        sha512: 3f1ef1cc3932b46471a6c3d3ebf364459c63018111801ea299b8dd689d62c896358469fb82c7192827bdcda8a0a8b3000321509d1f5c39166fda3e593e4b7de6
+        size: 5954363
+        game-versions:
+            - 1.21.11
+        loaders:
+            - velocity
+        dependencies: []
+        resolved-at: "2026-11-15T15:00:00Z"
+    vault:
+        project: MilkBowl/Vault#Vault.jar
+        version: 1.7.3
+        version-id: 1.7.3
+        source: github
+        download-url: https://github.com/MilkBowl/Vault/releases/download/1.7.3/Vault.jar
+        filename: Vault.jar
+        sha256: a6b5ed97f43a5cf5bbaf00a7c8cd23c5afc9bd003f849875af8b36e6cf77d01d
+        sha512: aa02af3c9770249bda77b91058ce97240d4fd4cba3f07918534127acace297feb05445122b499c2623123dfde49670e9a763221e0f41ef03f51e6880ea8f6647
+        size: 272259
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-11-12T18:40:00Z"
+    veloauth:
+        project: awl91tjn
+        version: 1.6.2
+        version-id: utSLTyeT
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/awl91tjn/versions/utSLTyeT/veloauth-latest.jar
+        filename: veloauth-latest.jar
+        sha256: ""
+        sha512: 10608795866f18eef54f363eed34bbf33c884e6942a6d1f378feed4a3c3504b2991a542ee02cef0d17377fd0a79aa3c708ebe037c25f0c3c7f7dacb1e444c6a5
+        size: 27499380
+        game-versions:
+            - 1.21.11
+        loaders:
+            - velocity
+        dependencies: []
+        resolved-at: "2026-10-07T19:44:57.447511Z"
+    velocityscoreboardapi:
+        project: geXu0xsn
+        version: 2.1.1
+        version-id: 8bShOuaK
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/geXu0xsn/versions/8bShOuaK/VelocityScoreboardAPIv%202.1.1.jar
+        filename: VelocityScoreboardAPIv 2.1.1.jar
+        sha256: ""
+        sha512: c8d39697d259faa784917c2609cf39888e6daab626b9df644041827cbaf80c8f2b4fffd5c049479dfb307635a10a723e8689a82154042b67cc123de7a022b126
+        size: 642535
+        game-versions:
+            - 1.21.11
+        loaders:
+            - velocity
+        dependencies: []
+        resolved-at: "2026-09-16T15:13:07.473171Z"
+    voicechat:
+        project: 9eGKb6K1
+        version: bukkit-2.6.27
+        version-id: 3Br8wxJY
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/9eGKb6K1/versions/3Br8wxJY/voicechat-bukkit-2.6.27.jar
+        filename: voicechat-bukkit-2.6.27.jar
+        sha256: ""
+        sha512: 9d55c64e79289da87b6c51295124477b4061f5820bd68370c1f6b82137c7ca19d5db7bc05828f12091f23c6ddf1b328b8c5018d4df85fa7c3ddacc6f8f114abe
+        size: 940342
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-11-15T18:45:00Z"
+    voicechat-velocity:
+        project: 9eGKb6K1
+        version: velocity-2.6.26
+        version-id: Ue35nhwF
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/9eGKb6K1/versions/Ue35nhwF/voicechat-velocity-2.6.26.jar
+        filename: voicechat-velocity-2.6.26.jar
+        sha256: ""
+        sha512: 2cea2bbee82d287a895ab925ed9f68c53b7c2c4f980612e5ddaafa88a582572f15039f65bb075425732af64af7e977991829fa6fac3f5f30485b5d6eee8afdeb
+        size: 106297
+        game-versions:
+            - 1.21.11
+        loaders:
+            - velocity
+        dependencies: []
+        resolved-at: "2026-11-15T18:45:00Z"
+    worldedit:
+        project: 1u6JkXh5
+        version: 7.3.18
+        version-id: XlUIRmF8
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/1u6JkXh5/versions/XlUIRmF8/worldedit-bukkit-7.3.18.jar
+        filename: worldedit-bukkit-7.3.18.jar
+        sha256: ""
+        sha512: 12931d4762d1a0e3f5fd2bf60ed7526b97699d52528c57715d4eced30ba151616aaa165515ce3885c0bcba3e5413847d78f94a8d5ff2d58bd03d83b38b19e45f
+        size: 6703395
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-06-25T14:00:00.000000Z"
+    worldguard:
+        project: DKY9btbd
+        version: 7.0.16
+        version-id: EZl3moba
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/DKY9btbd/versions/EZl3moba/worldguard-bukkit-7.0.16.jar
+        filename: worldguard-bukkit-7.0.16.jar
+        sha256: ""
+        sha512: 70ed07f145a1b686e270bad3ba235a3a5e70005d8357c13e3130bf032b048add1aa1dd000f5521f77409c53a141111da2f6bf3eb610654c05f47666769d11d4c
+        size: 1172160
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - worldedit
+        resolved-at: "2026-06-25T14:30:00.000000Z"
+    worldguardextraflags:
+        project: aromaa/WorldGuardExtraFlags#WorldGuardExtraFlags.jar
+        version: 4.2.4
+        version-id: v4.2.4
+        source: github
+        download-url: https://github.com/aromaa/WorldGuardExtraFlags/releases/download/v4.2.4/WorldGuardExtraFlags.jar
+        filename: WorldGuardExtraFlags.jar
+        sha256: 43baf19d4d1d2274239cec60bfcd540433a7c03fb77fbb75a55e879f6e492114
+        sha512: 43c700ed7646ad6fc051daa25dfa0793b11c6df16dd83888d61cc09060b9f656ee63fde0942ed173fdff7775cbff228aa46df68d77d16b2d3cde2848dcc516dd
+        size: 114789
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - worldguard
+        resolved-at: "2026-06-16T10:18:33.000000Z"
+    inventoryrollbackplus:
+        project: XWKWAzd8
+        version: "1.8.5"
+        version-id: eDsOfX6z
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/XWKWAzd8/versions/eDsOfX6z/InventoryRollbackPlus-1.8.5.jar
+        filename: InventoryRollbackPlus-1.8.5.jar
+        sha256: 864825fa34fc2aeb10189f87afb767f418a6c0a32786f257730c5785ca9cf205
+        sha512: 7982cbea2b067844908c1e2a2b3b5bfd83c6e1b5e1390f4a8c46c0303e9b944c807f89806e8f7c8cb48a114724e2a706a1169f75fe2074247e2f761753888206
+        size: 1200357
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-11-15T21:00:00Z"
+    anti-autototem:
+        project: O0LUbMev
+        version: "1.0"
+        version-id: 1QE8MF0K
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/O0LUbMev/versions/1QE8MF0K/NROS%20Anti-AutoTotem.jar
+        filename: NROS Anti-AutoTotem.jar
+        sha256: 07ade3d6bab86341f3e8de2b08240df54e8db98a5f5298ea008c4b873a783d46
+        sha512: 1969c53da4e6a941a90701d2f21c027deb7dad572c62284bbfe490b68be45dcbe7f28fbef1492b5a142a7d1e8ee968086b46b80ecd1e61d935e0fa86aa052737
+        size: 25786
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - packetevents
+        resolved-at: "2026-11-15T21:00:00Z"
+    interactivechat-packetevents:
+        project: TerraByteDev/InteractiveChat-PacketEvents
+        version: "1.3.2"
+        version-id: "1.3.2"
+        source: github
+        download-url: https://github.com/TerraByteDev/InteractiveChat-PacketEvents/releases/download/1.3.2/InteractiveChat-PacketEvents-1.3.2.jar
+        filename: InteractiveChat-PacketEvents-1.3.2.jar
+        sha256: ae320b1acca23888fdf40025e9312121facc5372ef95ae02ae182dcc9dfc0713
+        sha512: 04869ab7b95f911c37cc22ff1939fef8545fcc16d3ffa0d3dab8c6cd499e245fcdc7d08d0d907fe92fb0bf602aedb0cac0b63288f610db25d3d8980eba5b9875
+        size: 76271
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - interactivechat
+            - packetevents
+        resolved-at: "2026-11-15T21:40:00Z"
+    itemjoin:
+        project: 8OiYKudu
+        version: "6.1.9"
+        version-id: b9bEW4dn
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/8OiYKudu/versions/b9bEW4dn/ItemJoin.jar
+        filename: ItemJoin.jar
+        sha256: ""
+        sha512: 1e568329203c8c897a4a40a35c12fa8bdc5acd3e87bb98dd8eeabd0d5b4eedba8e48345b801d778279038f6aa47ed53a5d94b3a358ea54a97b057c8858a8b3ab
+        size: 898601
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-11-15T22:10:00Z"
+    chunkyborder:
+        project: s86X568j
+        version: "1.2.75"
+        version-id: tLk074dt
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/s86X568j/versions/tLk074dt/ChunkyBorder-Paper-1.2.75.jar
+        filename: ChunkyBorder-Paper-1.2.75.jar
+        sha256: ""
+        sha512: 5904063cfbccddb058bcb115dca6b1713807b4b409df0dd2d1b24bc91dbe931d126d6eea1fa904395e1a4e45c904ae7f496f82f8bdf7f745e651f3fd51ebae96
+        size: 123650
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies:
+            - chunky
+        resolved-at: "2026-11-19T20:00:00Z"
+    fairminimap:
+        project: GFFLCjKJ
+        version: "1.0.0+1.21.7"
+        version-id: 4hkFeUUq
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/GFFLCjKJ/versions/4hkFeUUq/FairMinimap-1.0.0%2B1.21.7.jar
+        filename: FairMinimap-1.0.0+1.21.7.jar
+        sha256: ""
+        sha512: 18afac868764212b0b2f234890fb575ddd01fea24fb67ec4cb279a6e2fef31459ea4578691bc6d9136be0dcbf6f74d4f6f2d96f21cc52487856e2a820598fd35
+        size: 1827
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-11-19T20:00:00Z"
+    parkour:
+        project: LitCivpI
+        version: "7.2.8"
+        version-id: oh1TUeke
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/LitCivpI/versions/oh1TUeke/Parkour-7.2.8-RELEASE.jar
+        filename: Parkour-7.2.8-RELEASE.jar
+        sha256: ""
+        sha512: 76b421a95c6c1f20b3714ede327ed1a2510b96fd54708b863679dc17f851f438ae75cfbb92cbe159dee4ac8a3adab0ed987a4432d95ae417bd74930e99de288f
+        size: 1248841
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-11-19T20:00:00Z"

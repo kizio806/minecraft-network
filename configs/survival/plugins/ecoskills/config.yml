@@ -1,0 +1,24 @@
+# EcoSkills Configuration for AgcSmp
+# RPG Skills and Leveling progression (Mining, Farming, Combat, Woodcutting, Fishing, Agility)
+
+check-for-updates: false
+
+# Skill progression settings
+skills:
+  level-cap: 100
+  base-xp: 100
+  xp-multiplier: 1.15
+
+# GUI Settings
+gui:
+  title: "__MSG_ECOSKILLS_TITLE__"
+  rows: 6
+
+# Actionbar level-up notifications
+level-up:
+  broadcast: true
+  actionbar: true
+  sound: "entity.player.levelup"
+  title:
+    title: "&6&lLEVEL UP!"
+    subtitle: "__MSG_ECOSKILLS_LEVELUP__"

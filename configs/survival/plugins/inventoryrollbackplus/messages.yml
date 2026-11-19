@@ -1,0 +1,64 @@
+general:
+  prefix: '&8[&6InventoryRollback&8]&r '
+
+commands:
+  no-permission: '__MSG_IRP_NO_PERMISSION__'
+  error: '__MSG_IRP_ERROR__'
+  enable: '__MSG_IRP_ENABLE__'
+  disable: '__MSG_IRP_DISABLE__'
+  reload: '__MSG_IRP_RELOAD__'
+  player-only: '__MSG_IRP_PLAYER_ONLY__'
+  import: '__MSG_IRP_IMPORT__'
+
+backup:
+  no-backup: '__MSG_IRP_NO_BACKUP__'
+  not-online: '__MSG_IRP_NOT_ONLINE__'
+  force-saved-player: '__MSG_IRP_FORCE_SAVED_PLAYER__'
+  force-saved-all: '__MSG_IRP_FORCE_SAVED_ALL__'
+  not-forced-saved: '__MSG_IRP_NOT_FORCED_SAVED__'
+
+attribute-restore:
+  main-inventory:
+    restored: '__MSG_IRP_MAIN_INV_RESTORED__'
+    restored-player: '__MSG_IRP_MAIN_INV_RESTORED_PLAYER__'
+    not-online: '__MSG_IRP_MAIN_INV_NOT_ONLINE__'
+    button-name: '__MSG_IRP_MAIN_INV_BUTTON__'
+    button-disabled: '__MSG_IRP_MAIN_INV_BUTTON_DISABLED__'
+  ender-chest:
+    restored: '__MSG_IRP_ENDER_CHEST_RESTORED__'
+    restored-player: '__MSG_IRP_ENDER_CHEST_RESTORED_PLAYER__'
+    not-online: '__MSG_IRP_ENDER_CHEST_NOT_ONLINE__'
+    button-name: '__MSG_IRP_ENDER_CHEST_BUTTON__'
+  health:
+    restored: '__MSG_IRP_HEALTH_RESTORED__'
+    restored-player: '__MSG_IRP_HEALTH_RESTORED_PLAYER__'
+    not-online: '__MSG_IRP_HEALTH_NOT_ONLINE__'
+    button-name: '__MSG_IRP_HEALTH_BUTTON__'
+  hunger:
+    restored: '__MSG_IRP_HUNGER_RESTORED__'
+    restored-player: '__MSG_IRP_HUNGER_RESTORED_PLAYER__'
+    not-online: '__MSG_IRP_HUNGER_NOT_ONLINE__'
+    button-name: '__MSG_IRP_HUNGER_BUTTON__'
+  experience:
+    restored: '__MSG_IRP_XP_RESTORED__'
+    restored-player: '__MSG_IRP_XP_RESTORED_PLAYER__'
+    not-online: '__MSG_IRP_XP_NOT_ONLINE__'
+    button-name: '__MSG_IRP_XP_BUTTON__'
+    button-lore: '__MSG_IRP_XP_LORE__'
+
+shulkerbox:
+  exported: '__MSG_IRP_SHULKER_EXPORTED__'
+  button-name: '__MSG_IRP_SHULKER_BUTTON__'
+  first-shulker:
+    name: '__MSG_IRP_SHULKER_FIRST_NAME__'
+    lore: '__MSG_IRP_SHULKER_FIRST_LORE__'
+  second-shulker:
+    name: '__MSG_IRP_SHULKER_SECOND_NAME__'
+    lore: '__MSG_IRP_SHULKER_SECOND_LORE__'
+  ender-chest-shulker:
+    name: '__MSG_IRP_SHULKER_ENDER_NAME__'
+    extra-shulkers: ' &7(#%NUMBER%)'
+    lore: '__MSG_IRP_SHULKER_ENDER_LORE__'
+
+death-message:
+  restored: '__MSG_IRP_DEATH_RESTORED__'

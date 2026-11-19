@@ -1,0 +1,12 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "panels": [
+    {"type": "timeseries", "title": "Host CPU", "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}, "targets": [{"expr": "100 - (avg by(instance)(rate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)", "refId": "A"}]},
+    {"type": "timeseries", "title": "Host memory", "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}, "targets": [{"expr": "100 * (1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)", "refId": "A"}], "fieldConfig": {"defaults": {"unit": "percent"}}}
+  ],
+  "schemaVersion": 39,
+  "title": "Minecraft Network Infrastructure",
+  "time": {"from": "now-6h", "to": "now"},
+  "version": 1
+}

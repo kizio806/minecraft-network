@@ -1,0 +1,13 @@
+# DecentHolograms configuration for Lobby
+# Holograms will be registered after the Lobby spawn world layout is defined.
+update-notification: false
+auto-save-interval: 600
+allow-commands: true
+default-view-distance: 48
+default-update-interval: 20
+hologram-damage: false
+papi-refresh-interval: 20
+damage-distance: 1.0
+disable-world-check: false
+animations:
+  refresh-rate: 1

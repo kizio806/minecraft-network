@@ -1,0 +1,37 @@
+# GSit Configuration for AgcSmp
+# Sit, Lay, Crawl, Spin features
+
+# Language / Locale
+Language: pl_pl
+
+# Feature toggles
+Options:
+  # Allow sitting on stairs, slabs, etc.
+  Sit:
+    Enabled: true
+    SitOnStairs: true
+    SitOnSlabs: true
+    SitOnCarpets: true
+    SitOnBlocks: false
+    SitOnPlayers: false
+    Range: 3.5
+    BottomSlabsOnly: true
+    DistanceBetweenPlayers: 0.5
+  
+  # Laying on the ground (/lay)
+  Lay:
+    Enabled: true
+    SneakingRequired: false
+
+  # Crawling on the ground (/crawl)
+  Crawl:
+    Enabled: true
+    DoubleSneak: true
+
+  # Spinning on the ground (/spin)
+  Spin:
+    Enabled: true
+
+  # General interaction settings
+  CheckForProtection: true
+  GetUpDamage: true

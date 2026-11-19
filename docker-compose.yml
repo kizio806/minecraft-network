@@ -1,0 +1,157 @@
+name: ${COMPOSE_PROJECT_NAME:-minecraft-network}
+
+x-logging: &default-logging
+  driver: json-file
+  options: {max-size: "10m", max-file: "5"}
+
+x-common: &common
+  restart: unless-stopped
+  security_opt: [no-new-privileges:true]
+  logging: *default-logging
+
+services:
+  proxy:
+    <<: *common
+    image: ${VELOCITY_IMAGE:?Set an immutable Velocity image in .env}
+    user: "${MC_UID:-1000}:${MC_GID:-1000}"
+    ports:
+      - "${MC_PROXY_BIND:-0.0.0.0}:${MC_PROXY_PORT:-25565}:25565/tcp"
+      - "${MC_PROXY_BIND:-0.0.0.0}:${MC_PROXY_PORT:-25565}:25565/udp"
+    environment:
+      TYPE: VELOCITY
+      VERSION: "${VELOCITY_VERSION:?Set VELOCITY_VERSION in .env}"
+    volumes: [./servers/proxy:/server]
+    secrets: [forwarding_secret, veloauth_password]
+    depends_on:
+      auth: {condition: service_healthy}
+      lobby: {condition: service_healthy}
+      postgres: {condition: service_healthy}
+    networks: [proxy_net, data_net]
+    healthcheck: {test: [CMD, /usr/local/bin/mc-monitor, status, --host, 127.0.0.1, --port, "25565"], interval: 15s, timeout: 15s, retries: 10, start_period: 45s}
+    deploy: {resources: {limits: {cpus: "1.0", memory: 768M, pids: 512}}}
+
+  auth:
+    <<: *common
+    image: ${NANOLIMBO_IMAGE:?Set an immutable NanoLimbo image in .env}
+    user: "${MC_UID:-1000}:${MC_GID:-1000}"
+    working_dir: /data
+    command: [java, -Xms256M, -Xmx256M, -jar, /data/NanoLimbo.jar]
+    volumes: [./servers/auth:/data]
+    secrets: [forwarding_secret]
+    networks: [proxy_net]
+    healthcheck: {test: [CMD-SHELL, "test -s /data/NanoLimbo.jar && kill -0 1"], interval: 15s, timeout: 5s, retries: 10, start_period: 30s}
+    deploy: {resources: {limits: {cpus: "0.5", memory: 384M, pids: 256}}}
+
+  lobby:
+    <<: *common
+    image: ${PURPUR_LOBBY_IMAGE:?Set an immutable Java 25 Purpur image in .env}
+    user: "${MC_UID:-1000}:${MC_GID:-1000}"
+    environment:
+      TYPE: PURPUR
+      VERSION: "${MC_VERSION:?Set MC_VERSION in .env}"
+      EULA: "TRUE"
+      MEMORY: 1G
+      ONLINE_MODE: "FALSE"
+    volumes: [./servers/lobby:/data]
+    secrets: [forwarding_secret, luckperms_password, ultimateteams_password]
+    depends_on:
+      postgres: {condition: service_healthy}
+    networks: [proxy_net, data_net]
+    healthcheck: {test: [CMD, /usr/local/bin/mc-monitor, status, --host, 127.0.0.1, --port, "25565"], interval: 20s, timeout: 5s, retries: 15, start_period: 90s}
+    deploy: {resources: {limits: {cpus: "1.5", memory: 1536M, pids: 1024}}}
+
+  survival:
+    <<: *common
+    image: ${PURPUR_IMAGE:?Set an immutable Purpur image in .env}
+    user: "${MC_UID:-1000}:${MC_GID:-1000}"
+    environment:
+      TYPE: PURPUR
+      VERSION: "${MC_VERSION:?Set MC_VERSION in .env}"
+      EULA: "TRUE"
+      MEMORY: 4G
+      ONLINE_MODE: "FALSE"
+    volumes: [./servers/survival:/data]
+    secrets: [forwarding_secret, luckperms_password, ultimateteams_password, libertybans_password]
+    networks: [proxy_net, data_net]
+    healthcheck: {test: [CMD, /usr/local/bin/mc-monitor, status, --host, 127.0.0.1, --port, "25565"], interval: 20s, timeout: 5s, retries: 15, start_period: 90s}
+    deploy: {resources: {limits: {cpus: "4.0", memory: 5632M, pids: 2048}}}
+
+  postgres:
+    <<: *common
+    image: postgres:16.4-alpine@sha256:5660c2cbfea50c7a9127d17dc4e48543eedd3d7a41a595a2dfa572471e37e64c
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB:-minecraft}"
+      POSTGRES_USER: "${POSTGRES_USER:-minecraft}"
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets: [postgres_password, luckperms_password, veloauth_password, ultimateteams_password, libertybans_password]
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./infrastructure/postgres/init-databases.sh:/docker-entrypoint-initdb.d/init-databases.sh:ro
+      - ./infrastructure/postgres/seed-luckperms.sql:/docker-entrypoint-initdb.d/seed-luckperms.sql:ro
+    networks: [data_net]
+    healthcheck: {test: [CMD-SHELL, "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"], interval: 10s, timeout: 5s, retries: 5}
+    deploy: {resources: {limits: {cpus: "1.0", memory: 512M, pids: 256}}}
+
+  node-exporter:
+    profiles: [monitoring]
+    <<: *common
+    image: prom/node-exporter:v1.8.2@sha256:4032c6d5bfd752342c3e631c2f1de93ba6b86c41db6b167b9a35372c139e7706
+    command: [--path.rootfs=/host]
+    volumes: ["/proc:/host/proc:ro", "/sys:/host/sys:ro", "/:/host:ro,rslave"]
+    networks: [monitoring]
+
+  prometheus:
+    profiles: [monitoring]
+    <<: *common
+    image: prom/prometheus:v2.55.1@sha256:2659f4c2ebb718e7695cb9b25ffa7d6be64db013daba13e05c875451cf51b0d3
+    command: [--config.file=/etc/prometheus/prometheus.yml, --storage.tsdb.path=/prometheus, --storage.tsdb.retention.time=15d]
+    volumes: [./infrastructure/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro, ./infrastructure/monitoring/alerts.yml:/etc/prometheus/alerts.yml:ro, prometheus-data:/prometheus]
+    networks: [monitoring]
+    deploy: {resources: {limits: {cpus: "1.0", memory: 512M, pids: 512}}}
+
+  minecraft-exporter:
+    profiles: [monitoring]
+    <<: *common
+    image: ${MC_MONITOR_IMAGE:?Set an immutable mc-monitor image in .env}
+    command: [export-for-prometheus, --servers, proxy:25565,lobby:25565,survival:25565, --port, "8080"]
+    networks: [proxy_net, monitoring]
+    deploy: {resources: {limits: {cpus: "0.25", memory: 256M, pids: 128}}}
+
+  grafana:
+    profiles: [monitoring]
+    <<: *common
+    image: grafana/grafana:11.2.0@sha256:408afb9726de5122b00a2576763a8a57a3c86d5b0eff5305bc994ceb3eb96c3f
+    user: "${GRAFANA_UID:-1000}:472"
+    environment: {GF_SECURITY_ADMIN_PASSWORD__FILE: /run/secrets/grafana_admin_password, GF_USERS_ALLOW_SIGN_UP: "false"}
+    ports: ["${MONITORING_BIND:-127.0.0.1}:${GRAFANA_PORT:-3000}:3000"]
+    secrets: [grafana_admin_password]
+    volumes: [grafana-data:/var/lib/grafana, ./infrastructure/monitoring/grafana/provisioning:/etc/grafana/provisioning:ro, ./infrastructure/monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro]
+    networks: [monitoring]
+
+  uptime-kuma:
+    profiles: [monitoring]
+    <<: *common
+    image: louislam/uptime-kuma:1.23.16@sha256:431fee3be822b04861cf0e35daf4beef6b7cb37391c5f26c3ad6e12ce280fe18
+    ports: ["${MONITORING_BIND:-127.0.0.1}:${UPTIME_KUMA_PORT:-3001}:3001"]
+    volumes: [uptime-data:/app/data]
+    networks: [monitoring, proxy_net]
+
+volumes:
+  postgres-data:
+  prometheus-data:
+  grafana-data:
+  uptime-data:
+
+secrets:
+  postgres_password: {file: ./secrets/postgres_password}
+  luckperms_password: {file: ./secrets/luckperms_password}
+  veloauth_password: {file: ./secrets/veloauth_password}
+  forwarding_secret: {file: ./secrets/forwarding_secret}
+  grafana_admin_password: {file: ./secrets/grafana_admin_password}
+  ultimateteams_password: {file: ./secrets/ultimateteams_password}
+  libertybans_password: {file: ./secrets/libertybans_password}
+
+networks:
+  proxy_net:
+  data_net: {internal: true}
+  monitoring:

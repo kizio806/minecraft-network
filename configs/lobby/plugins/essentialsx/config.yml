@@ -1,0 +1,64 @@
+# EssentialsX configuration for Lobby
+ops-name-color: 'c'
+nickname-prefix: ''
+max-nick-length: 16
+ignore-colors-in-max-nick-length: true
+hide-join-leave-messages: true
+teleport-safety: true
+force-disable-teleport-safety: false
+teleport-cooldown: 0
+teleport-delay: 0
+heal-cooldown: 60
+near-radius: 200
+permission-based-item-spawn: true
+spawn-mob-limit: 0
+warn-on-smite: true
+drop-items-if-full: false
+notify-no-new-mail: false
+item-spawn-blacklist: ''
+per-warp-permission: true
+sort-list-by-groups: false
+login-attack-delay: 5
+max-fly-speed: 0.8
+max-walk-speed: 0.8
+mails-per-minute: 5
+teleport-to-players: false
+register-back-in-listener: false
+economy-enabled: false
+update-check: false
+spawn-on-join: true
+chat:
+  radius: 0
+  format: '{DISPLAYNAME}&8: &f{MESSAGE}'
+  group-formats: {}
+disabled-commands:
+  - ban
+  - mute
+  - kick
+  - unban
+  - unbanip
+  - sethome
+  - home
+  - homes
+  - delhome
+  - pay
+  - bal
+  - balance
+  - baltop
+  - eco
+  - economy
+  - sell
+  - buy
+  - warp
+  - warps
+  - setwarp
+  - delwarp
+  - kit
+  - kits
+  - createkit
+  - delkit
+  - mail
+  - email
+  - suicide
+  - rtp
+  - wild

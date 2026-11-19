@@ -1,0 +1,75 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    name: Build Multi-Arch Binary
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        goos: [linux, darwin]
+        goarch: [amd64, arm64]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Build Binary
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: 0
+        run: |
+          VERSION="${GITHUB_REF_NAME}"
+          COMMIT="$(git rev-parse --short HEAD)"
+          DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+          OUT="network-${VERSION}-${{ matrix.goos }}-${{ matrix.goarch }}"
+          mkdir -p bin
+          go build -trimpath \
+            -ldflags="-s -w -X github.com/kizio806/minecraft-network/internal/networkcli.Version=${VERSION} -X github.com/kizio806/minecraft-network/internal/networkcli.GitCommit=${COMMIT} -X github.com/kizio806/minecraft-network/internal/networkcli.BuildDate=${DATE}" \
+            -o "./bin/${OUT}" ./cmd/network
+          tar -czf "./bin/${OUT}.tar.gz" -C ./bin "${OUT}"
+
+      - name: Upload Binary Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: network-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: ./bin/*.tar.gz
+
+  publish-release:
+    name: Publish GitHub Release
+    needs: build-release
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download all built artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./release-assets
+          merge-multiple: true
+
+      - name: Generate SHA-256 Checksums
+        working-directory: ./release-assets
+        run: |
+          sha256sum *.tar.gz > SHA256SUMS.txt
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ./release-assets/*.tar.gz
+            ./release-assets/SHA256SUMS.txt
+          generate_release_notes: true

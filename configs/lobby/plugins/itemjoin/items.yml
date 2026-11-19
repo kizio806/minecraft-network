@@ -1,0 +1,35 @@
+# +----------------------------------------------------------------------------------------------+ #
+# | ItemJoin Items Configuration for Lobby (Minecraft Network)                                   | #
+# +----------------------------------------------------------------------------------------------+ #
+
+items-Version: 8
+items-Delay: 2
+items-Overwrite: true
+items-Spamming: false
+items-RestrictCount: false
+
+items:
+  lobby-compass:
+    id: COMPASS
+    slot: 4
+    name: '&__THEME_PRIMARY__&l✦ &__THEME_SECONDARY__&l__MSG_COMPASS_NAME__'
+    lore:
+      - '__MSG_COMPASS_LORE_1__'
+      - '__MSG_COMPASS_LORE_2__'
+    commands-type: default
+    commands-action: right-click, left-click, physical
+    commands-sequence: ALL
+    commands-sound: UI_BUTTON_CLICK
+    commands:
+      - 'player: menu'
+    itemflags: inventory-modify, self-drops, death-drops, item-store, hide-attributes
+    triggers: join, respawn, world-switch
+    enabled-worlds: lobby
+
+  lobby-filler:
+    id: GRAY_STAINED_GLASS_PANE
+    slot: '0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35'
+    name: '&8'
+    itemflags: inventory-modify, self-drops, death-drops, item-store, cancel-events, placement, hide-attributes
+    triggers: join, respawn, world-switch
+    enabled-worlds: lobby

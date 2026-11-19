@@ -1,0 +1,8 @@
+rdms-vendor: "POSTGRES"
+connection-pool-size: 6
+auth-details:
+  host: "postgres"
+  port: 5432
+  database: "libertybans"
+  user: "libertybans_user"
+  password: "__LIBERTYBANS_PASSWORD__"

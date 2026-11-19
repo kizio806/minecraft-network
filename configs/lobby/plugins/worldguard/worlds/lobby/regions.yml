@@ -1,0 +1,28 @@
+#
+# WorldGuard regions file for world: lobby
+#
+regions:
+    __global__:
+        members: {}
+        flags:
+            pvp: deny
+            mob-spawning: deny
+            block-break: deny
+            block-place: deny
+            fire-spread: deny
+            lava-fire: deny
+            fall-damage: deny
+            item-pickup: deny
+            item-drop: deny
+            hunger-drain: deny
+            lighter: deny
+            tnt: deny
+            creeper-explosion: deny
+            other-explosion: deny
+            invincible: allow
+            godmode: allow
+            keep-inventory: true
+            keep-exp: true
+        owners: {}
+        type: global
+        priority: 0

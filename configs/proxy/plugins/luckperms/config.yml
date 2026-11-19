@@ -1,0 +1,20 @@
+# LuckPerms Velocity v5.5.71-velocity
+# The password is injected during deployment; this marker must never be replaced in Git.
+server: proxy
+storage-method: postgresql
+data:
+  address: postgres:5432
+  database: luckperms
+  username: luckperms_user
+  password: __LUCKPERMS_PASSWORD__
+  pool-settings:
+    maximum-pool-size: 10
+    minimum-idle: 2
+    connection-timeout: 5000
+  table-prefix: luckperms_
+  properties:
+    sslmode: disable
+sync-minutes: -1
+watch-files: false
+messaging-service: pluginmsg
+cancel-failed-logins: true
