@@ -102,7 +102,11 @@ func (m *Manager) ensureStopped(ctx context.Context, targets []string) error {
 		return err
 	}
 	args := []string{"compose", "-f", compose, "ps", "--status", "running", "--services"}
-	out, err := exec.CommandContext(ctx, "docker", args...).CombinedOutput()
+	dockerBin := "docker"
+	if p, lookErr := exec.LookPath("docker"); lookErr == nil {
+		dockerBin = p
+	}
+	out, err := exec.CommandContext(ctx, dockerBin, args...).CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("cannot verify stopped services: %w", err)
 	}
