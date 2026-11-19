@@ -20,8 +20,12 @@ func TestCreateBackupArchive_AddTreeError(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	tmpFile := filepath.Join(temp, "backup.tar.gz.tmp")
 	if err := backup.CreateBackupArchive(root, filepath.Join(temp, "stage"), filepath.Join(temp, "backup.tar.gz")); err == nil {
 		t.Fatal("expected error for invalid configs path, got nil")
+	}
+	if _, err := os.Stat(tmpFile); !os.IsNotExist(err) {
+		t.Fatalf("expected temporary file %s to be cleaned up on error, got err: %v", tmpFile, err)
 	}
 }
 
