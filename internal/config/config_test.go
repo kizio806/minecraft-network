@@ -252,23 +252,23 @@ MC_MONITOR_IMAGE=ghcr.io/mc-monitor/mc-monitor@sha256:00000000000000000000000000
 func TestParseEnvValues(t *testing.T) {
 	content := `
 # Comment line
-KEY1=value1
-KEY2="quoted value"
-KEY3='single quoted'
-KEY4=with=equal=signs
+ENV_PARAM_ALPHA=value1
+ENV_PARAM_BETA="quoted value"
+ENV_PARAM_GAMMA='single quoted'
+ENV_PARAM_DELTA=with=equal=signs
 `
 	m := config.ParseEnvValues(content)
-	if m["KEY1"] != "value1" {
-		t.Errorf("expected value1, got %s", m["KEY1"])
+	if m["ENV_PARAM_ALPHA"] != "value1" {
+		t.Errorf("expected value1, got %s", m["ENV_PARAM_ALPHA"])
 	}
-	if m["KEY2"] != "quoted value" {
-		t.Errorf("expected 'quoted value', got %s", m["KEY2"])
+	if m["ENV_PARAM_BETA"] != "quoted value" {
+		t.Errorf("expected 'quoted value', got %s", m["ENV_PARAM_BETA"])
 	}
-	if m["KEY3"] != "single quoted" {
-		t.Errorf("expected 'single quoted', got %s", m["KEY3"])
+	if m["ENV_PARAM_GAMMA"] != "single quoted" {
+		t.Errorf("expected 'single quoted', got %s", m["ENV_PARAM_GAMMA"])
 	}
-	if m["KEY4"] != "with=equal=signs" {
-		t.Errorf("expected 'with=equal=signs', got %s", m["KEY4"])
+	if m["ENV_PARAM_DELTA"] != "with=equal=signs" {
+		t.Errorf("expected 'with=equal=signs', got %s", m["ENV_PARAM_DELTA"])
 	}
 }
 

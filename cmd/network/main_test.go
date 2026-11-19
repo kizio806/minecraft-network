@@ -31,4 +31,3 @@ func TestMainInvocation(t *testing.T) {
 		t.Fatalf("main failed: %v", err)
 	}
 }
-
