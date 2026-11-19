@@ -37,7 +37,7 @@ func (m *mockRunner) RunInteractive(_ context.Context, _, name string, _ io.Read
 	return m.err
 }
 
-func (m *mockRunner) RunStream(_ context.Context, _ string, out, errOut io.Writer, name string, args ...string) error {
+func (m *mockRunner) RunStream(_ context.Context, _ string, out, _ io.Writer, name string, args ...string) error {
 	m.lastCmd = name
 	m.lastArgs = args
 	if out != nil && m.response != "" {
@@ -65,6 +65,9 @@ func TestComposeClient(t *testing.T) {
 	out, err = client.Compose(context.Background(), "monitoring", "ps")
 	if err != nil {
 		t.Fatalf("unexpected error with profile: %v", err)
+	}
+	if out != "ok\n" {
+		t.Fatalf("unexpected output with profile: %s", out)
 	}
 	if strings.Join(runner.lastArgs, " ") != "compose -f /app/docker-compose.yml --profile monitoring ps" {
 		t.Fatalf("unexpected profile args: %v", runner.lastArgs)

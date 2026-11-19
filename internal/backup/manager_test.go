@@ -35,7 +35,7 @@ func (m *mockRunner) RunStream(ctx context.Context, dir string, stdout, stderr i
 	return nil
 }
 
-func (m *mockRunner) RunInteractive(ctx context.Context, dir string, name string, in io.Reader, out, errOut io.Writer, args ...string) error {
+func (m *mockRunner) RunInteractive(_ context.Context, _ string, _ string, _ io.Reader, _, _ io.Writer, _ ...string) error {
 	return nil
 }
 
@@ -110,19 +110,19 @@ MC_MONITOR_IMAGE=ghcr.io/mc-monitor/mc-monitor@sha256:00000000000000000000000000
 	}
 
 	runner := &mockRunner{
-		runFunc: func(ctx context.Context, dir string, name string, args ...string) (string, error) {
+		runFunc: func(_ context.Context, _ string, _ string, args ...string) (string, error) {
 			if len(args) >= 3 && args[1] == "ps" {
 				return "postgres-container-id\n", nil
 			}
 			return "ok", nil
 		},
-		runStreamFunc: func(ctx context.Context, dir string, stdout, stderr io.Writer, name string, args ...string) error {
+		runStreamFunc: func(_ context.Context, _ string, stdout, _ io.Writer, _ string, _ ...string) error {
 			if stdout != nil {
 				_, _ = stdout.Write([]byte("mock_postgres_dump_data"))
 			}
 			return nil
 		},
-		runInputFunc: func(ctx context.Context, dir string, name string, input io.Reader, args ...string) (string, error) {
+		runInputFunc: func(_ context.Context, _ string, _ string, _ io.Reader, _ ...string) (string, error) {
 			return "restore-ok", nil
 		},
 	}
@@ -286,7 +286,7 @@ func TestManager_Create_Errors(t *testing.T) {
 
 	// 3. Compose config error
 	cfg3, runner3 := setupTestEnvironment(t)
-	runner3.runFunc = func(ctx context.Context, dir string, name string, args ...string) (string, error) {
+	runner3.runFunc = func(_ context.Context, _ string, _ string, args ...string) (string, error) {
 		if len(args) >= 2 && args[0] == "compose" && args[len(args)-1] == "--quiet" {
 			return "", os.ErrPermission
 		}
@@ -300,7 +300,7 @@ func TestManager_Create_Errors(t *testing.T) {
 
 	// 4. Postgres dump failure
 	cfg4, runner4 := setupTestEnvironment(t)
-	runner4.runStreamFunc = func(ctx context.Context, dir string, stdout, stderr io.Writer, name string, args ...string) error {
+	runner4.runStreamFunc = func(_ context.Context, _ string, _, stderr io.Writer, _ string, _ ...string) error {
 		if stderr != nil {
 			_, _ = stderr.Write([]byte("fatal: pg_dump connection refused"))
 		}
@@ -323,7 +323,7 @@ func TestManager_Create_Errors(t *testing.T) {
 
 	// 6. Compose stop failure during Create
 	cfg6, runner6 := setupTestEnvironment(t)
-	runner6.runFunc = func(ctx context.Context, dir string, name string, args ...string) (string, error) {
+	runner6.runFunc = func(_ context.Context, _ string, _ string, args ...string) (string, error) {
 		for _, a := range args {
 			if a == "stop" {
 				return "", os.ErrPermission
@@ -392,7 +392,7 @@ func TestManager_Restore_Errors(t *testing.T) {
 	}
 
 	runnerFailStop := &mockRunner{
-		runFunc: func(ctx context.Context, dir string, name string, args ...string) (string, error) {
+		runFunc: func(_ context.Context, _ string, _ string, args ...string) (string, error) {
 			for _, a := range args {
 				if a == "stop" {
 					return "", os.ErrPermission
@@ -409,7 +409,7 @@ func TestManager_Restore_Errors(t *testing.T) {
 
 	// 8. Postgres start failure during restore
 	runnerFailPgStart := &mockRunner{
-		runFunc: func(ctx context.Context, dir string, name string, args ...string) (string, error) {
+		runFunc: func(_ context.Context, _ string, _ string, args ...string) (string, error) {
 			hasStart, hasPostgres := false, false
 			for _, a := range args {
 				if a == "start" {
@@ -433,7 +433,7 @@ func TestManager_Restore_Errors(t *testing.T) {
 
 	// 9. Postgres restore command failure
 	runnerFailPgRestore := &mockRunner{
-		runInputFunc: func(ctx context.Context, dir string, name string, input io.Reader, args ...string) (string, error) {
+		runInputFunc: func(_ context.Context, _ string, _ string, _ io.Reader, _ ...string) (string, error) {
 			return "", os.ErrInvalid
 		},
 	}

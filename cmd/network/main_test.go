@@ -24,6 +24,7 @@ func TestMainInvocation(t *testing.T) {
 		main()
 		return
 	}
+	// #nosec G204 -- test subprocess execution of test binary
 	cmd := exec.Command(os.Args[0], "-test.run=TestMainInvocation")
 	cmd.Env = append(os.Environ(), "FLAG_TEST_MAIN=1")
 	err := cmd.Run()
