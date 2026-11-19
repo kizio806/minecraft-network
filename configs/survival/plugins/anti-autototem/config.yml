@@ -1,0 +1,28 @@
+prefix: "<b><gradient:__THEME_DANGER__:#470101>ANTI-CHEAT</gradient></b> "
+
+discord:
+  webhook-url: ""
+
+bypass:
+  enabled: true
+  permission: nros.anticheat.bypass
+
+notify-permission: nros.anticheat.notify
+
+# Punishments for illegal AutoTotem module
+# action: kick | command | velocity
+# command: %player% is replaced with player name
+punishments:
+  auto-totem:
+    1:
+      flags: 3
+      action: kick
+      command: "__MSG_AUTOTOTEM_KICK__"
+    2:
+      flags: 5
+      action: command
+      command: "__MSG_AUTOTOTEM_BAN__"
+
+autototem:
+  enabled: true
+  threshold-ms: 100

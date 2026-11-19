@@ -1,0 +1,20 @@
+# WorldEdit configuration for Lobby
+default:
+  locale: en
+history:
+  size: 15
+  buffer-size: 512
+wand-item: minecraft:wooden_axe
+max-blocks-changed:
+  default: 50000
+  maximum: 200000
+use-inventory:
+  creative-mode: false
+  survival-mode: false
+navigation-wand:
+  item: minecraft:compass
+  max-distance: 100
+show-help-on-first-wand-use: false
+metrics: false
+activity-logging:
+  file: worldedit.log

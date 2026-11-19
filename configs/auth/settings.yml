@@ -1,0 +1,45 @@
+# NanoLimbo template. Runtime rendering copies this file to servers/auth/settings.yml.
+# Theme B: Gold & Amber (#f6d365 -> #fda085)
+
+bind:
+  ip: "0.0.0.0"
+  port: 25565
+
+maxPlayers: __NETWORK_MAX_PLAYERS__
+dimension: THE_END
+secureProfile: false
+
+ping:
+  description: "<gradient:__NETWORK_PRIMARY_COLOR__:__NETWORK_SECONDARY_COLOR__>✦ __NETWORK_SHORT_NAME__ ✦</gradient>"
+  version: "<gradient:__NETWORK_PRIMARY_COLOR__:__NETWORK_SECONDARY_COLOR__>__NETWORK_SHORT_NAME__</gradient>"
+  protocol: -1
+
+playerList:
+  enable: true
+  username: "__NETWORK_SHORT_NAME__"
+
+headerAndFooter:
+  enable: true
+  header: "<gradient:__NETWORK_PRIMARY_COLOR__:__NETWORK_SECONDARY_COLOR__><bold>✦ __NETWORK_NAME__ ✦</bold></gradient>"
+  footer: "<gray>__MSG_AUTH_FOOTER__</gray>"
+
+gameMode: 3
+
+joinMessage:
+  enable: true
+  text: "<gradient:__NETWORK_PRIMARY_COLOR__:__NETWORK_SECONDARY_COLOR__><bold>✦ __NETWORK_SHORT_NAME__ ✦</bold></gradient> <dark_gray>» <yellow>__MSG_AUTH_JOIN__</yellow>"
+
+title:
+  enable: true
+  title: "<gradient:__NETWORK_PRIMARY_COLOR__:__NETWORK_SECONDARY_COLOR__><bold>__NETWORK_NAME__</bold></gradient>"
+  subtitle: "<yellow>__MSG_AUTH_SUBTITLE__</yellow>"
+  fadeIn: 10
+  stay: 200
+  fadeOut: 20
+
+infoForwarding:
+  type: MODERN
+  secret: "@/run/secrets/forwarding_secret"
+
+logPlayersIp: false
+debugLevel: 2

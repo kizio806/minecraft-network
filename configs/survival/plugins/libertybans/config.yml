@@ -1,0 +1,104 @@
+# The main LibertyBans configuration
+platforms:
+  game-servers:
+    use-plugin-messaging: false
+  sponge:
+    register-ban-service: true
+  proxies:
+    multiple-proxy-instances: false
+    enforce-server-switch: true
+
+enforcement:
+  alt-account-expiration:
+    enable: false
+    expiration-time-days: 30
+  connection-limiter:
+    limit: 5
+    denial-message: '__MSG_LIBERTYBANS_IP_LIMIT__'
+    enable: false
+    duration-seconds: 1800
+  alts-auto-show:
+    enable: true
+    enable-bypass-permission: false
+    show-which-alts: 'BANNED_OR_MUTED_ALTS'
+  alts-registry:
+    should-register-on-connection: true
+    servers-without-ip-registration:
+      - 'auth'
+  mute-commands:
+    - 'msg'
+    - 'r'
+    - 't'
+    - 'w'
+    - 'tell'
+    - 'me'
+    - 'whisper'
+    - 'say'
+    - 'reply'
+  address-strictness: 'NORMAL'
+
+lang-file: '__LOCALE__'
+date-formatting:
+  timezone: 'UTC'
+  format: 'dd.MM.yyyy HH:mm'
+
+durationPermissions:
+  enable: false
+  permissions-to-check:
+    - 'perm'
+    - '4h'
+    - '30d'
+    - '10d'
+
+player-uuid-resolution:
+  web-api-resolvers:
+    - 'MOJANG'
+  force-geyser-prefix: ''
+  server-type: 'ONLINE'
+
+reasons:
+  unspecified-reason-behavior: 'SUBSTITUTE_DEFAULT'
+  permit-blank: false
+  default-reason: '__MSG_LIBERTYBANS_DEFAULT_REASON__'
+
+commands:
+  aliases:
+    - 'ban'
+    - 'ipban'
+    - 'ban-ip:ipban'
+    - 'mute'
+    - 'ipmute'
+    - 'warn'
+    - 'ipwarn'
+    - 'kick'
+    - 'ipkick'
+    - 'unban'
+    - 'unbanip'
+    - 'unmute'
+    - 'unmuteip'
+    - 'unwarn'
+    - 'unwarnip'
+    - 'banlist'
+    - 'mutelist'
+    - 'history'
+    - 'warns'
+    - 'blame'
+    - 'alts'
+    - 'accounthistory'
+  use-composite-victims-by-default: false
+  blame-shows-active-only: true
+  show-applicable-for-history: false
+  tab-completion:
+    offline-player-names:
+      enable: false
+      retention-minutes: 4320
+      cache-refresh-seconds: 120
+    use-only-players-on-same-server: true
+    punishment-durations:
+      enable: false
+      durations-to-supply:
+        - 'perm'
+        - '4h'
+        - '30d'
+        - '10d'
+  enable-tab-completion: true

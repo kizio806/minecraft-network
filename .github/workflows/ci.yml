@@ -1,0 +1,144 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Go Test & Coverage
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Run unit tests with race detector and coverage
+        run: |
+          go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: ./coverage.txt
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: true
+
+      - name: Archive code coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage-report
+          path: coverage.txt
+
+  lint:
+    name: Code Quality & Linting
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Check formatting (gofmt)
+        run: |
+          diffs=$(gofmt -l cmd internal)
+          if [ -n "$diffs" ]; then
+            echo "Files not formatted with gofmt:"
+            echo "$diffs"
+            exit 1
+          fi
+
+      - name: Go vet
+        run: go vet ./...
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: v1.64.5
+          args: --timeout=5m
+
+  security:
+    name: Security & Secret Audit
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks Secret Detection
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run Trivy Vulnerability & Misconfig Scanner
+        run: |
+          docker run --rm -v "${PWD}:/repo" aquasec/trivy:0.55.2 config --exit-code 1 --severity HIGH,CRITICAL /repo/docker-compose.yml
+
+  infrastructure:
+    name: Infrastructure & Supply Chain
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Setup Mock Environment for Validation
+        run: |
+          install -d -m 0700 secrets
+          for s in postgres_password luckperms_password forwarding_secret grafana_admin_password veloauth_password ultimateteams_password libertybans_password; do
+            echo "mock_secret_value_32_characters_long" > "secrets/$s"
+            chmod 0600 "secrets/$s"
+          done
+          cp .env.example .env
+          chmod 0600 .env
+
+      - name: Validate Docker Compose Configuration
+        run: |
+          docker compose -f docker-compose.yml config --quiet
+          docker compose -f docker-compose.yml --profile monitoring config --quiet
+
+      - name: Reject Mutable Image Tags (Invariant #2)
+        run: |
+          set -Eeuo pipefail
+          while IFS= read -r image; do
+            [[ "$image" =~ @sha256:[0-9a-f]{64}$ ]] || { echo "ERROR: Unpinned image digest found: $image" >&2; exit 1; }
+          done < <(docker compose -f docker-compose.yml --profile monitoring config --images)
+
+      - name: Build and Validate CLI
+        run: |
+          go build -trimpath -ldflags='-s -w -X github.com/kizio806/minecraft-network/internal/networkcli.Version=ci' -o ./bin/network ./cmd/network
+          ./bin/network doctor
+          ./bin/network plugins validate
+
+      - name: Check Bash Shell Scripts
+        run: |
+          mapfile -t shell_files < <(find scripts infrastructure -type f -name '*.sh' -print 2>/dev/null || true)
+          if [ ${#shell_files[@]} -gt 0 ]; then
+            bash -n "${shell_files[@]}"
+          fi
+
+      - name: Lint YAML Configuration Files
+        run: |
+          python3 -m pip install --user yamllint
+          python3 -m yamllint -d relaxed infrastructure .github locales docker-compose.yml

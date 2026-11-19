@@ -1,0 +1,38 @@
+# Parkour Lobby Configuration
+OnJoin:
+  EnforceWorld: false
+  FillHealth:
+    Enabled: true
+    Amount: 20
+  SetGameMode: SURVIVAL
+  PerCoursePermission: false
+  TeleportPlayer: true
+  BroadcastLevel: NONE
+
+OnCourse:
+  DisableItemDrop: true
+  DisableItemPickup: true
+  DisablePlayerDamage: true
+  DisableFallDamage: true
+  DisableFly: true
+  PreventFireDamage: true
+  SneakToInteractItems: false
+
+OnFinish:
+  BroadcastLevel: WORLD
+  DisplayNewRecords: true
+  DisplayStats: true
+  EnablePrizes: false
+  EnforceCompletion: true
+
+OnLeave:
+  TeleportPlayer: true
+
+ParkourTool:
+  RemovePlayer:
+    Material: REDSTONE
+  RestartConfirm:
+    Material: ARROW
+
+ParkourGUI:
+  Material: BOOK

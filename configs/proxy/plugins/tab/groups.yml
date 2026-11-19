@@ -1,0 +1,58 @@
+# TAB group ordering and LuckPerms-backed prefixes.
+# Configured with semantic theme tokens and i18n placeholders.
+
+owner:
+  tabprefix: "&__THEME_DANGER__&l__MSG_RANK_OWNER__ &__THEME_DANGER__» &f"
+  tagprefix: "&__THEME_DANGER__&l__MSG_RANK_OWNER__ &__THEME_DANGER__» &f"
+  customtabname: "%player%"
+  tabsuffix: " %UltimateTeams_team_prefix%"
+  tagsuffix: " %UltimateTeams_team_prefix%"
+
+administrator:
+  tabprefix: "&__THEME_ACCENT__&l__MSG_RANK_ADMIN__ &__THEME_ACCENT__» &f"
+  tagprefix: "&__THEME_ACCENT__&l__MSG_RANK_ADMIN__ &__THEME_ACCENT__» &f"
+  customtabname: "%player%"
+  tabsuffix: " %UltimateTeams_team_prefix%"
+  tagsuffix: " %UltimateTeams_team_prefix%"
+
+moderator:
+  tabprefix: "&__THEME_PRIMARY__&lMOD &__THEME_PRIMARY__» &f"
+  tagprefix: "&__THEME_PRIMARY__&lMOD &__THEME_PRIMARY__» &f"
+  customtabname: "%player%"
+  tabsuffix: " %UltimateTeams_team_prefix%"
+  tagsuffix: " %UltimateTeams_team_prefix%"
+
+helper:
+  tabprefix: "&__THEME_SUCCESS__&lHELPER &__THEME_SUCCESS__» &f"
+  tagprefix: "&__THEME_SUCCESS__&lHELPER &__THEME_SUCCESS__» &f"
+  customtabname: "%player%"
+  tabsuffix: " %UltimateTeams_team_prefix%"
+  tagsuffix: " %UltimateTeams_team_prefix%"
+
+svip:
+  tabprefix: "&__THEME_GOLD__&lSVIP &__THEME_GOLD__» &f"
+  tagprefix: "&__THEME_GOLD__&lSVIP &__THEME_GOLD__» &f"
+  customtabname: "%player%"
+  tabsuffix: " %UltimateTeams_team_prefix%"
+  tagsuffix: " %UltimateTeams_team_prefix%"
+
+vip:
+  tabprefix: "&__THEME_PRIMARY__&l__MSG_RANK_VIP__ &__THEME_PRIMARY__» &f"
+  tagprefix: "&__THEME_PRIMARY__&l__MSG_RANK_VIP__ &__THEME_PRIMARY__» &f"
+  customtabname: "%player%"
+  tabsuffix: " %UltimateTeams_team_prefix%"
+  tagsuffix: " %UltimateTeams_team_prefix%"
+
+default:
+  tabprefix: "&7__MSG_RANK_PLAYER__ &8» &f"
+  tagprefix: "&7__MSG_RANK_PLAYER__ &8» &f"
+  customtabname: "%player%"
+  tabsuffix: " %UltimateTeams_team_prefix%"
+  tagsuffix: " %UltimateTeams_team_prefix%"
+
+_DEFAULT_:
+  tabprefix: "&7__MSG_RANK_PLAYER__ &8» &f"
+  tagprefix: "&7__MSG_RANK_PLAYER__ &8» &f"
+  customtabname: "%player%"
+  tabsuffix: " %UltimateTeams_team_prefix%"
+  tagsuffix: " %UltimateTeams_team_prefix%"

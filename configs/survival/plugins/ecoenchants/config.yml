@@ -1,0 +1,19 @@
+# EcoEnchants Configuration for AgcSmp
+# Modern custom enchantments seamlessly integrated with anvil and enchanting table
+
+check-for-updates: false
+
+# Enchantment table settings
+enchanting-table:
+  enabled: true
+  chance: 35
+
+# Anvil settings
+anvil:
+  enabled: true
+  max-cost: 39
+
+# Grindstone settings
+grindstone:
+  enabled: true
+  return-custom-enchant-books: false

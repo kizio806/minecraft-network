@@ -1,0 +1,9 @@
+location: lobby:0.5:67.4:5.5
+enabled: true
+pages:
+  1:
+    lines:
+      - content: '<bold><color:__THEME_ACCENT__>__MSG_NPC_CLICK_TO_PLAY__</color></bold>'
+        height: 0.3
+      - content: '<color:__THEME_MUTED__>__MSG_NPC_RIGHT_CLICK__</color>'
+        height: 0.25

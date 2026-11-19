@@ -1,0 +1,28 @@
+# ChunkyBorder Configuration
+# Hardened for competitive network play
+version: 1
+border-options:
+  check-interval: 20
+  message: "__MSG_CHUNKYBORDER_EDGE__"
+  use-action-bar: true
+  effect: ender_signal
+  sound: entity_enderman_teleport
+  prevent-mob-spawns: true
+  prevent-enderpearl: true
+  prevent-chorus-fruit: true
+  prevent-end-gateway: true
+  prevent-trident: true
+  visualizer-enabled: false
+  visualizer-range: 8
+  visualizer-color: 20A0FF
+map-options:
+  enable:
+    bluemap: true
+    dynmap: true
+    pl3xmap: true
+    squaremap: true
+  label: "World Border"
+  hide-by-default: false
+  color: FF0000
+  weight: 3
+  priority: 0

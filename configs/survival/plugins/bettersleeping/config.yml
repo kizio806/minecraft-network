@@ -1,0 +1,25 @@
+# BetterSleeping4 Configuration for AgcSmp
+# Polish localization and sleeping percentage
+
+# The percentage of players that need to sleep to skip the night (20% means 1 in 5 players skips the night)
+percentage_needed: 20
+
+# Number of seconds the sleeping animation takes
+sleep_delay: 2
+
+# Enable clear weather when night is skipped
+clear_weather: true
+
+# Buffs received after a good sleep (regeneration, speed, etc.)
+buffs:
+  enabled: true
+  effects:
+    - REGENERATION:10:1
+
+# Messages from central locales bundle
+messages:
+  sleep_spam: "__MSG_SLEEP_SPAM__"
+  sleeping: "__MSG_SLEEP_SLEEPING__"
+  enough_sleeping: "__MSG_SLEEP_ENOUGH__"
+  good_morning: "__MSG_SLEEP_GOOD_MORNING__"
+  not_sleeping: "__MSG_SLEEP_NOT_SLEEPING__"

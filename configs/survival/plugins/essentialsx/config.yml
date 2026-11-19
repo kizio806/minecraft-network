@@ -1,0 +1,47 @@
+# EssentialsX configuration for Survival SMP (AgcSmp)
+ops-name-color: 'c'
+nickname-prefix: ''
+max-nick-length: 16
+ignore-colors-in-max-nick-length: true
+hide-join-leave-messages: false
+teleport-safety: true
+force-disable-teleport-safety: false
+teleport-cooldown: 5
+teleport-delay: 3
+heal-cooldown: 300
+near-radius: 200
+permission-based-item-spawn: true
+spawn-mob-limit: 30
+warn-on-smite: true
+drop-items-if-full: false
+notify-no-new-mail: false
+item-spawn-blacklist: ''
+per-warp-permission: true
+sort-list-by-groups: false
+login-attack-delay: 5
+max-fly-speed: 0.8
+max-walk-speed: 0.8
+mails-per-minute: 5
+teleport-to-players: true
+register-back-in-listener: true
+economy-enabled: true
+update-check: false
+spawn-on-join: false
+
+chat:
+  radius: 0
+  format: '{DISPLAYNAME}&r %UltimateTeams_team_prefix%&8» &f{MESSAGE}'
+  group-formats: {}
+
+disabled-commands:
+  - ban
+  - mute
+  - kick
+  - unban
+  - unbanip
+  - kit
+  - kits
+  - createkit
+  - delkit
+  - enablekit
+  - disablekit

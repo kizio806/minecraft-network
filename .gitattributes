@@ -1,0 +1,10 @@
+servers/*/world/** filter=lfs diff=lfs merge=lfs -text
+servers/*/world_nether/** filter=lfs diff=lfs merge=lfs -text
+servers/*/world_the_end/** filter=lfs diff=lfs merge=lfs -text
+servers/*/world-archives/** filter=lfs diff=lfs merge=lfs -text
+
+# Lobby world templates are versioned explicitly through Git LFS.
+servers/lobby/lobby/** filter=lfs diff=lfs merge=lfs -text
+servers/lobby/lobby_nether/** filter=lfs diff=lfs merge=lfs -text
+servers/lobby/lobby_the_end/** filter=lfs diff=lfs merge=lfs -text
+servers/lobby/world-archives/** filter=lfs diff=lfs merge=lfs -text

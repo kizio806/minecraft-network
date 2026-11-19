@@ -1,0 +1,8 @@
+# PlaceholderAPI configuration for Lobby
+check-updates: false
+cloud-expansions: false
+boolean:
+  'true': 'yes'
+  'false': 'no'
+date-format: yyyy-MM-dd HH:mm:ss
+debug: false

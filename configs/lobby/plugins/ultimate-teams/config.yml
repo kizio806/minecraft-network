@@ -1,0 +1,23 @@
+database:
+  type: POSTGRESQL
+  mysql:
+    credentials:
+      host: "postgres"
+      port: 5432
+      database: "ultimateteams"
+      username: "ultimateteams_user"
+      password: "__ULTIMATETEAMS_PASSWORD__"
+      parameters: "?sslmode=disable"
+    connection-pool:
+      size: 10
+      idle: 2
+      lifetime: 1800000
+      keepalive: 0
+      timeout: 5000
+
+team:
+  pvp:
+    friendly-fire: false
+  prefix:
+    enabled: true
+    format: "[%name%]"

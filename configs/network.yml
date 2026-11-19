@@ -1,0 +1,54 @@
+# Public, non-secret network identity, theming, and localization.
+# Runtime configuration is rendered from this file during './bin/network install'.
+
+network:
+  name: "Minecraft Network"
+  short-name: "MC Network"
+  domain: "example.com"
+  discord: "discord.gg/example"
+  website: "example.com"
+  motd-line-1: "✦ MC NETWORK ✦"
+  motd-line-2: "Modern Survival SMP 1.21.x"
+  max-players: 50
+
+# Active language: "en" (default) or "pl". Locales reside in locales/*.yml.
+locale: "en"
+
+# Active color theme preset.
+theme:
+  preset: "amber-sunset" # Presets: amber-sunset, cyber-blue, emerald-forest, amethyst-purple
+  presets:
+    amber-sunset:
+      primary: "#f6d365"
+      secondary: "#fda085"
+      accent: "#ff7e5f"
+      danger: "#c9453e"
+      success: "#6fc93e"
+      gold: "#FFD700"
+    cyber-blue:
+      primary: "#00d2ff"
+      secondary: "#3a7bd5"
+      accent: "#00f2fe"
+      danger: "#ff416c"
+      success: "#00b09b"
+      gold: "#f9d423"
+    emerald-forest:
+      primary: "#2ecc71"
+      secondary: "#27ae60"
+      accent: "#a8ff78"
+      danger: "#e74c3c"
+      success: "#2ecc71"
+      gold: "#f1c40f"
+    amethyst-purple:
+      primary: "#a18cd1"
+      secondary: "#fbc2eb"
+      accent: "#8e44ad"
+      danger: "#e74c3c"
+      success: "#2ecc71"
+      gold: "#f39c12"
+
+lobby:
+  display-name: "Lobby"
+
+auth:
+  display-name: "Auth"

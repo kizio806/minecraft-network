@@ -1,0 +1,56 @@
+schema-version: 1
+components:
+  nanolimbo:
+    version: "1.12.0"
+    tag: v1.12.0
+    source: github
+    repository: Nan1t/NanoLimbo
+    download-url: https://github.com/Nan1t/NanoLimbo/releases/download/v1.12.0/NanoLimbo.jar
+    filename: NanoLimbo.jar
+    sha256: 0c9e3bb302333dfe26135af5e366a05dcc41aef59b356f76369c6e32e3efa585
+    minecraft: ["1.21.11"]
+  incendium:
+    version: "5.4.11"
+    tag: "5.4.11"
+    source: modrinth
+    repository: Starmute/Incendium
+    download-url: https://cdn.modrinth.com/data/ZVzW5oNS/versions/rkEubU3f/Incendium_1.21.11_v5.4.11_UNSUPPORTED.zip
+    filename: Incendium_1.21.11_v5.4.11_UNSUPPORTED.zip
+    sha256: 8b1231d62a84454a04c8e2994a4ff84ae2edef5ab6dd881b092de6fabef710bd
+    minecraft: ["1.21.11"]
+  nullscape:
+    version: "1.2.17"
+    tag: "1.2.17"
+    source: modrinth
+    repository: Starmute/Nullscape
+    download-url: https://cdn.modrinth.com/data/LPjGiSO4/versions/6bgYUYfT/Nullscape_1.21.11_v1.2.17.zip
+    filename: Nullscape_1.21.11_v1.2.17.zip
+    sha256: 859395a3ea7dcc9e7e6755191cac029fd86deb353321b323bff51783253eb5e6
+    minecraft: ["1.21.11"]
+  structory:
+    version: "1.3.17"
+    tag: "1.3.17"
+    source: modrinth
+    repository: Apollo/Structory
+    download-url: https://cdn.modrinth.com/data/aKCwCJlY/versions/OIcllpSf/Structory_v1.3.7.zip
+    filename: Structory_v1.3.7.zip
+    sha256: 55f1281b61e556b80771788bb251a3723b3b771681f03149b049de13c89b6a40
+    minecraft: ["1.21.11"]
+  structory-towers:
+    version: "1.0.17"
+    tag: "1.0.17"
+    source: modrinth
+    repository: Apollo/Structory-Towers
+    download-url: https://cdn.modrinth.com/data/j3FONRYr/versions/uxUF2h4B/Structory_Towers_v1.0.17.zip
+    filename: Structory_Towers_v1.0.17.zip
+    sha256: 90af7fddea07973fef035b0c99213cc6b4c2baafeeb9c7f8a230b6e256687aa0
+    minecraft: ["1.21.11"]
+  dungeons-and-taverns:
+    version: "v5.1.0"
+    tag: "v5.1.0"
+    source: modrinth
+    repository: NovaWrex/Dungeons-and-Taverns
+    download-url: https://cdn.modrinth.com/data/tpehi7ww/versions/HLvm1mCw/Dungeons%20and%20Taverns%20v5.1.0.zip
+    filename: Dungeons_and_Taverns_v5.1.0.zip
+    sha256: 9879db902386ad5a4c0468a547268c36895e5babc7e141c7db16f4f05e4373b6
+    minecraft: ["1.21.11"]

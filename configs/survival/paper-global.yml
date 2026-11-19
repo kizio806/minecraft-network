@@ -1,0 +1,10 @@
+proxies:
+  velocity:
+    enabled: true
+    online-mode: false
+    secret: "__FORWARDING_SECRET__"
+
+block-updates:
+  disable-noteblock-updates: true
+  disable-tripwire-updates: true
+

@@ -1,0 +1,10 @@
+# EcoItems Configuration for AgcSmp
+# Custom items, weapons, tools, and armor with special effects and recipes
+
+check-for-updates: false
+
+# Recipe discovery
+discover-recipes: true
+
+# Crafting sound
+crafting-sound: "entity.player.levelup"

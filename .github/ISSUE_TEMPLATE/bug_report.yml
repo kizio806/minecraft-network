@@ -1,0 +1,69 @@
+name: "🐛 Bug Report"
+description: "File an actionable bug report with reproduction steps"
+title: "fix: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue! Please do **not** post real secrets, passwords, or private keys.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: Describe what happened and what you expected to happen.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component Affected
+      description: Which part of the network infrastructure is having issues?
+      options:
+        - "CLI Tooling (./bin/network)"
+        - "Proxy Server (Velocity)"
+        - "Lobby Server (Paper)"
+        - "Survival SMP (Paper)"
+        - "Authentication (NanoLimbo / VeloAuth)"
+        - "Database (PostgreSQL 16)"
+        - "Monitoring (Prometheus / Grafana)"
+        - "Plugin Supply Chain (manifest / lock)"
+        - "Backup & Restore"
+        - "Docker Compose / Networking"
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Exact steps to reproduce the behavior.
+      value: |
+        1. Run `./bin/network ...`
+        2. Execute `...`
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Info
+      description: Output of `./bin/network doctor` or OS/Docker versions.
+      placeholder: |
+        - OS: Ubuntu 24.04 LTS
+        - Docker: 27.x
+        - Network CLI Version: ...
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Logs
+      description: Paste relevant logs from `./bin/network logs <service>` (sanitize secrets!).
+      render: shell

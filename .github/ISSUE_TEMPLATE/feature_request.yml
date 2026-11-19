@@ -1,0 +1,44 @@
+name: "💡 Feature Request"
+description: "Suggest a new idea or improvement for the network template"
+title: "feat: "
+labels: ["enhancement", "proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please verify that your request aligns with the 5 Golden Invariants in `AGENTS.md` (Zero Redis, Port Isolation, Immutable Digests, Secret Protection, Declarative Supply Chain).
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: Is your feature request related to a problem or DX limitation?
+      placeholder: I'm always frustrated when...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe what you want to happen and how it should work.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Any alternative solutions or workarounds you considered.
+
+  - type: checkboxes
+    id: architectural_alignment
+    attributes:
+      label: Architectural Compliance
+      options:
+        - label: "Does not require Redis (all persistence on PostgreSQL 16)"
+          required: true
+        - label: "Does not leak backend ports (maintains proxy port isolation)"
+          required: true
+        - label: "All container images will be pinned to @sha256 digests"
+          required: true

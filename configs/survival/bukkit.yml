@@ -1,0 +1,13 @@
+# Bukkit configuration for Survival SMP
+settings:
+  allow-end: true
+
+# ==============================================================================
+# Overworld World Generation: TerraformGenerator
+# ------------------------------------------------------------------------------
+# In accordance with ADR 0016, TerraformGenerator is the authoritative procedural
+# world generator engine for the Survival SMP Overworld.
+# ==============================================================================
+worlds:
+  world:
+    generator: TerraformGenerator

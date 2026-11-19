@@ -1,0 +1,37 @@
+run:
+  timeout: 5m
+  tests: true
+  modules-download-mode: readonly
+
+linters:
+  enable:
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - revive
+    - gosec
+    - bodyclose
+    - noctx
+    - errorlint
+
+linters-settings:
+  govet:
+    enable-all: false
+  revive:
+    severity: warning
+    rules:
+      - name: unused-parameter
+        severity: warning
+  gosec:
+    excludes: []
+
+issues:
+  exclude-rules:
+    # Allow mock executable scripts created in test temp dirs
+    - path: _test\.go
+      linters:
+        - gosec
+      text: "G306:"

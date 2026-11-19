@@ -1,0 +1,28 @@
+# CoreProtect Configuration
+# https://coreprotect.net
+
+# General
+verbose: true
+check-updates: false
+
+# Database Settings
+# By default, CoreProtect uses SQLite (local database.db).
+use-mysql: false
+table-prefix: "co_"
+
+# Logging Settings
+rollback-items: true
+rollback-entities: true
+log-block-place: true
+log-block-break: true
+log-player-interactions: true
+log-player-messages: true
+log-player-commands: true
+log-player-sessions: true
+log-player-kill: true
+log-entity-kill: true
+log-entity-create: true
+log-container-transactions: true
+log-item-drops: true
+log-item-pickups: true
+log-world-edit: true

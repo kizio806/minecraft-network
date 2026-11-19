@@ -1,0 +1,53 @@
+## Enable or disable plugin
+enabled: true
+
+## Maximum saves per type per user
+max-saves:
+  join: 10
+  quit: 10
+  death: 50
+  world-change: 10
+  force: 10
+
+## Visible lines in backup GUI (Max: 5)
+backup-lines-visible: 4
+
+## Data folder location ("DEFAULT" points to plugin directory)
+folder-location: 'DEFAULT'
+
+## Local YAML storage (Zero MySQL / Zero Redis)
+mysql:
+  enabled: false
+
+## Sound effects when restoring items
+sounds:
+  teleport:
+    enabled: true
+  inventory:
+    enabled: true
+  food:
+    enabled: true
+  hunger:
+    enabled: true
+  xp:
+    enabled: true
+
+## Timezone and date formatting
+time-zone: 'CET'
+time-format: 'dd/MM/yyyy HH:mm:ss'
+
+## Allow other plugins to edit death inventory
+allow-other-plugins-edit-death-inventory: false
+
+## Enable direct restore button
+restore-to-player-button: true
+
+## Save empty inventories
+save-empty-inventories: false
+
+## Update checking and telemetry
+update-checker: false
+bStats: false
+
+## Debug mode
+debug: false

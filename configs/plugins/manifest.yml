@@ -1,0 +1,883 @@
+schema-version: 1
+
+environment:
+  minecraft-version: "1.21.11"
+  backend: purpur
+  proxy: velocity
+  java: "25"
+
+plugins:
+  # ==========================================
+  # Velocity Proxy Plugins
+  # ==========================================
+  veloauth:
+    display-name: VeloAuth
+    enabled: true
+    source: modrinth
+    project: awl91tjn
+    version: "1.6.2"
+    version-id: utSLTyeT
+    platform: velocity
+    servers: [proxy]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: [authme, authmevelocity, fastlogin]
+    required-java: "25"
+    config-dir: configs/proxy/plugins/veloauth
+    license: MIT
+  luckperms:
+    display-name: LuckPerms (Velocity)
+    enabled: true
+    source: modrinth
+    project: Vebnzrzj
+    version: "v5.5.71-velocity"
+    version-id: tamnmXad
+    platform: velocity
+    servers: [proxy]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: [authme, fastlogin]
+    required-java: "25"
+    config-dir: configs/proxy/plugins/luckperms
+    license: MIT
+  minimotd:
+    display-name: MiniMOTD
+    enabled: true
+    source: modrinth
+    project: 16vhQOQN
+    version: "2.2.2"
+    version-id: VJZkuJ7o
+    platform: velocity
+    servers: [proxy]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "25"
+    config-dir: configs/proxy/plugins/minimotd-velocity
+    license: MIT
+  tab:
+    display-name: TAB
+    enabled: true
+    source: modrinth
+    project: gG7VFbG0
+    version: "6.2.0"
+    version-id: UDraViyI
+    platform: velocity
+    servers: [proxy]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "25"
+    config-dir: configs/proxy/plugins/tab
+    config-target-dir: tab
+    license: Apache-2.0
+  velocityscoreboardapi:
+    display-name: VelocityScoreboardAPI
+    enabled: true
+    source: modrinth
+    project: geXu0xsn
+    version: "2.1.1"
+    version-id: 8bShOuaK
+    platform: velocity
+    servers: [proxy]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    license: MIT
+  skinsrestorer:
+    display-name: SkinsRestorer
+    enabled: true
+    source: modrinth
+    project: TsLS8Py5
+    version: "15.12.6"
+    version-id: ziIzW16f
+    platform: velocity
+    servers: [proxy]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "25"
+    config-dir: configs/proxy/plugins/skinsrestorer
+    config-target-dir: SkinsRestorer
+    license: GPL-3.0-only
+  ultimateantibot:
+    display-name: UltimateAntiBot
+    enabled: true
+    source: modrinth
+    project: K5DNl62U
+    version: "4.1.2-ABYSS"
+    version-id: uts8tVPz
+    platform: velocity
+    servers: [proxy]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "25"
+    config-dir: configs/proxy/plugins/ultimateantibot
+    config-target-dir: ultimateantibot-velocity
+    license: GPL-3.0-only
+  voicechat-velocity:
+    display-name: Simple Voice Chat (Velocity)
+    enabled: true
+    source: modrinth
+    project: 9eGKb6K1
+    version: "velocity-2.6.26"
+    version-id: Ue35nhwF
+    platform: velocity
+    servers: [proxy]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "25"
+    config-dir: configs/proxy/plugins/voicechat
+    config-target-dir: voicechat
+    license: LGPL-3.0-only
+
+  # ==========================================
+  # Lobby Backend Plugins (Purpur / Paper)
+  # ==========================================
+  luckperms-bukkit:
+    display-name: LuckPerms (Bukkit/Purpur)
+    enabled: true
+    source: modrinth
+    project: Vebnzrzj
+    version: "v5.5.71-bukkit"
+    version-id: b0mk8uS6
+    platform: paper
+    servers: [lobby, survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/lobby/plugins/luckperms
+    config-target-dir: LuckPerms
+    license: MIT
+  placeholderapi:
+    display-name: PlaceholderAPI
+    enabled: true
+    source: modrinth
+    project: lKEzGugV
+    version: "2.11.7"
+    version-id: sn9LYZkM
+    platform: paper
+    servers: [lobby, survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/lobby/plugins/placeholderapi
+    config-target-dir: PlaceholderAPI
+    license: GPL-3.0-only
+  fancynpcs:
+    display-name: FancyNpcs
+    enabled: true
+    source: modrinth
+    project: EeyAn23L
+    version: "2.12.1"
+    version-id: LigxTtVw
+    platform: paper
+    servers: [lobby]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: [citizens, citizens2]
+    required-java: "25"
+    config-dir: configs/lobby/plugins/fancynpcs
+    config-target-dir: FancyNpcs
+    license: MIT
+  worldedit:
+    display-name: WorldEdit
+    enabled: true
+    source: modrinth
+    project: 1u6JkXh5
+    version: "7.3.18"
+    version-id: XlUIRmF8
+    platform: paper
+    servers: [lobby, survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/lobby/plugins/worldedit
+    config-target-dir: WorldEdit
+    license: GPL-3.0-only
+  worldguard:
+    display-name: WorldGuard
+    enabled: true
+    source: modrinth
+    project: DKY9btbd
+    version: "7.0.16"
+    version-id: EZl3moba
+    platform: paper
+    servers: [lobby, survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [worldedit]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/lobby/plugins/worldguard
+    config-target-dir: WorldGuard
+    license: GPL-3.0-only
+  worldguardextraflags:
+    display-name: WorldGuard Extra Flags
+    enabled: true
+    source: github
+    project: "aromaa/WorldGuardExtraFlags#WorldGuardExtraFlags.jar"
+    version: "4.2.4"
+    version-id: "v4.2.4"
+    platform: paper
+    servers: [lobby, survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [worldguard]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/lobby/plugins/worldguardextraflags
+    config-target-dir: WorldGuardExtraFlags
+    license: MIT
+  essentialsx:
+    display-name: EssentialsX
+    enabled: true
+    source: modrinth
+    project: hXiIvTyT
+    version: "2.22.0"
+    version-id: nY6VN1XH
+    platform: paper
+    servers: [lobby, survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/lobby/plugins/essentialsx
+    config-target-dir: Essentials
+    license: GPL-3.0-only
+  vault:
+    display-name: Vault
+    enabled: true
+    source: github
+    project: "MilkBowl/Vault#Vault.jar"
+    version: "1.7.3"
+    version-id: "1.7.3"
+    platform: paper
+    servers: [lobby, survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    license: LGPL-3.0
+  essentialsxspawn:
+    display-name: EssentialsX Spawn
+    enabled: true
+    source: github
+    project: "EssentialsX/Essentials#EssentialsXSpawn-2.22.0.jar"
+    version: "2.22.0"
+    version-id: "2.22.0"
+    platform: paper
+    servers: [lobby, survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [essentialsx]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/lobby/plugins/essentialsxspawn
+    config-target-dir: EssentialsSpawn
+    license: GPL-3.0-only
+  essentialsxchat:
+    display-name: EssentialsXChat
+    enabled: true
+    source: github
+    project: "EssentialsX/Essentials#EssentialsXChat-2.22.0.jar"
+    version: "2.22.0"
+    version-id: "2.22.0"
+    platform: paper
+    servers: [lobby, survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [essentialsx]
+    incompatible-with: []
+    required-java: "21"
+    license: GPL-3.0-only
+  deluxemenus:
+    display-name: DeluxeMenus
+    enabled: true
+    source: modrinth
+    project: kKZkPgJ7
+    version: "1.14.1-Release"
+    version-id: PNKQ6RMs
+    platform: paper
+    servers: [lobby]
+    release-channel: release
+    update-policy: manual
+    dependencies: [placeholderapi]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/lobby/plugins/deluxemenus
+    config-target-dir: DeluxeMenus
+    license: GPL-3.0-only
+  decentholograms:
+    display-name: DecentHolograms
+    enabled: true
+    source: modrinth
+    project: w02MKsTg
+    version: "2.10.2"
+    version-id: fbE7wARc
+    platform: paper
+    servers: [lobby]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/lobby/plugins/decentholograms
+    config-target-dir: DecentHolograms
+    license: GPL-3.0-only
+  skinsrestorer-bukkit:
+    display-name: SkinsRestorer (Paper/Bukkit)
+    enabled: true
+    source: modrinth
+    project: TsLS8Py5
+    version: "15.12.6"
+    version-id: ziIzW16f
+    platform: paper
+    servers: [lobby, survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/lobby/plugins/skinsrestorer
+    config-target-dir: SkinsRestorer
+    license: GPL-3.0-only
+  coreprotect:
+    display-name: CoreProtect
+    enabled: true
+    source: modrinth
+    project: Lu3KuzdV
+    version: "24.1"
+    version-id: 3sehX6Sg
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/coreprotect
+    config-target-dir: CoreProtect
+    license: CoreProtect-License
+  packetevents:
+    display-name: PacketEvents
+    enabled: true
+    source: modrinth
+    project: HYKaKraK
+    version: "2.14.0+spigot"
+    version-id: m78nFxYg
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    license: Apache-2.0
+  grimac:
+    display-name: GrimAC
+    enabled: true
+    source: modrinth
+    project: LJNGWSvH
+    version: "2.3.75-5c12799"
+    version-id: GqmXpEbb
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [packetevents]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/grimac
+    config-target-dir: GrimAC
+    license: GPL-3.0-only
+  raycasted-anti-esp:
+    display-name: Raycasted Anti-ESP
+    enabled: true
+    source: modrinth
+    project: bCjNZu0C
+    version: "0.7.2-Paper-0.10.2"
+    version-id: rhtqEgK7
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [packetevents]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/raycasted-anti-esp
+    config-target-dir: RaycastedAntiESP
+    license: GPL-3.0-only
+  nbt-api:
+    display-name: NBTAPI
+    enabled: true
+    source: modrinth
+    project: nfGCP9fk
+    version: "2.16.1"
+    version-id: h7feK39u
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    license: MIT
+  anarchyexploitfixes:
+    display-name: AnarchyExploitFixes
+    enabled: true
+    source: modrinth
+    project: pILEwgSo
+    version: "2.7.12-Modern"
+    version-id: xCZkiqjU
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [nbt-api]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/anarchyexploitfixes
+    config-target-dir: AnarchyExploitFixes
+    license: GPL-3.0-only
+  chunky:
+    display-name: Chunky
+    enabled: true
+    source: modrinth
+    project: fALzjamp
+    version: "1.5.66"
+    version-id: RBuKjN4k
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/chunky
+    config-target-dir: Chunky
+    license: GPL-3.0-only
+  ultimate-teams:
+    display-name: UltimateTeams
+    enabled: true
+    source: modrinth
+    project: O5OQXCl8
+    version: "5.0.3"
+    version-id: lMAye6s1
+    platform: paper
+    servers: [lobby, survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [placeholderapi]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/ultimate-teams
+    config-target-dir: UltimateTeams
+    license: GPL-3.0-only
+  tab-bridge:
+    display-name: TAB-Bridge
+    enabled: true
+    source: modrinth
+    project: kG3hVbBX
+    version: "6.2.3"
+    version-id: gFxQoURR
+    platform: paper
+    servers: [lobby, survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [placeholderapi]
+    incompatible-with: []
+    required-java: "21"
+    license: Apache-2.0
+  dimension-toggler:
+    display-name: ToggleDimensions
+    enabled: true
+    source: modrinth
+    project: x8wNfvtt
+    version: "1.0.0"
+    version-id: GUSgWaCM
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/dimension-toggler
+    config-target-dir: ToggleDimensions
+    license: MIT
+  pvpmanager:
+    display-name: PvPManager
+    enabled: true
+    source: modrinth
+    project: 1Ffl2uIq
+    version: "4.0.30"
+    version-id: eKgXGdO2
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [vault]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/pvpmanager
+    config-target-dir: PvPManager
+    license: GPL-3.0-only
+  invsee-plus-plus:
+    display-name: InvSee++
+    enabled: true
+    source: modrinth
+    project: bYazc7fd
+    version: "0.31.22"
+    version-id: LmdQx1rG
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/invsee-plus-plus
+    config-target-dir: InvSeePlusPlus
+    license: GPL-3.0-only
+  libertybans:
+    display-name: LibertyBans
+    enabled: true
+    source: modrinth
+    project: PgXAUxLZ
+    version: "1.1.4"
+    version-id: 7WLjonzv
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/libertybans
+    config-target-dir: LibertyBans
+    license: LGPL-3.0-only
+  voicechat:
+    display-name: Simple Voice Chat
+    enabled: true
+    source: modrinth
+    project: 9eGKb6K1
+    version: "bukkit-2.6.27"
+    version-id: 3Br8wxJY
+    platform: paper
+    servers: [lobby, survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/voicechat
+    config-target-dir: voicechat
+    license: LGPL-3.0-only
+  terraformgenerator:
+    display-name: TerraformGenerator
+    enabled: true
+    source: modrinth
+    project: 8JQgYY94
+    version: "28.1.0"
+    version-id: GgKBUf9C
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/terraformgenerator
+    config-target-dir: TerraformGenerator
+    license: MIT
+  betterstructures:
+    display-name: BetterStructures
+    enabled: true
+    source: modrinth
+    project: KYXglN2M
+    version: "2.7.12"
+    version-id: UCCei1Tz
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [worldedit]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/betterstructures
+    config-target-dir: BetterStructures
+    license: Custom
+  gsit:
+    display-name: GSit
+    enabled: true
+    source: modrinth
+    project: GOHbQGyX
+    version: "3.8.0"
+    version-id: ybfOKLzp
+    platform: paper
+    servers: [lobby, survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/gsit
+    config-target-dir: GSit
+    license: GPL-3.0-only
+  bettersleeping:
+    display-name: BetterSleeping
+    enabled: true
+    source: github
+    project: "Nuytemans-Dieter/BetterSleeping#BetterSleeping.jar"
+    version: "4.0.2"
+    version-id: "v4.0.2"
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/bettersleeping
+    config-target-dir: BetterSleeping4
+    license: GPL-3.0-only
+  interactivechat:
+    display-name: InteractiveChat
+    enabled: true
+    source: modrinth
+    project: VOenPQ01
+    version: "2026.1.3.0"
+    version-id: XMxzktgX
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [placeholderapi, packetevents]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/interactivechat
+    config-target-dir: InteractiveChat
+    license: GPL-3.0-only
+  eco:
+    display-name: eco
+    enabled: true
+    source: modrinth
+    project: E4spwmyA
+    version: "2026.46"
+    version-id: olHJLVru
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/eco
+    config-target-dir: eco
+    license: Custom
+  libreforge:
+    display-name: libreforge
+    enabled: true
+    source: auxilor
+    project: libreforge
+    version: "2026.46"
+    version-id: "2026.46"
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [eco]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/libreforge
+    config-target-dir: libreforge
+    license: Proprietary
+  ecoskills:
+    display-name: EcoSkills
+    enabled: true
+    source: auxilor
+    project: EcoSkills
+    version: "2026.46"
+    version-id: "2026.46"
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [eco]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/ecoskills
+    config-target-dir: EcoSkills
+    license: Proprietary
+  ecoenchants:
+    display-name: EcoEnchants
+    enabled: true
+    source: auxilor
+    project: EcoEnchants
+    version: "2026.46"
+    version-id: "2026.46"
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [eco]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/ecoenchants
+    config-target-dir: EcoEnchants
+    license: Proprietary
+  ecoitems:
+    display-name: EcoItems
+    enabled: true
+    source: auxilor
+    project: EcoItems
+    version: "2026.46"
+    version-id: "2026.46"
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [eco]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/ecoitems
+    config-target-dir: EcoItems
+    license: Proprietary
+  inventoryrollbackplus:
+    display-name: InventoryRollbackPlus
+    enabled: true
+    source: modrinth
+    project: XWKWAzd8
+    version: "1.8.5"
+    version-id: eDsOfX6z
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/inventoryrollbackplus
+    config-target-dir: InventoryRollbackPlus
+    license: GPL-3.0-or-later
+  anti-autototem:
+    display-name: Anti Autototem
+    enabled: true
+    source: modrinth
+    project: O0LUbMev
+    version: "1.0"
+    version-id: 1QE8MF0K
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [packetevents]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/anti-autototem
+    config-target-dir: Anti-AutoTotem
+    license: GPL-3.0-only
+  interactivechat-packetevents:
+    display-name: InteractiveChat-PacketEvents
+    enabled: true
+    source: github
+    project: TerraByteDev/InteractiveChat-PacketEvents
+    version: "1.3.2"
+    version-id: "1.3.2"
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [interactivechat, packetevents]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/interactivechat-packetevents
+    config-target-dir: InteractiveChat-PacketEvents
+    license: LGPL-3.0-only
+  itemjoin:
+    display-name: ItemJoin
+    enabled: true
+    source: modrinth
+    project: 8OiYKudu
+    version: "6.1.9"
+    version-id: b9bEW4dn
+    platform: paper
+    servers: [lobby]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/lobby/plugins/itemjoin
+    config-target-dir: ItemJoin
+    license: GPL-3.0
+  chunkyborder:
+    display-name: ChunkyBorder
+    enabled: true
+    source: modrinth
+    project: s86X568j
+    version: "1.2.75"
+    version-id: tLk074dt
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: [chunky]
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/chunkyborder
+    config-target-dir: ChunkyBorder
+    license: GPL-3.0
+  fairminimap:
+    display-name: FairMinimap
+    enabled: true
+    source: modrinth
+    project: GFFLCjKJ
+    version: "1.0.0+1.21.7"
+    version-id: 4hkFeUUq
+    platform: paper
+    servers: [survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    license: MIT
+  parkour:
+    display-name: Parkour
+    enabled: true
+    source: modrinth
+    project: LitCivpI
+    version: "7.2.8"
+    version-id: oh1TUeke
+    platform: paper
+    servers: [lobby]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/lobby/plugins/parkour
+    config-target-dir: Parkour
+    license: GPL-3.0

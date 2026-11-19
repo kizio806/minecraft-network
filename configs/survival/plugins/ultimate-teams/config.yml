@@ -1,0 +1,146 @@
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃     UltimateTeams Config     ┃
+# ┃      Developed by xF3d3      ┃
+# ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+# ┃
+# ┗╸ Information: https://modrinth.com/plugin/ultimate-teams
+
+luckperms_hook: true
+use_huskhomes: false
+floodgate_hook: false
+apollo_hook: false
+
+gui:
+  enable: true
+  use_gui_for_team_list: false
+  sort_by_most_players: true
+
+database:
+  type: POSTGRESQL
+  mysql:
+    credentials:
+      host: postgres
+      port: 5432
+      database: ultimateteams
+      username: ultimateteams_user
+      password: "__ULTIMATETEAMS_PASSWORD__"
+      parameters: ?sslmode=disable
+    connection_pool:
+      size: 10
+      idle: 2
+      lifetime: 1800000
+      keepalive: 30000
+      timeout: 20000
+  table_names:
+    user_data: ultimateteams_users
+    team_data: ultimateteams_teams
+
+cross_server:
+  enable: false
+  server_name: Survival
+  cluster_id: main
+  broker: PLUGIN_MESSAGE
+  redis:
+    host: localhost
+    port: 6379
+    password: ''
+    use_ssl: false
+
+placeholder:
+  not_in_a_team: ''
+
+team:
+  cancel_tp: true
+  name:
+    allow_color_codes: false
+    require_perm_for_color_codes: false
+    min_length: 3
+    max_length: 12
+    regex:
+      enable: false
+      value: '[a-zA-Z]+'
+  join:
+    announce: true
+  leave:
+    announce: true
+  size:
+    default_max_team_size: 8
+    stack_members: false
+  home:
+    enabled: true
+    tp_delay: 3
+    cool_down:
+      enabled: true
+      time: 60
+  pvp:
+    enabled: true
+    bypass_permission: true
+    default_allow_pvp: false
+  warp:
+    enable: true
+    tp_delay: 3
+    limit: 2
+    stack_warps: false
+    cool_down:
+      enabled: true
+      time: 60
+  chat:
+    enabled: true
+    prefix: '__MSG_TEAMS_CHAT_PREFIX__'
+  allies:
+    enabled: true
+    max_allies: 4
+    chat:
+      enabled: true
+      prefix: '__MSG_TEAMS_ALLIES_CHAT_PREFIX__'
+  enemies:
+    enabled: true
+    max_enemies: 2
+  prefix:
+    allow_color_codes: true
+    require_perm_for_color_codes: false
+    min_length: 3
+    max_length: 8
+    regex:
+      enable: false
+      value: '[a-zA-Z]+'
+    disallowed_tags:
+    - Gamers
+    - Rise
+    - Up
+    prefix_add_space_after: false
+    prefix_add_brackets: true
+    brackets_opening: '&8[&e'
+    brackets_closing: '&8]'
+  motd:
+    enable: true
+    send_on_join: true
+    allow_colors: false
+    colors_require_perm: false
+    length:
+      min: 5
+      max: 30
+    regex:
+      enable: false
+      value: '[a-zA-Z]+'
+  echest:
+    enabled: true
+    rows: 3
+    migrate: false
+
+chat:
+  chat_spy:
+    enabled: true
+    prefix: '&6[&cSPY&6]&r'
+
+economy:
+  enable: false
+
+plugin_update_notifications:
+  enabled: false
+
+general:
+  run_auto_invite_wipe_task: true
+  run_auto_invite_wipe_task_log: false
+  echest_backup_log: false
+  developer_debug_mode: false

@@ -1,0 +1,15 @@
+# EssentialsX Spawn configuration for Lobby
+# Actual coordinates will be set after the Lobby world layout is built.
+spawn-on-join:
+  default: true
+respawn-at-home: false
+respawn-at-anchor: false
+respawn-at-bed: false
+spawn-points:
+  default:
+    world: lobby
+    x: 0.0
+    y: -1.0
+    z: 0.0
+    yaw: 0.0
+    pitch: 0.0

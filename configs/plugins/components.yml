@@ -1,0 +1,80 @@
+schema-version: 1
+
+environment:
+  minecraft-version: "1.21.11"
+
+components:
+  nanolimbo:
+    display-name: NanoLimbo
+    enabled: true
+    source: github
+    repository: Nan1t/NanoLimbo
+    version: "1.12.0"
+    tag: v1.12.0
+    artifact: NanoLimbo.jar
+    platform: standalone
+    target: auth
+    minecraft: ["1.21.11"]
+    required-java: "21"
+    update-policy: manual
+    license: Apache-2.0
+  incendium:
+    display-name: Incendium
+    enabled: true
+    source: modrinth
+    project: ZVzW5oNS
+    version: "5.4.11"
+    version-id: rkEubU3f
+    platform: datapack
+    target: survival
+    minecraft: ["1.21.11"]
+    update-policy: manual
+    license: Custom
+  nullscape:
+    display-name: Nullscape
+    enabled: true
+    source: modrinth
+    project: LPjGiSO4
+    version: "1.2.17"
+    version-id: 6bgYUYfT
+    platform: datapack
+    target: survival
+    minecraft: ["1.21.11"]
+    update-policy: manual
+    license: Custom
+  structory:
+    display-name: Structory
+    enabled: true
+    source: modrinth
+    project: aKCwCJlY
+    version: "1.3.17"
+    version-id: OIcllpSf
+    platform: datapack
+    target: survival
+    minecraft: ["1.21.11"]
+    update-policy: manual
+    license: Custom
+  structory-towers:
+    display-name: "Structory: Towers"
+    enabled: true
+    source: modrinth
+    project: j3FONRYr
+    version: "1.0.17"
+    version-id: uxUF2h4B
+    platform: datapack
+    target: survival
+    minecraft: ["1.21.11"]
+    update-policy: manual
+    license: Custom
+  dungeons-and-taverns:
+    display-name: "Dungeons and Taverns"
+    enabled: true
+    source: modrinth
+    project: tpehi7ww
+    version: "v5.1.0"
+    version-id: HLvm1mCw
+    platform: datapack
+    target: survival
+    minecraft: ["1.21.11"]
+    update-policy: manual
+    license: Custom
