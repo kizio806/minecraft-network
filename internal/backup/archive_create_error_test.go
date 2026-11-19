@@ -14,14 +14,13 @@ func TestCreateBackupArchive_AddTreeError(t *testing.T) {
 	if err := os.MkdirAll(root, 0700); err != nil {
 		t.Fatal(err)
 	}
-	// A self-referential symlink makes os.Stat fail with ELOOP, exercising
-	// CreateBackupArchive's AddTree error return path.
+
+	// The self-referential symlink makes os.Stat fail with ELOOP.
 	if err := os.Symlink("configs", filepath.Join(root, "configs")); err != nil {
 		t.Fatal(err)
 	}
 
-	err := backup.CreateBackupArchive(root, filepath.Join(temp, "stage"), filepath.Join(temp, "backup.tar.gz"))
-	if err == nil {
+	if err := backup.CreateBackupArchive(root, filepath.Join(temp, "stage"), filepath.Join(temp, "backup.tar.gz")); err == nil {
 		t.Fatal("expected error for invalid configs path, got nil")
 	}
 }
@@ -36,14 +35,35 @@ func TestCreateBackupArchive_AddPathError(t *testing.T) {
 	if err := os.MkdirAll(stage, 0700); err != nil {
 		t.Fatal(err)
 	}
-	// A self-referential symlink makes os.Stat fail with ELOOP, exercising
-	// CreateBackupArchive's AddPath error return path.
+
+	// The self-referential symlink makes os.Stat fail with ELOOP.
 	if err := os.Symlink("postgres.dump", filepath.Join(stage, "postgres.dump")); err != nil {
 		t.Fatal(err)
 	}
 
-	err := backup.CreateBackupArchive(root, stage, filepath.Join(temp, "backup.tar.gz"))
-	if err == nil {
+	if err := backup.CreateBackupArchive(root, stage, filepath.Join(temp, "backup.tar.gz")); err == nil {
 		t.Fatal("expected error for invalid staged dump path, got nil")
+	}
+}
+
+func TestCreateBackupArchive_RenameError(t *testing.T) {
+	temp := t.TempDir()
+	root := filepath.Join(temp, "project")
+	stage := filepath.Join(temp, "stage")
+	if err := os.MkdirAll(root, 0700); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.MkdirAll(stage, 0700); err != nil {
+		t.Fatal(err)
+	}
+
+	// Renaming the temporary archive onto an existing directory must fail.
+	destination := filepath.Join(temp, "existing-directory")
+	if err := os.Mkdir(destination, 0700); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := backup.CreateBackupArchive(root, stage, destination); err == nil {
+		t.Fatal("expected rename error, got nil")
 	}
 }
