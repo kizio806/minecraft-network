@@ -61,53 +61,60 @@ func DefaultInitConfig() InitConfig {
 	}
 }
 
-// RunWizard launches an interactive terminal form to configure network parameters.
-func RunWizard(cfg *InitConfig) error {
-	if cfg.NonInteractive || !term.IsTerminal(os.Stdin.Fd()) {
-		return nil
+// ValidateName checks that the network name is non-empty.
+func ValidateName(s string) error {
+	if strings.TrimSpace(s) == "" {
+		return fmt.Errorf("name cannot be empty")
 	}
+	return nil
+}
 
-	banner := TitleStyle.Render("✦ MINECRAFT NETWORK — INITIALIZATION WIZARD ✦")
-	fmt.Println(HeaderBox.Render(banner + "\n" +
-		lipgloss.NewStyle().Foreground(lipgloss.Color("#a8a8a8")).
-			Render("Configure your server identity, branding, limits and active locale.")))
+// ValidateShortName checks that the network short name is non-empty.
+func ValidateShortName(s string) error {
+	if strings.TrimSpace(s) == "" {
+		return fmt.Errorf("short name cannot be empty")
+	}
+	return nil
+}
 
-	maxPlayersStr := strconv.Itoa(cfg.MaxPlayers)
+// ValidateDomain checks that the network domain is non-empty.
+func ValidateDomain(s string) error {
+	if strings.TrimSpace(s) == "" {
+		return fmt.Errorf("domain cannot be empty")
+	}
+	return nil
+}
 
-	form := huh.NewForm(
+// ValidateMaxPlayers checks that the max players limit is a positive integer.
+func ValidateMaxPlayers(s string) error {
+	v, err := strconv.Atoi(strings.TrimSpace(s))
+	if err != nil || v < 1 {
+		return fmt.Errorf("must be a positive number")
+	}
+	return nil
+}
+
+// BuildWizardForm constructs the interactive terminal form for configuring network parameters.
+func BuildWizardForm(cfg *InitConfig, maxPlayersStr *string) *huh.Form {
+	return huh.NewForm(
 		huh.NewGroup(
 			huh.NewInput().
 				Title("Network Display Name").
 				Description("Public title displayed across menus and titles").
 				Value(&cfg.Name).
-				Validate(func(s string) error {
-					if strings.TrimSpace(s) == "" {
-						return fmt.Errorf("name cannot be empty")
-					}
-					return nil
-				}),
+				Validate(ValidateName),
 
 			huh.NewInput().
 				Title("Short Name / Tag").
 				Description("Short prefix for chat and notifications").
 				Value(&cfg.ShortName).
-				Validate(func(s string) error {
-					if strings.TrimSpace(s) == "" {
-						return fmt.Errorf("short name cannot be empty")
-					}
-					return nil
-				}),
+				Validate(ValidateShortName),
 
 			huh.NewInput().
 				Title("Primary Domain").
 				Description("Player connection address (e.g. mc.example.com)").
 				Value(&cfg.Domain).
-				Validate(func(s string) error {
-					if strings.TrimSpace(s) == "" {
-						return fmt.Errorf("domain cannot be empty")
-					}
-					return nil
-				}),
+				Validate(ValidateDomain),
 
 			huh.NewInput().
 				Title("Discord Invite Link").
@@ -122,14 +129,8 @@ func RunWizard(cfg *InitConfig) error {
 			huh.NewInput().
 				Title("Max Players Limit").
 				Description("Network concurrency ceiling").
-				Value(&maxPlayersStr).
-				Validate(func(s string) error {
-					v, err := strconv.Atoi(strings.TrimSpace(s))
-					if err != nil || v < 1 {
-						return fmt.Errorf("must be a positive number")
-					}
-					return nil
-				}),
+				Value(maxPlayersStr).
+				Validate(ValidateMaxPlayers),
 
 			huh.NewSelect[string]().
 				Title("Active Locale (In-Game Language)").
@@ -152,7 +153,21 @@ func RunWizard(cfg *InitConfig) error {
 				Value(&cfg.ThemePreset),
 		),
 	)
+}
 
+// RunWizard launches an interactive terminal form to configure network parameters.
+func RunWizard(cfg *InitConfig) error {
+	if cfg.NonInteractive || !term.IsTerminal(os.Stdin.Fd()) {
+		return nil
+	}
+
+	banner := TitleStyle.Render("✦ MINECRAFT NETWORK — INITIALIZATION WIZARD ✦")
+	fmt.Println(HeaderBox.Render(banner + "\n" +
+		lipgloss.NewStyle().Foreground(lipgloss.Color("#a8a8a8")).
+			Render("Configure your server identity, branding, limits and active locale.")))
+
+	maxPlayersStr := strconv.Itoa(cfg.MaxPlayers)
+	form := BuildWizardForm(cfg, &maxPlayersStr)
 	if err := form.Run(); err != nil {
 		return err
 	}

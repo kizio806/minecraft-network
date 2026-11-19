@@ -77,4 +77,12 @@ func TestCopyTree(t *testing.T) {
 	if err := CopyTree(filepath.Join(dir, "nonexistent"), filepath.Join(dir, "out"), 0600); err == nil {
 		t.Fatal("expected error when walking non-existent source directory")
 	}
+
+	// Target directory creation collision (dst has regular file where directory is needed)
+	blockedDst := filepath.Join(dir, "blocked_dst")
+	_ = os.MkdirAll(blockedDst, 0750)
+	_ = os.WriteFile(filepath.Join(blockedDst, "a"), []byte("blocking-file"), 0600)
+	if err := CopyTree(srcDir, blockedDst, 0600); err == nil {
+		t.Fatal("expected error when target directory collides with existing file")
+	}
 }
