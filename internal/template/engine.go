@@ -98,9 +98,9 @@ func (e *Engine) TokenMap() map[string]string {
 	return tokens
 }
 
-// RenderString renders a template string with token replacements and Go text/template parsing.
+// RenderString renders a template string by expanding token placeholders,
+// executing Go text/template syntax, and validating that no unresolved placeholders remain.
 func (e *Engine) RenderString(content string) (string, error) {
-	// 1. Expand all __TOKEN__ placeholders until convergence (handles nested tokens like __NETWORK_DOMAIN__ inside messages)
 	tokens := e.TokenMap()
 	for pass := 0; pass < 5; pass++ {
 		changed := false
@@ -115,7 +115,6 @@ func (e *Engine) RenderString(content string) (string, error) {
 		}
 	}
 
-	// 2. If content contains Go template tags, execute them
 	if strings.Contains(content, "{{") && strings.Contains(content, "}}") {
 		tmpl, err := texttemplate.New("config").Funcs(e.FuncMap()).Parse(content)
 		if err != nil {
@@ -128,7 +127,6 @@ func (e *Engine) RenderString(content string) (string, error) {
 		content = buf.String()
 	}
 
-	// 3. Verify no unresolved placeholders remain
 	for _, prefix := range []string{"__NETWORK_", "__LOBBY_", "__AUTH_", "__FORWARDING_SECRET__", "__THEME_", "__MSG_", "__MISSING_"} {
 		if idx := strings.Index(content, prefix); idx != -1 {
 			end := strings.Index(content[idx+len(prefix):], "__")

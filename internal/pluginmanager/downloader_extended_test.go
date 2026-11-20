@@ -15,79 +15,82 @@ func TestDownload_ExtendedErrors(t *testing.T) {
 	dir := t.TempDir()
 	dest := filepath.Join(dir, "target.jar")
 
-	// 1. HTTP 404
-	ts404 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		http.Error(w, "missing", http.StatusNotFound)
-	}))
-	defer ts404.Close()
+	t.Run("http 404", func(t *testing.T) {
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+			http.Error(w, "missing", http.StatusNotFound)
+		}))
+		defer ts.Close()
 
-	u404, _ := url.Parse(ts404.URL)
-	entry404 := LockEntry{
-		DownloadURL: "https://cdn.modrinth.com/test.jar",
-		Filename:    "test.jar",
-	}
-	client404 := ts404.Client()
-	client404.Transport = roundTripperFunc(func(req *http.Request) (*http.Response, error) {
-		req.URL.Scheme = u404.Scheme
-		req.URL.Host = u404.Host
-		return http.DefaultTransport.RoundTrip(req)
+		u, _ := url.Parse(ts.URL)
+		entry := LockEntry{
+			DownloadURL: "https://cdn.modrinth.com/test.jar",
+			Filename:    "test.jar",
+		}
+		client := ts.Client()
+		client.Transport = roundTripperFunc(func(req *http.Request) (*http.Response, error) {
+			req.URL.Scheme = u.Scheme
+			req.URL.Host = u.Host
+			return http.DefaultTransport.RoundTrip(req)
+		})
+
+		err := download(context.Background(), entry, dest, client)
+		if err == nil || !strings.Contains(err.Error(), "HTTP 404") {
+			t.Fatalf("expected HTTP 404 error, got: %v", err)
+		}
 	})
 
-	err := download(context.Background(), entry404, dest, client404)
-	if err == nil || !strings.Contains(err.Error(), "HTTP 404") {
-		t.Fatalf("expected HTTP 404 error, got: %v", err)
-	}
+	t.Run("exceeds max size", func(t *testing.T) {
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+			w.Header().Set("Content-Length", "105000000")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte("too large header"))
+		}))
+		defer ts.Close()
 
-	// 2. Content-Length exceeds maxArtifactSize (100MB)
-	tsLarge := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		w.Header().Set("Content-Length", "105000000") // 105MB
-		w.WriteHeader(http.StatusOK)
-		_, _ = w.Write([]byte("too large header"))
-	}))
-	defer tsLarge.Close()
+		u, _ := url.Parse(ts.URL)
+		entry := LockEntry{
+			DownloadURL: "https://cdn.modrinth.com/large.jar",
+			Filename:    "large.jar",
+		}
+		client := ts.Client()
+		client.Transport = roundTripperFunc(func(req *http.Request) (*http.Response, error) {
+			req.URL.Scheme = u.Scheme
+			req.URL.Host = u.Host
+			return http.DefaultTransport.RoundTrip(req)
+		})
 
-	uLarge, _ := url.Parse(tsLarge.URL)
-	entryLarge := LockEntry{
-		DownloadURL: "https://cdn.modrinth.com/large.jar",
-		Filename:    "large.jar",
-	}
-	clientLarge := tsLarge.Client()
-	clientLarge.Transport = roundTripperFunc(func(req *http.Request) (*http.Response, error) {
-		req.URL.Scheme = uLarge.Scheme
-		req.URL.Host = uLarge.Host
-		return http.DefaultTransport.RoundTrip(req)
+		err := download(context.Background(), entry, dest, client)
+		if err == nil || !strings.Contains(err.Error(), "exceeds maximum size") {
+			t.Fatalf("expected exceeds maximum size error, got: %v", err)
+		}
 	})
 
-	err = download(context.Background(), entryLarge, dest, clientLarge)
-	if err == nil || !strings.Contains(err.Error(), "exceeds maximum size") {
-		t.Fatalf("expected exceeds maximum size error, got: %v", err)
-	}
+	t.Run("checksum failure", func(t *testing.T) {
+		jarBytes, _, _ := createDummyJar(t)
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write(jarBytes)
+		}))
+		defer ts.Close()
 
-	// 3. Checksum verification failure in download
-	jarBytes, _, _ := createDummyJar(t)
-	tsBadHash := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		_, _ = w.Write(jarBytes)
-	}))
-	defer tsBadHash.Close()
+		u, _ := url.Parse(ts.URL)
+		entry := LockEntry{
+			DownloadURL: "https://cdn.modrinth.com/badhash.jar",
+			Filename:    "badhash.jar",
+			SHA256:      "0000000000000000000000000000000000000000000000000000000000000000",
+		}
+		client := ts.Client()
+		client.Transport = roundTripperFunc(func(req *http.Request) (*http.Response, error) {
+			req.URL.Scheme = u.Scheme
+			req.URL.Host = u.Host
+			return http.DefaultTransport.RoundTrip(req)
+		})
 
-	uBadHash, _ := url.Parse(tsBadHash.URL)
-	entryBadHash := LockEntry{
-		DownloadURL: "https://cdn.modrinth.com/badhash.jar",
-		Filename:    "badhash.jar",
-		SHA256:      "0000000000000000000000000000000000000000000000000000000000000000",
-	}
-	clientBadHash := tsBadHash.Client()
-	clientBadHash.Transport = roundTripperFunc(func(req *http.Request) (*http.Response, error) {
-		req.URL.Scheme = uBadHash.Scheme
-		req.URL.Host = uBadHash.Host
-		return http.DefaultTransport.RoundTrip(req)
+		err := download(context.Background(), entry, dest, client)
+		if err == nil || !strings.Contains(err.Error(), "download integrity") {
+			t.Fatalf("expected download integrity error, got: %v", err)
+		}
 	})
-
-	err = download(context.Background(), entryBadHash, dest, clientBadHash)
-	if err == nil || !strings.Contains(err.Error(), "download integrity") {
-		t.Fatalf("expected download integrity error, got: %v", err)
-	}
 }
 
 func TestSyncComponents_Extended(t *testing.T) {

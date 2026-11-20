@@ -75,7 +75,6 @@ discord:
 		t.Errorf("expected default max players 50, got %d", cfg.Network.MaxPlayers)
 	}
 
-	// Missing file should return error
 	if _, err := discord.LoadConfig(filepath.Join(temp, "nonexistent.yml"), "", "en"); err == nil {
 		t.Error("expected error for missing config file, got nil")
 	}

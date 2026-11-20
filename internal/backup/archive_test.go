@@ -23,13 +23,11 @@ func TestCreateBackupArchive_SuccessAndFiltering(t *testing.T) {
 	_ = os.MkdirAll(filepath.Join(root, "secrets"), 0700)
 	_ = os.MkdirAll(stage, 0700)
 
-	// Valid files
 	_ = os.WriteFile(filepath.Join(root, "configs", "network.yml"), []byte("name: test"), 0600)
 	_ = os.WriteFile(filepath.Join(root, ".env"), []byte("ENV=test"), 0600)
 	_ = os.WriteFile(filepath.Join(root, "secrets", "pass.txt"), []byte("secretpass"), 0600)
 	_ = os.WriteFile(filepath.Join(stage, "postgres.dump"), []byte("pg_dump_content"), 0600)
 
-	// Files that MUST be filtered out
 	_ = os.WriteFile(filepath.Join(root, "servers", "lobby", "logs", "latest.log"), []byte("log data"), 0600)
 	_ = os.WriteFile(filepath.Join(root, "servers", "lobby", "cache", "cached.bin"), []byte("cache data"), 0600)
 
@@ -38,7 +36,6 @@ func TestCreateBackupArchive_SuccessAndFiltering(t *testing.T) {
 		t.Fatalf("CreateBackupArchive failed: %v", err)
 	}
 
-	// Verify entries in destArchive
 	f, err := os.Open(destArchive)
 	if err != nil {
 		t.Fatal(err)
@@ -125,113 +122,117 @@ func TestAddTree_Errors(t *testing.T) {
 
 func TestExtractBackupArchive_Extended(t *testing.T) {
 	temp := t.TempDir()
-
-	// Missing archive file
-	if err := backup.ExtractBackupArchive(filepath.Join(temp, "missing.tar.gz"), temp); err == nil {
-		t.Fatal("expected error for missing archive, got nil")
-	}
-
-	// Corrupt gzip
-	corruptPath := filepath.Join(temp, "corrupt.tar.gz")
-	_ = os.WriteFile(corruptPath, []byte("not-gzip-data"), 0600)
-	if err := backup.ExtractBackupArchive(corruptPath, temp); err == nil {
-		t.Fatal("expected error for corrupt gzip, got nil")
-	}
-
-	// Valid archive with directory header and normal file
-	normalArchive := filepath.Join(temp, "normal.tar.gz")
-	f, _ := os.OpenFile(normalArchive, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
-	gz := gzip.NewWriter(f)
-	tw := tar.NewWriter(gz)
-
-	// Write directory header
-	dirH := &tar.Header{
-		Name:     "subfolder/",
-		Typeflag: tar.TypeDir,
-		Mode:     0700,
-	}
-	_ = tw.WriteHeader(dirH)
-
-	// Write regular file
-	fileContent := []byte("regular file data")
-	fileH := &tar.Header{
-		Name:     "subfolder/file.txt",
-		Typeflag: tar.TypeReg,
-		Mode:     0600,
-		Size:     int64(len(fileContent)),
-	}
-	_ = tw.WriteHeader(fileH)
-	_, _ = tw.Write(fileContent)
-	_ = tw.Close()
-	_ = gz.Close()
-	_ = f.Close()
-
 	extractDir := filepath.Join(temp, "extracted")
-	if err := backup.ExtractBackupArchive(normalArchive, extractDir); err != nil {
-		t.Fatalf("ExtractBackupArchive failed for normal archive: %v", err)
-	}
 
-	extractedContent, err := os.ReadFile(filepath.Join(extractDir, "subfolder", "file.txt"))
-	if err != nil {
-		t.Fatalf("failed reading extracted file: %v", err)
-	}
-	if string(extractedContent) != "regular file data" {
-		t.Fatalf("unexpected content: %s", string(extractedContent))
-	}
-
-	// Traversal: Absolute path
-	absArchive := filepath.Join(temp, "abs.tar.gz")
-	f2, _ := os.OpenFile(absArchive, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
-	gz2 := gzip.NewWriter(f2)
-	tw2 := tar.NewWriter(gz2)
-	_ = tw2.WriteHeader(&tar.Header{Name: "/etc/passwd", Size: 4, Mode: 0600})
-	_, _ = tw2.Write([]byte("root"))
-	_ = tw2.Close()
-	_ = gz2.Close()
-	_ = f2.Close()
-	if err := backup.ExtractBackupArchive(absArchive, extractDir); err == nil || !errors.Is(err, backup.ErrUnsafeArchivePath) {
-		t.Fatalf("expected ErrUnsafeArchivePath for absolute path, got: %v", err)
-	}
-
-	// Traversal: Backslash traversal
-	winArchive := filepath.Join(temp, "win.tar.gz")
-	f3, _ := os.OpenFile(winArchive, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
-	gz3 := gzip.NewWriter(f3)
-	tw3 := tar.NewWriter(gz3)
-	_ = tw3.WriteHeader(&tar.Header{Name: `..\escape.txt`, Size: 4, Mode: 0600})
-	_, _ = tw3.Write([]byte("test"))
-	_ = tw3.Close()
-	_ = gz3.Close()
-	_ = f3.Close()
-	if err := backup.ExtractBackupArchive(winArchive, extractDir); err == nil || !errors.Is(err, backup.ErrUnsafeArchivePath) {
-		t.Fatalf("expected ErrUnsafeArchivePath for win traversal, got: %v", err)
-	}
-
-	// Archive entry exceeds 500 MB limit
-	largeArchive := filepath.Join(temp, "large.tar.gz")
-	f4, _ := os.OpenFile(largeArchive, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
-	gz4, _ := gzip.NewWriterLevel(f4, gzip.BestSpeed)
-	tw4 := tar.NewWriter(gz4)
-	const largeSize int64 = (500 << 20) + 1024
-	_ = tw4.WriteHeader(&tar.Header{
-		Name: "large_file.bin",
-		Size: largeSize,
-		Mode: 0600,
-	})
-	chunk := make([]byte, 8*1024*1024) // 8MB zero chunk
-	for written := int64(0); written < largeSize; {
-		toWrite := int64(len(chunk))
-		if largeSize-written < toWrite {
-			toWrite = largeSize - written
+	t.Run("missing archive", func(t *testing.T) {
+		if err := backup.ExtractBackupArchive(filepath.Join(temp, "missing.tar.gz"), temp); err == nil {
+			t.Fatal("expected error for missing archive, got nil")
 		}
-		_, _ = tw4.Write(chunk[:toWrite])
-		written += toWrite
-	}
-	_ = tw4.Close()
-	_ = gz4.Close()
-	_ = f4.Close()
+	})
 
-	if err := backup.ExtractBackupArchive(largeArchive, extractDir); err == nil || !errors.Is(err, backup.ErrArchiveEntryTooLarge) {
-		t.Fatalf("expected ErrArchiveEntryTooLarge, got: %v", err)
-	}
+	t.Run("corrupt gzip", func(t *testing.T) {
+		corruptPath := filepath.Join(temp, "corrupt.tar.gz")
+		_ = os.WriteFile(corruptPath, []byte("not-gzip-data"), 0600)
+		if err := backup.ExtractBackupArchive(corruptPath, temp); err == nil {
+			t.Fatal("expected error for corrupt gzip, got nil")
+		}
+	})
+
+	t.Run("valid archive", func(t *testing.T) {
+		normalArchive := filepath.Join(temp, "normal.tar.gz")
+		f, _ := os.OpenFile(normalArchive, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
+		gz := gzip.NewWriter(f)
+		tw := tar.NewWriter(gz)
+
+		dirH := &tar.Header{
+			Name:     "subfolder/",
+			Typeflag: tar.TypeDir,
+			Mode:     0700,
+		}
+		_ = tw.WriteHeader(dirH)
+
+		fileContent := []byte("regular file data")
+		fileH := &tar.Header{
+			Name:     "subfolder/file.txt",
+			Typeflag: tar.TypeReg,
+			Mode:     0600,
+			Size:     int64(len(fileContent)),
+		}
+		_ = tw.WriteHeader(fileH)
+		_, _ = tw.Write(fileContent)
+		_ = tw.Close()
+		_ = gz.Close()
+		_ = f.Close()
+
+		if err := backup.ExtractBackupArchive(normalArchive, extractDir); err != nil {
+			t.Fatalf("ExtractBackupArchive failed for normal archive: %v", err)
+		}
+
+		extractedContent, err := os.ReadFile(filepath.Join(extractDir, "subfolder", "file.txt"))
+		if err != nil {
+			t.Fatalf("failed reading extracted file: %v", err)
+		}
+		if string(extractedContent) != "regular file data" {
+			t.Fatalf("unexpected content: %s", string(extractedContent))
+		}
+	})
+
+	t.Run("absolute path traversal", func(t *testing.T) {
+		absArchive := filepath.Join(temp, "abs.tar.gz")
+		f, _ := os.OpenFile(absArchive, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
+		gz := gzip.NewWriter(f)
+		tw := tar.NewWriter(gz)
+		_ = tw.WriteHeader(&tar.Header{Name: "/etc/passwd", Size: 4, Mode: 0600})
+		_, _ = tw.Write([]byte("root"))
+		_ = tw.Close()
+		_ = gz.Close()
+		_ = f.Close()
+		if err := backup.ExtractBackupArchive(absArchive, extractDir); err == nil || !errors.Is(err, backup.ErrUnsafeArchivePath) {
+			t.Fatalf("expected ErrUnsafeArchivePath for absolute path, got: %v", err)
+		}
+	})
+
+	t.Run("backslash traversal", func(t *testing.T) {
+		winArchive := filepath.Join(temp, "win.tar.gz")
+		f, _ := os.OpenFile(winArchive, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
+		gz := gzip.NewWriter(f)
+		tw := tar.NewWriter(gz)
+		_ = tw.WriteHeader(&tar.Header{Name: `..\escape.txt`, Size: 4, Mode: 0600})
+		_, _ = tw.Write([]byte("test"))
+		_ = tw.Close()
+		_ = gz.Close()
+		_ = f.Close()
+		if err := backup.ExtractBackupArchive(winArchive, extractDir); err == nil || !errors.Is(err, backup.ErrUnsafeArchivePath) {
+			t.Fatalf("expected ErrUnsafeArchivePath for win traversal, got: %v", err)
+		}
+	})
+
+	t.Run("entry exceeds size limit", func(t *testing.T) {
+		largeArchive := filepath.Join(temp, "large.tar.gz")
+		f, _ := os.OpenFile(largeArchive, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
+		gz, _ := gzip.NewWriterLevel(f, gzip.BestSpeed)
+		tw := tar.NewWriter(gz)
+		const largeSize int64 = (500 << 20) + 1024
+		_ = tw.WriteHeader(&tar.Header{
+			Name: "large_file.bin",
+			Size: largeSize,
+			Mode: 0600,
+		})
+		chunk := make([]byte, 8*1024*1024)
+		for written := int64(0); written < largeSize; {
+			toWrite := int64(len(chunk))
+			if largeSize-written < toWrite {
+				toWrite = largeSize - written
+			}
+			_, _ = tw.Write(chunk[:toWrite])
+			written += toWrite
+		}
+		_ = tw.Close()
+		_ = gz.Close()
+		_ = f.Close()
+
+		if err := backup.ExtractBackupArchive(largeArchive, extractDir); err == nil || !errors.Is(err, backup.ErrArchiveEntryTooLarge) {
+			t.Fatalf("expected ErrArchiveEntryTooLarge, got: %v", err)
+		}
+	})
 }

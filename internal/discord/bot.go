@@ -345,7 +345,6 @@ func (b *Bot) updateStatusMessage(ctx context.Context) {
 
 	channelID := b.Config.Discord.StatusChannelID
 	if b.statusID == "" {
-		// Try to send new pinned status message
 		msg, err := b.Session.ChannelMessageSendComplex(channelID, &discordgo.MessageSend{
 			Embeds:     []*discordgo.MessageEmbed{embed},
 			Components: []discordgo.MessageComponent{actions},
@@ -358,7 +357,6 @@ func (b *Bot) updateStatusMessage(ctx context.Context) {
 		return
 	}
 
-	// Update existing status message
 	embeds := []*discordgo.MessageEmbed{embed}
 	components := []discordgo.MessageComponent{actions}
 	_, err := b.Session.ChannelMessageEditComplex(&discordgo.MessageEdit{
@@ -368,7 +366,6 @@ func (b *Bot) updateStatusMessage(ctx context.Context) {
 		Components: &components,
 	})
 	if err != nil {
-		// If message was deleted, reset ID to recreate on next cycle
 		b.statusID = ""
 	}
 }

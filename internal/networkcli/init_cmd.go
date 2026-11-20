@@ -14,7 +14,6 @@ import (
 func (a App) initCmd(ctx context.Context, c Config, args []string) error {
 	cfg := tui.DefaultInitConfig()
 
-	// Load existing values from configs/network.yml if present
 	if existing, err := loadNetworkSettings(c.ProjectDir); err == nil {
 		if existing.Network.Name != "" {
 			cfg.Name = existing.Network.Name
@@ -42,7 +41,6 @@ func (a App) initCmd(ctx context.Context, c Config, args []string) error {
 		}
 	}
 
-	// Parse command arguments
 	for i := 0; i < len(args); i++ {
 		switch args[i] {
 		case "-h", "--help":
@@ -90,7 +88,6 @@ func (a App) initCmd(ctx context.Context, c Config, args []string) error {
 		}
 	}
 
-	// Initialize .env from .env.example if missing
 	envPath := filepath.Join(c.ProjectDir, ".env")
 	if _, err := os.Stat(envPath); os.IsNotExist(err) {
 		exampleEnv := filepath.Join(c.ProjectDir, ".env.example")
@@ -102,19 +99,16 @@ func (a App) initCmd(ctx context.Context, c Config, args []string) error {
 		}
 	}
 
-	// Run interactive TUI wizard
 	if err := tui.RunWizard(&cfg); err != nil {
 		return &ExitError{ExitUsageError, fmt.Errorf("wizard error: %w", err)}
 	}
 
-	// Persist configuration
 	if err := tui.WriteNetworkConfig(c.ProjectDir, cfg); err != nil {
 		return &ExitError{ExitLockError, fmt.Errorf("write configs/network.yml: %w", err)}
 	}
 
 	fmt.Fprintln(a.Out, "Configuration saved to configs/network.yml")
 
-	// Acquire lock and execute native installation
 	lock, e := AcquireLock(c.ProjectDir)
 	if e != nil {
 		return &ExitError{ExitLockError, e}

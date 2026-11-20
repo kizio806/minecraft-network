@@ -24,7 +24,6 @@ func TestRunWizardNonInteractive(t *testing.T) {
 		t.Fatalf("expected non-interactive wizard to succeed, got %v", err)
 	}
 
-	// Also test with NonInteractive=false when stdin is not a terminal (like in test runner)
 	cfg2 := DefaultInitConfig()
 	cfg2.NonInteractive = false
 	if err := RunWizard(&cfg2); err != nil {
@@ -33,55 +32,59 @@ func TestRunWizardNonInteractive(t *testing.T) {
 }
 
 func TestValidators(t *testing.T) {
-	// ValidateName
-	if err := ValidateName(""); err == nil {
-		t.Error("expected error for empty name")
-	}
-	if err := ValidateName("   "); err == nil {
-		t.Error("expected error for whitespace name")
-	}
-	if err := ValidateName("My Network"); err != nil {
-		t.Errorf("expected valid name to succeed, got: %v", err)
-	}
+	t.Run("ValidateName", func(t *testing.T) {
+		if err := ValidateName(""); err == nil {
+			t.Error("expected error for empty name")
+		}
+		if err := ValidateName("   "); err == nil {
+			t.Error("expected error for whitespace name")
+		}
+		if err := ValidateName("My Network"); err != nil {
+			t.Errorf("expected valid name to succeed, got: %v", err)
+		}
+	})
 
-	// ValidateShortName
-	if err := ValidateShortName(""); err == nil {
-		t.Error("expected error for empty short name")
-	}
-	if err := ValidateShortName("   "); err == nil {
-		t.Error("expected error for whitespace short name")
-	}
-	if err := ValidateShortName("MN"); err != nil {
-		t.Errorf("expected valid short name to succeed, got: %v", err)
-	}
+	t.Run("ValidateShortName", func(t *testing.T) {
+		if err := ValidateShortName(""); err == nil {
+			t.Error("expected error for empty short name")
+		}
+		if err := ValidateShortName("   "); err == nil {
+			t.Error("expected error for whitespace short name")
+		}
+		if err := ValidateShortName("MN"); err != nil {
+			t.Errorf("expected valid short name to succeed, got: %v", err)
+		}
+	})
 
-	// ValidateDomain
-	if err := ValidateDomain(""); err == nil {
-		t.Error("expected error for empty domain")
-	}
-	if err := ValidateDomain("   "); err == nil {
-		t.Error("expected error for whitespace domain")
-	}
-	if err := ValidateDomain("mc.example.com"); err != nil {
-		t.Errorf("expected valid domain to succeed, got: %v", err)
-	}
+	t.Run("ValidateDomain", func(t *testing.T) {
+		if err := ValidateDomain(""); err == nil {
+			t.Error("expected error for empty domain")
+		}
+		if err := ValidateDomain("   "); err == nil {
+			t.Error("expected error for whitespace domain")
+		}
+		if err := ValidateDomain("mc.example.com"); err != nil {
+			t.Errorf("expected valid domain to succeed, got: %v", err)
+		}
+	})
 
-	// ValidateMaxPlayers
-	if err := ValidateMaxPlayers(""); err == nil {
-		t.Error("expected error for empty max players")
-	}
-	if err := ValidateMaxPlayers("abc"); err == nil {
-		t.Error("expected error for non-numeric max players")
-	}
-	if err := ValidateMaxPlayers("0"); err == nil {
-		t.Error("expected error for 0 max players")
-	}
-	if err := ValidateMaxPlayers("-5"); err == nil {
-		t.Error("expected error for negative max players")
-	}
-	if err := ValidateMaxPlayers(" 100 "); err != nil {
-		t.Errorf("expected valid max players to succeed, got: %v", err)
-	}
+	t.Run("ValidateMaxPlayers", func(t *testing.T) {
+		if err := ValidateMaxPlayers(""); err == nil {
+			t.Error("expected error for empty max players")
+		}
+		if err := ValidateMaxPlayers("abc"); err == nil {
+			t.Error("expected error for non-numeric max players")
+		}
+		if err := ValidateMaxPlayers("0"); err == nil {
+			t.Error("expected error for 0 max players")
+		}
+		if err := ValidateMaxPlayers("-5"); err == nil {
+			t.Error("expected error for negative max players")
+		}
+		if err := ValidateMaxPlayers(" 100 "); err != nil {
+			t.Errorf("expected valid max players to succeed, got: %v", err)
+		}
+	})
 }
 
 func TestWriteNetworkConfig(t *testing.T) {
@@ -91,7 +94,6 @@ func TestWriteNetworkConfig(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// 1. Initial write to new network.yml
 	cfg := DefaultInitConfig()
 	cfg.Name = "Custom Network"
 	cfg.Locale = "pl"
@@ -108,7 +110,6 @@ func TestWriteNetworkConfig(t *testing.T) {
 		t.Fatal("expected non-empty network.yml")
 	}
 
-	// 2. Overwrite / update existing network.yml
 	cfg.ShortName = "UpdatedTag"
 	cfg.MaxPlayers = 250
 	if err := WriteNetworkConfig(tmpDir, cfg); err != nil {
@@ -126,7 +127,6 @@ func TestWriteNetworkConfig(t *testing.T) {
 		t.Fatal("expected non-empty updated content")
 	}
 
-	// 3. Error path when destination directory does not exist and cannot be written
 	if err := WriteNetworkConfig(filepath.Join(tmpDir, "non_existent_folder"), cfg); err == nil {
 		t.Fatal("expected error when writing to non-existent directory without configs subfolder")
 	}

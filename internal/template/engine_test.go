@@ -32,51 +32,57 @@ func TestEngineRenderString(t *testing.T) {
 
 	engine := NewEngine(ctx)
 
-	// Test token replacement
-	input1 := "Welcome: __MSG_MOTD_WELCOME__ on __NETWORK_DOMAIN__ with secret __FORWARDING_SECRET__"
-	got1, err := engine.RenderString(input1)
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-	expected1 := "Welcome: Welcome to TestNet! on test.example.com with secret super-secret-123"
-	if got1 != expected1 {
-		t.Errorf("got %q, want %q", got1, expected1)
-	}
+	t.Run("token replacement", func(t *testing.T) {
+		input := "Welcome: __MSG_MOTD_WELCOME__ on __NETWORK_DOMAIN__ with secret __FORWARDING_SECRET__"
+		got, err := engine.RenderString(input)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		expected := "Welcome: Welcome to TestNet! on test.example.com with secret super-secret-123"
+		if got != expected {
+			t.Errorf("got %q, want %q", got, expected)
+		}
+	})
 
-	// Test Go template syntax
-	input2 := "Hello {{ .Network.ShortName | upper }}! Max: {{ .Network.MaxPlayers }}"
-	got2, err := engine.RenderString(input2)
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-	expected2 := "Hello TESTNET! Max: 100"
-	if got2 != expected2 {
-		t.Errorf("got %q, want %q", got2, expected2)
-	}
+	t.Run("template syntax", func(t *testing.T) {
+		input := "Hello {{ .Network.ShortName | upper }}! Max: {{ .Network.MaxPlayers }}"
+		got, err := engine.RenderString(input)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		expected := "Hello TESTNET! Max: 100"
+		if got != expected {
+			t.Errorf("got %q, want %q", got, expected)
+		}
+	})
 
-	// Test unresolved placeholder rejection
-	input3 := "Unresolved: __MSG_UNKNOWN_PLACEHOLDER__"
-	if _, err := engine.RenderString(input3); err == nil {
-		t.Fatalf("expected error for unresolved placeholder, got nil")
-	}
+	t.Run("unresolved placeholder rejection", func(t *testing.T) {
+		input := "Unresolved: __MSG_UNKNOWN_PLACEHOLDER__"
+		if _, err := engine.RenderString(input); err == nil {
+			t.Fatalf("expected error for unresolved placeholder, got nil")
+		}
+	})
 
-	// Test unresolved prefix without closing __
-	input3b := "Prefix only: __NETWORK_INCOMPLETE"
-	if _, err := engine.RenderString(input3b); err == nil {
-		t.Fatalf("expected error for incomplete placeholder, got nil")
-	}
+	t.Run("incomplete placeholder prefix", func(t *testing.T) {
+		input := "Prefix only: __NETWORK_INCOMPLETE"
+		if _, err := engine.RenderString(input); err == nil {
+			t.Fatalf("expected error for incomplete placeholder, got nil")
+		}
+	})
 
-	// Test template parse error
-	input4 := "Bad template syntax: {{ if }}"
-	if _, err := engine.RenderString(input4); err == nil || !strings.Contains(err.Error(), "parse template") {
-		t.Fatalf("expected parse template error, got: %v", err)
-	}
+	t.Run("parse error", func(t *testing.T) {
+		input := "Bad template syntax: {{ if }}"
+		if _, err := engine.RenderString(input); err == nil || !strings.Contains(err.Error(), "parse template") {
+			t.Fatalf("expected parse template error, got: %v", err)
+		}
+	})
 
-	// Test template execution error
-	input5 := "Execution error: {{ .BadField }}"
-	if _, err := engine.RenderString(input5); err == nil || !strings.Contains(err.Error(), "execute template") {
-		t.Fatalf("expected execute template error, got: %v", err)
-	}
+	t.Run("execution error", func(t *testing.T) {
+		input := "Execution error: {{ .BadField }}"
+		if _, err := engine.RenderString(input); err == nil || !strings.Contains(err.Error(), "execute template") {
+			t.Fatalf("expected execute template error, got: %v", err)
+		}
+	})
 }
 
 func TestEngineFuncMap(t *testing.T) {
@@ -118,7 +124,6 @@ func TestEngineFuncMap(t *testing.T) {
 		})
 	}
 
-	// Test msg function with missing key
 	funcs := engine.FuncMap()
 	msgFn := funcs["msg"].(func(string) string)
 	missing := msgFn("non_existent_key")
@@ -163,7 +168,6 @@ func TestEngineRenderFileAndTree(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// Also put a binary file in srcDir
 	binFile := filepath.Join(srcDir, "logo.png")
 	binContent := []byte{0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A}
 	if err := os.WriteFile(binFile, binContent, 0640); err != nil {
@@ -189,7 +193,6 @@ func TestEngineRenderFileAndTree(t *testing.T) {
 		t.Errorf("got %q, want %q", string(b), "Name: Rendered Name")
 	}
 
-	// Verify binary file was copied as-is
 	dstBinFile := filepath.Join(dstDir, "logo.png")
 	bBin, err := os.ReadFile(dstBinFile)
 	if err != nil {
@@ -199,17 +202,14 @@ func TestEngineRenderFileAndTree(t *testing.T) {
 		t.Error("binary file content changed during copy")
 	}
 
-	// Test RenderTree with non-existent source directory
 	if err := engine.RenderTree(filepath.Join(tmpDir, "non-existent-src"), dstDir); err != nil {
 		t.Fatalf("expected nil for non-existent source dir in RenderTree, got: %v", err)
 	}
 
-	// Test RenderFile errors
 	if err := engine.RenderFile(filepath.Join(tmpDir, "missing.txt"), filepath.Join(dstDir, "out.txt")); err == nil {
 		t.Fatal("expected error for missing source file in RenderFile, got nil")
 	}
 
-	// Test RenderFile template error in source file
 	badSrc := filepath.Join(srcDir, "bad.txt")
 	_ = os.WriteFile(badSrc, []byte("Unresolved: __MSG_MISSING_KEY__"), 0640)
 	if err := engine.RenderFile(badSrc, filepath.Join(dstDir, "bad.txt")); err == nil {

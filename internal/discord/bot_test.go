@@ -51,34 +51,28 @@ func TestDefaultLinker(t *testing.T) {
 	linker := &discord.DefaultLinker{}
 	ctx := context.Background()
 
-	// Link account
 	err := linker.LinkAccount(ctx, "discord_123", "Steve")
 	if err != nil {
 		t.Fatalf("unexpected link error: %v", err)
 	}
 
-	// Verify linked
 	nick, err := linker.GetLinkedAccount(ctx, "discord_123")
 	if err != nil || nick != "Steve" {
 		t.Errorf("expected Steve, got %s (err: %v)", nick, err)
 	}
 
-	// Re-linking to same name succeeds
 	if err := linker.LinkAccount(ctx, "discord_123", "Steve"); err != nil {
 		t.Errorf("expected idempotent link, got %v", err)
 	}
 
-	// Re-linking to different name fails
 	if err := linker.LinkAccount(ctx, "discord_123", "Alex"); err == nil {
 		t.Error("expected error linking to different username, got nil")
 	}
 
-	// Not linked query returns error
 	if _, err := linker.GetLinkedAccount(ctx, "discord_999"); err == nil {
 		t.Error("expected error for unlinked account, got nil")
 	}
 
-	// Whitelist methods execute without error
 	if err := linker.AddToWhitelist(ctx, "Steve"); err != nil {
 		t.Errorf("unexpected whitelist add error: %v", err)
 	}
@@ -92,6 +86,6 @@ func TestBot_StatusLoopNoChannel(_ *testing.T) {
 	bot := discord.NewBot(cfg, nil, nil, nil)
 
 	ctx, cancel := context.WithCancel(context.Background())
-	cancel() // cancel immediately
+	cancel()
 	bot.StartStatusLoop(ctx)
 }

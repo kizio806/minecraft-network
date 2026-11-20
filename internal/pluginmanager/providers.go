@@ -86,8 +86,8 @@ type GitHubProvider struct {
 	BaseURL string
 }
 
+// Resolve resolves a release asset from GitHub API using the syntax owner/repository#asset-name and an exact release tag.
 func (p GitHubProvider) Resolve(ctx context.Context, project, versionID string) (LockEntry, error) {
-	// project syntax is owner/repository#asset-name; versionID is an exact tag.
 	parts := strings.SplitN(project, "#", 2)
 	if len(parts) != 2 || strings.Contains(versionID, "latest") || strings.Contains(parts[0], "..") {
 		return LockEntry{}, fmt.Errorf("GitHub requires project owner/repository#asset and exact tag")

@@ -31,7 +31,6 @@ func main() {
 
 	token := strings.TrimSpace(os.Getenv("DISCORD_BOT_TOKEN"))
 	if token == "" {
-		// Try reading from Docker secret
 		if b, err := os.ReadFile("/run/secrets/discord_bot_token"); err == nil {
 			token = strings.TrimSpace(string(b))
 		} else if b, err := os.ReadFile("secrets/discord_bot_token"); err == nil {
@@ -41,7 +40,6 @@ func main() {
 
 	if token == "" || token == "placeholder_token_change_me" {
 		log.Println("[INFO] DISCORD_BOT_TOKEN is empty or placeholder. Bot is in standby mode. Set a valid token in secrets/discord_bot_token to enable.")
-		// Wait for signal so container doesn't crash-loop in development
 		sigChan := make(chan os.Signal, 1)
 		signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
 		<-sigChan
@@ -69,7 +67,6 @@ func main() {
 
 	log.Printf("[INFO] Discord bot connected as %s#%s", session.State.User.Username, session.State.User.Discriminator)
 
-	// Register slash commands
 	commands := bot.SlashCommands()
 	for _, cmd := range commands {
 		_, err := session.ApplicationCommandCreate(session.State.User.ID, cfg.Discord.GuildID, cmd)

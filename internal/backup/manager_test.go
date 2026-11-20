@@ -261,81 +261,88 @@ func TestManager_CreateAndRestore_EndToEnd(t *testing.T) {
 }
 
 func TestManager_Create_Errors(t *testing.T) {
-	// 1. Lock Contention
-	cfg, runner := setupTestEnvironment(t)
-	client := compose.NewClient(runner, cfg.ProjectDir, cfg.ComposeFile())
-	mgr := backup.NewManager(cfg, client, runner)
+	t.Run("lock contention", func(t *testing.T) {
+		cfg, runner := setupTestEnvironment(t)
+		client := compose.NewClient(runner, cfg.ProjectDir, cfg.ComposeFile())
+		mgr := backup.NewManager(cfg, client, runner)
 
-	lock, err := config.AcquireLock(cfg.ProjectDir)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if _, _, err := mgr.Create(context.Background()); err == nil {
-		t.Fatal("expected error on lock contention during Create, got nil")
-	}
-	_ = lock.Close()
-
-	// 2. Secret Validation Failure (e.g. missing secret)
-	cfg2, runner2 := setupTestEnvironment(t)
-	_ = os.Remove(filepath.Join(cfg2.ProjectDir, "secrets", "postgres_password"))
-	client2 := compose.NewClient(runner2, cfg2.ProjectDir, cfg2.ComposeFile())
-	mgr2 := backup.NewManager(cfg2, client2, runner2)
-	if _, _, err := mgr2.Create(context.Background()); err == nil {
-		t.Fatal("expected error on missing secret during Create, got nil")
-	}
-
-	// 3. Compose config error
-	cfg3, runner3 := setupTestEnvironment(t)
-	runner3.runFunc = func(_ context.Context, _ string, _ string, args ...string) (string, error) {
-		if len(args) >= 2 && args[0] == "compose" && args[len(args)-1] == "--quiet" {
-			return "", os.ErrPermission
+		lock, err := config.AcquireLock(cfg.ProjectDir)
+		if err != nil {
+			t.Fatal(err)
 		}
-		return "ok", nil
-	}
-	client3 := compose.NewClient(runner3, cfg3.ProjectDir, cfg3.ComposeFile())
-	mgr3 := backup.NewManager(cfg3, client3, runner3)
-	if _, _, err := mgr3.Create(context.Background()); err == nil {
-		t.Fatal("expected error on compose validation failure, got nil")
-	}
+		defer lock.Close()
 
-	// 4. Postgres dump failure
-	cfg4, runner4 := setupTestEnvironment(t)
-	runner4.runStreamFunc = func(_ context.Context, _ string, _, stderr io.Writer, _ string, _ ...string) error {
-		if stderr != nil {
-			_, _ = stderr.Write([]byte("fatal: pg_dump connection refused"))
+		if _, _, err := mgr.Create(context.Background()); err == nil {
+			t.Fatal("expected error on lock contention during Create, got nil")
 		}
-		return os.ErrInvalid
-	}
-	client4 := compose.NewClient(runner4, cfg4.ProjectDir, cfg4.ComposeFile())
-	mgr4 := backup.NewManager(cfg4, client4, runner4)
-	if _, _, err := mgr4.Create(context.Background()); err == nil {
-		t.Fatal("expected error on postgres dump failure, got nil")
-	}
+	})
 
-	// 5. Environment validation failure
-	cfg5, runner5 := setupTestEnvironment(t)
-	_ = os.WriteFile(filepath.Join(cfg5.ProjectDir, ".env"), []byte("VELOCITY_IMAGE=latest\n"), 0600)
-	client5 := compose.NewClient(runner5, cfg5.ProjectDir, cfg5.ComposeFile())
-	mgr5 := backup.NewManager(cfg5, client5, runner5)
-	if _, _, err := mgr5.Create(context.Background()); err == nil {
-		t.Fatal("expected error on invalid .env during Create, got nil")
-	}
+	t.Run("secret validation failure", func(t *testing.T) {
+		cfg, runner := setupTestEnvironment(t)
+		_ = os.Remove(filepath.Join(cfg.ProjectDir, "secrets", "postgres_password"))
+		client := compose.NewClient(runner, cfg.ProjectDir, cfg.ComposeFile())
+		mgr := backup.NewManager(cfg, client, runner)
+		if _, _, err := mgr.Create(context.Background()); err == nil {
+			t.Fatal("expected error on missing secret during Create, got nil")
+		}
+	})
 
-	// 6. Compose stop failure during Create
-	cfg6, runner6 := setupTestEnvironment(t)
-	runner6.runFunc = func(_ context.Context, _ string, _ string, args ...string) (string, error) {
-		for _, a := range args {
-			if a == "stop" {
+	t.Run("compose config error", func(t *testing.T) {
+		cfg, runner := setupTestEnvironment(t)
+		runner.runFunc = func(_ context.Context, _ string, _ string, args ...string) (string, error) {
+			if len(args) >= 2 && args[0] == "compose" && args[len(args)-1] == "--quiet" {
 				return "", os.ErrPermission
 			}
+			return "ok", nil
 		}
-		return "mock-output", nil
-	}
-	client6 := compose.NewClient(runner6, cfg6.ProjectDir, cfg6.ComposeFile())
-	mgr6 := backup.NewManager(cfg6, client6, runner6)
-	if _, _, err := mgr6.Create(context.Background()); err == nil {
-		t.Fatal("expected error on compose stop failure during Create, got nil")
-	}
+		client := compose.NewClient(runner, cfg.ProjectDir, cfg.ComposeFile())
+		mgr := backup.NewManager(cfg, client, runner)
+		if _, _, err := mgr.Create(context.Background()); err == nil {
+			t.Fatal("expected error on compose validation failure, got nil")
+		}
+	})
+
+	t.Run("postgres dump failure", func(t *testing.T) {
+		cfg, runner := setupTestEnvironment(t)
+		runner.runStreamFunc = func(_ context.Context, _ string, _, stderr io.Writer, _ string, _ ...string) error {
+			if stderr != nil {
+				_, _ = stderr.Write([]byte("fatal: pg_dump connection refused"))
+			}
+			return os.ErrInvalid
+		}
+		client := compose.NewClient(runner, cfg.ProjectDir, cfg.ComposeFile())
+		mgr := backup.NewManager(cfg, client, runner)
+		if _, _, err := mgr.Create(context.Background()); err == nil {
+			t.Fatal("expected error on postgres dump failure, got nil")
+		}
+	})
+
+	t.Run("environment validation failure", func(t *testing.T) {
+		cfg, runner := setupTestEnvironment(t)
+		_ = os.WriteFile(filepath.Join(cfg.ProjectDir, ".env"), []byte("VELOCITY_IMAGE=latest\n"), 0600)
+		client := compose.NewClient(runner, cfg.ProjectDir, cfg.ComposeFile())
+		mgr := backup.NewManager(cfg, client, runner)
+		if _, _, err := mgr.Create(context.Background()); err == nil {
+			t.Fatal("expected error on invalid .env during Create, got nil")
+		}
+	})
+
+	t.Run("compose stop failure", func(t *testing.T) {
+		cfg, runner := setupTestEnvironment(t)
+		runner.runFunc = func(_ context.Context, _ string, _ string, args ...string) (string, error) {
+			for _, a := range args {
+				if a == "stop" {
+					return "", os.ErrPermission
+				}
+			}
+			return "mock-output", nil
+		}
+		client := compose.NewClient(runner, cfg.ProjectDir, cfg.ComposeFile())
+		mgr := backup.NewManager(cfg, client, runner)
+		if _, _, err := mgr.Create(context.Background()); err == nil {
+			t.Fatal("expected error on compose stop failure during Create, got nil")
+		}
+	})
 }
 
 func TestManager_Restore_Errors(t *testing.T) {
@@ -343,103 +350,114 @@ func TestManager_Restore_Errors(t *testing.T) {
 	client := compose.NewClient(runner, cfg.ProjectDir, cfg.ComposeFile())
 	mgr := backup.NewManager(cfg, client, runner)
 
-	// 1. Lock contention
-	lock, err := config.AcquireLock(cfg.ProjectDir)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if err := mgr.Restore(context.Background(), "any.tar.gz.age"); err == nil {
-		t.Fatal("expected error on lock contention during Restore, got nil")
-	}
-	_ = lock.Close()
+	t.Run("lock contention", func(t *testing.T) {
+		lock, err := config.AcquireLock(cfg.ProjectDir)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer lock.Close()
 
-	// 2. Non-existent archive
-	if err := mgr.Restore(context.Background(), filepath.Join(cfg.BackupDir, "missing.tar.gz.age")); err == nil {
-		t.Fatal("expected error on missing archive, got nil")
-	}
+		if err := mgr.Restore(context.Background(), "any.tar.gz.age"); err == nil {
+			t.Fatal("expected error on lock contention during Restore, got nil")
+		}
+	})
 
-	// 3. Archive does not end with .tar.gz.age
-	badExt := filepath.Join(cfg.BackupDir, "bad.zip")
-	_ = os.WriteFile(badExt, []byte("zipdata"), 0600)
-	if err := mgr.Restore(context.Background(), badExt); err == nil {
-		t.Fatal("expected error for non .tar.gz.age file, got nil")
-	}
+	t.Run("non-existent archive", func(t *testing.T) {
+		if err := mgr.Restore(context.Background(), filepath.Join(cfg.BackupDir, "missing.tar.gz.age")); err == nil {
+			t.Fatal("expected error on missing archive, got nil")
+		}
+	})
 
-	// 4. Missing .sha256 file
-	archivePath := filepath.Join(cfg.BackupDir, "minecraft-network-test.tar.gz.age")
-	_ = os.WriteFile(archivePath, []byte("age-content"), 0600)
-	if err := mgr.Restore(context.Background(), archivePath); err == nil {
-		t.Fatal("expected error for missing .sha256 file, got nil")
-	}
+	t.Run("invalid archive extension", func(t *testing.T) {
+		badExt := filepath.Join(cfg.BackupDir, "bad.zip")
+		_ = os.WriteFile(badExt, []byte("zipdata"), 0600)
+		if err := mgr.Restore(context.Background(), badExt); err == nil {
+			t.Fatal("expected error for non .tar.gz.age file, got nil")
+		}
+	})
 
-	// 5. Invalid .sha256 format (not 64 chars)
-	_ = os.WriteFile(archivePath+".sha256", []byte("invalid-short-hash\n"), 0600)
-	if err := mgr.Restore(context.Background(), archivePath); err == nil {
-		t.Fatal("expected error for invalid .sha256 format, got nil")
-	}
+	t.Run("missing checksum file", func(t *testing.T) {
+		archivePath := filepath.Join(cfg.BackupDir, "minecraft-network-test.tar.gz.age")
+		_ = os.WriteFile(archivePath, []byte("age-content"), 0600)
+		if err := mgr.Restore(context.Background(), archivePath); err == nil {
+			t.Fatal("expected error for missing .sha256 file, got nil")
+		}
+	})
 
-	// 6. Checksum mismatch
-	_ = os.WriteFile(archivePath+".sha256", []byte("0000000000000000000000000000000000000000000000000000000000000000  archive.tar.gz.age\n"), 0600)
-	if err := mgr.Restore(context.Background(), archivePath); err == nil {
-		t.Fatal("expected error for checksum mismatch, got nil")
-	}
+	t.Run("invalid checksum format", func(t *testing.T) {
+		archivePath := filepath.Join(cfg.BackupDir, "minecraft-network-test.tar.gz.age")
+		_ = os.WriteFile(archivePath+".sha256", []byte("invalid-short-hash\n"), 0600)
+		if err := mgr.Restore(context.Background(), archivePath); err == nil {
+			t.Fatal("expected error for invalid .sha256 format, got nil")
+		}
+	})
 
-	// 7. Compose stop failure during restore
-	// Create valid backup first
+	t.Run("checksum mismatch", func(t *testing.T) {
+		archivePath := filepath.Join(cfg.BackupDir, "minecraft-network-test.tar.gz.age")
+		_ = os.WriteFile(archivePath+".sha256", []byte("0000000000000000000000000000000000000000000000000000000000000000  archive.tar.gz.age\n"), 0600)
+		if err := mgr.Restore(context.Background(), archivePath); err == nil {
+			t.Fatal("expected error for checksum mismatch, got nil")
+		}
+	})
+
 	validArchive, _, err := mgr.Create(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	runnerFailStop := &mockRunner{
-		runFunc: func(_ context.Context, _ string, _ string, args ...string) (string, error) {
-			for _, a := range args {
-				if a == "stop" {
+	t.Run("compose stop failure", func(t *testing.T) {
+		runnerFailStop := &mockRunner{
+			runFunc: func(_ context.Context, _ string, _ string, args ...string) (string, error) {
+				for _, a := range args {
+					if a == "stop" {
+						return "", os.ErrPermission
+					}
+				}
+				return "mock-output", nil
+			},
+		}
+		clientFailStop := compose.NewClient(runnerFailStop, cfg.ProjectDir, cfg.ComposeFile())
+		mgrFailStop := backup.NewManager(cfg, clientFailStop, runnerFailStop)
+		if err := mgrFailStop.Restore(context.Background(), validArchive); err == nil {
+			t.Fatal("expected error on compose stop failure during restore")
+		}
+	})
+
+	t.Run("postgres start failure", func(t *testing.T) {
+		runnerFailPgStart := &mockRunner{
+			runFunc: func(_ context.Context, _ string, _ string, args ...string) (string, error) {
+				hasStart, hasPostgres := false, false
+				for _, a := range args {
+					if a == "start" {
+						hasStart = true
+					}
+					if a == "postgres" {
+						hasPostgres = true
+					}
+				}
+				if hasStart && hasPostgres {
 					return "", os.ErrPermission
 				}
-			}
-			return "mock-output", nil
-		},
-	}
-	clientFailStop := compose.NewClient(runnerFailStop, cfg.ProjectDir, cfg.ComposeFile())
-	mgrFailStop := backup.NewManager(cfg, clientFailStop, runnerFailStop)
-	if err := mgrFailStop.Restore(context.Background(), validArchive); err == nil {
-		t.Fatal("expected error on compose stop failure during restore")
-	}
+				return "mock-output", nil
+			},
+		}
+		clientFailPgStart := compose.NewClient(runnerFailPgStart, cfg.ProjectDir, cfg.ComposeFile())
+		mgrFailPgStart := backup.NewManager(cfg, clientFailPgStart, runnerFailPgStart)
+		if err := mgrFailPgStart.Restore(context.Background(), validArchive); err == nil {
+			t.Fatal("expected error on postgres start failure during restore")
+		}
+	})
 
-	// 8. Postgres start failure during restore
-	runnerFailPgStart := &mockRunner{
-		runFunc: func(_ context.Context, _ string, _ string, args ...string) (string, error) {
-			hasStart, hasPostgres := false, false
-			for _, a := range args {
-				if a == "start" {
-					hasStart = true
-				}
-				if a == "postgres" {
-					hasPostgres = true
-				}
-			}
-			if hasStart && hasPostgres {
-				return "", os.ErrPermission
-			}
-			return "mock-output", nil
-		},
-	}
-	clientFailPgStart := compose.NewClient(runnerFailPgStart, cfg.ProjectDir, cfg.ComposeFile())
-	mgrFailPgStart := backup.NewManager(cfg, clientFailPgStart, runnerFailPgStart)
-	if err := mgrFailPgStart.Restore(context.Background(), validArchive); err == nil {
-		t.Fatal("expected error on postgres start failure during restore")
-	}
-
-	// 9. Postgres restore command failure
-	runnerFailPgRestore := &mockRunner{
-		runInputFunc: func(_ context.Context, _ string, _ string, _ io.Reader, _ ...string) (string, error) {
-			return "", os.ErrInvalid
-		},
-	}
-	clientFailPgRestore := compose.NewClient(runnerFailPgRestore, cfg.ProjectDir, cfg.ComposeFile())
-	mgrFailPgRestore := backup.NewManager(cfg, clientFailPgRestore, runnerFailPgRestore)
-	if err := mgrFailPgRestore.Restore(context.Background(), validArchive); err == nil {
-		t.Fatal("expected error on pg_restore failure during restore")
-	}
+	t.Run("postgres restore command failure", func(t *testing.T) {
+		runnerFailPgRestore := &mockRunner{
+			runInputFunc: func(_ context.Context, _ string, _ string, _ io.Reader, _ ...string) (string, error) {
+				return "", os.ErrInvalid
+			},
+		}
+		clientFailPgRestore := compose.NewClient(runnerFailPgRestore, cfg.ProjectDir, cfg.ComposeFile())
+		mgrFailPgRestore := backup.NewManager(cfg, clientFailPgRestore, runnerFailPgRestore)
+		if err := mgrFailPgRestore.Restore(context.Background(), validArchive); err == nil {
+			t.Fatal("expected error on pg_restore failure during restore")
+		}
+	})
 }

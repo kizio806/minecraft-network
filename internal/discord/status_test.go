@@ -40,7 +40,6 @@ func TestBuildStatusEmbed(t *testing.T) {
 		t.Fatalf("expected 2 fields in embed, got %d", len(embed.Fields))
 	}
 
-	// Check servers field
 	serversField := embed.Fields[1]
 	if !strings.Contains(serversField.Value, "**Proxy**: ONLINE") {
 		t.Errorf("expected Proxy to be ONLINE, got: %s", serversField.Value)

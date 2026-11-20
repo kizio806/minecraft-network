@@ -114,82 +114,101 @@ func TestParseComposeRows(t *testing.T) {
 }
 
 func TestCheckHealth(t *testing.T) {
-	runner := &mockRunner{}
-	client := compose.NewClient(runner, "/app", "/app/docker-compose.yml")
-
-	// 1. All managed services running and healthy
-	runner.response = `{"Service":"proxy","State":"running","Health":"healthy","Status":"Up"}
+	t.Run("all healthy", func(t *testing.T) {
+		runner := &mockRunner{
+			response: `{"Service":"proxy","State":"running","Health":"healthy","Status":"Up"}
 {"Service":"auth","State":"running","Health":"healthy","Status":"Up"}
 {"Service":"lobby","State":"running","Health":"healthy","Status":"Up"}
 {"Service":"survival","State":"running","Health":"healthy","Status":"Up"}
-`
-	status, err := client.CheckHealth(context.Background())
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-	if !status.AllOK {
-		t.Fatal("expected AllOK to be true when all services healthy")
-	}
-	if len(status.Services) != 4 {
-		t.Fatalf("expected 4 services, got %d", len(status.Services))
-	}
+`,
+		}
+		client := compose.NewClient(runner, "/app", "/app/docker-compose.yml")
+		status, err := client.CheckHealth(context.Background())
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if !status.AllOK {
+			t.Fatal("expected AllOK to be true when all services healthy")
+		}
+		if len(status.Services) != 4 {
+			t.Fatalf("expected 4 services, got %d", len(status.Services))
+		}
+	})
 
-	// 2. One managed service missing (survival omitted)
-	runner.response = `{"Service":"proxy","State":"running","Health":"healthy"}
+	t.Run("service missing", func(t *testing.T) {
+		runner := &mockRunner{
+			response: `{"Service":"proxy","State":"running","Health":"healthy"}
 {"Service":"auth","State":"running","Health":"healthy"}
 {"Service":"lobby","State":"running","Health":"healthy"}
-`
-	status, err = client.CheckHealth(context.Background())
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-	if status.AllOK {
-		t.Fatal("expected AllOK to be false when survival service is missing")
-	}
+`,
+		}
+		client := compose.NewClient(runner, "/app", "/app/docker-compose.yml")
+		status, err := client.CheckHealth(context.Background())
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if status.AllOK {
+			t.Fatal("expected AllOK to be false when survival service is missing")
+		}
+	})
 
-	// 3. One managed service not running (exited)
-	runner.response = `{"Service":"proxy","State":"running","Health":"healthy"}
+	t.Run("service exited", func(t *testing.T) {
+		runner := &mockRunner{
+			response: `{"Service":"proxy","State":"running","Health":"healthy"}
 {"Service":"auth","State":"exited","Health":""}
 {"Service":"lobby","State":"running","Health":"healthy"}
 {"Service":"survival","State":"running","Health":"healthy"}
-`
-	status, err = client.CheckHealth(context.Background())
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-	if status.AllOK {
-		t.Fatal("expected AllOK to be false when auth is exited")
-	}
+`,
+		}
+		client := compose.NewClient(runner, "/app", "/app/docker-compose.yml")
+		status, err := client.CheckHealth(context.Background())
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if status.AllOK {
+			t.Fatal("expected AllOK to be false when auth is exited")
+		}
+	})
 
-	// 4. One managed service unhealthy
-	runner.response = `{"Service":"proxy","State":"running","Health":"unhealthy"}
+	t.Run("service unhealthy", func(t *testing.T) {
+		runner := &mockRunner{
+			response: `{"Service":"proxy","State":"running","Health":"unhealthy"}
 {"Service":"auth","State":"running","Health":"healthy"}
 {"Service":"lobby","State":"running","Health":"healthy"}
 {"Service":"survival","State":"running","Health":"healthy"}
-`
-	status, err = client.CheckHealth(context.Background())
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-	if status.AllOK {
-		t.Fatal("expected AllOK to be false when proxy is unhealthy")
-	}
+`,
+		}
+		client := compose.NewClient(runner, "/app", "/app/docker-compose.yml")
+		status, err := client.CheckHealth(context.Background())
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if status.AllOK {
+			t.Fatal("expected AllOK to be false when proxy is unhealthy")
+		}
+	})
 
-	// 5. Compose execution error
-	runner.err = errors.New("compose daemon unreachable")
-	runner.response = ""
-	_, err = client.CheckHealth(context.Background())
-	if err == nil {
-		t.Fatal("expected error on compose failure, got nil")
-	}
+	t.Run("compose execution error", func(t *testing.T) {
+		runner := &mockRunner{
+			err: errors.New("compose daemon unreachable"),
+		}
+		client := compose.NewClient(runner, "/app", "/app/docker-compose.yml")
+		_, err := client.CheckHealth(context.Background())
+		if err == nil {
+			t.Fatal("expected error on compose failure, got nil")
+		}
+	})
 
-	// 6. Parse JSON error
-	runner.err = nil
-	runner.response = "invalid json line"
-	_, err = client.CheckHealth(context.Background())
-	if err == nil {
-		t.Fatal("expected error on invalid json, got nil")
-	}
+	t.Run("parse json error", func(t *testing.T) {
+		runner := &mockRunner{
+			response: "invalid json line",
+		}
+		client := compose.NewClient(runner, "/app", "/app/docker-compose.yml")
+		_, err := client.CheckHealth(context.Background())
+		if err == nil {
+			t.Fatal("expected error on invalid json, got nil")
+		}
+	})
 }
 
 func TestServiceValidation(t *testing.T) {
@@ -241,57 +260,54 @@ func TestExecRunner_AllowlistAndExecution(t *testing.T) {
 	runner := compose.ExecRunner{}
 	ctx := context.Background()
 
-	// 1. Rejected binaries
-	for _, badBin := range []string{"rm", "bash", "sh", "curl", "python"} {
-		if _, err := runner.Run(ctx, "", badBin, "-v"); err == nil || !strings.Contains(err.Error(), "not allowed") {
-			t.Errorf("expected Run to reject binary %q, got: %v", badBin, err)
+	t.Run("rejected binaries", func(t *testing.T) {
+		for _, badBin := range []string{"rm", "bash", "sh", "curl", "python"} {
+			if _, err := runner.Run(ctx, "", badBin, "-v"); err == nil || !strings.Contains(err.Error(), "not allowed") {
+				t.Errorf("expected Run to reject binary %q, got: %v", badBin, err)
+			}
+			if _, err := runner.RunInput(ctx, "", badBin, strings.NewReader(""), "-v"); err == nil || !strings.Contains(err.Error(), "not allowed") {
+				t.Errorf("expected RunInput to reject binary %q, got: %v", badBin, err)
+			}
+			if err := runner.RunInteractive(ctx, "", badBin, strings.NewReader(""), nil, nil, "-v"); err == nil || !strings.Contains(err.Error(), "not allowed") {
+				t.Errorf("expected RunInteractive to reject binary %q, got: %v", badBin, err)
+			}
+			if err := runner.RunStream(ctx, "", nil, nil, badBin, "-v"); err == nil || !strings.Contains(err.Error(), "not allowed") {
+				t.Errorf("expected RunStream to reject binary %q, got: %v", badBin, err)
+			}
 		}
-		if _, err := runner.RunInput(ctx, "", badBin, strings.NewReader(""), "-v"); err == nil || !strings.Contains(err.Error(), "not allowed") {
-			t.Errorf("expected RunInput to reject binary %q, got: %v", badBin, err)
+	})
+
+	t.Run("invalid subcommand execution", func(t *testing.T) {
+		if _, err := runner.Run(ctx, "", "docker", "non-existent-subcommand-xyz"); err == nil {
+			t.Fatal("expected error on invalid docker subcommand, got nil")
 		}
-		if err := runner.RunInteractive(ctx, "", badBin, strings.NewReader(""), nil, nil, "-v"); err == nil || !strings.Contains(err.Error(), "not allowed") {
-			t.Errorf("expected RunInteractive to reject binary %q, got: %v", badBin, err)
+
+		if _, err := runner.RunInput(ctx, "", "docker", strings.NewReader("input"), "non-existent-subcommand-xyz"); err == nil {
+			t.Fatal("expected error on invalid docker subcommand with input, got nil")
 		}
-		if err := runner.RunStream(ctx, "", nil, nil, badBin, "-v"); err == nil || !strings.Contains(err.Error(), "not allowed") {
-			t.Errorf("expected RunStream to reject binary %q, got: %v", badBin, err)
+
+		var streamOut, streamErr bytes.Buffer
+		if err := runner.RunStream(ctx, "", &streamOut, &streamErr, "docker", "non-existent-subcommand-xyz"); err == nil {
+			t.Fatal("expected error on invalid docker subcommand stream, got nil")
 		}
-	}
 
-	// 2. Allowed binary execution error handling (e.g. invalid docker subcommand)
-	_, err := runner.Run(ctx, "", "docker", "non-existent-subcommand-xyz")
-	if err == nil {
-		t.Fatal("expected error on invalid docker subcommand, got nil")
-	}
+		if err := runner.RunInteractive(ctx, "", "docker", strings.NewReader(""), &streamOut, &streamErr, "non-existent-subcommand-xyz"); err == nil {
+			t.Fatal("expected error on invalid docker subcommand interactive, got nil")
+		}
+	})
 
-	_, err = runner.RunInput(ctx, "", "docker", strings.NewReader("input"), "non-existent-subcommand-xyz")
-	if err == nil {
-		t.Fatal("expected error on invalid docker subcommand with input, got nil")
-	}
+	t.Run("context cancellation", func(t *testing.T) {
+		canceledCtx, cancel := context.WithCancel(context.Background())
+		cancel()
+		if _, err := runner.Run(canceledCtx, "", "docker", "version"); err == nil {
+			t.Fatal("expected error with canceled context, got nil")
+		}
 
-	var streamOut, streamErr bytes.Buffer
-	err = runner.RunStream(ctx, "", &streamOut, &streamErr, "docker", "non-existent-subcommand-xyz")
-	if err == nil {
-		t.Fatal("expected error on invalid docker subcommand stream, got nil")
-	}
-
-	err = runner.RunInteractive(ctx, "", "docker", strings.NewReader(""), &streamOut, &streamErr, "non-existent-subcommand-xyz")
-	if err == nil {
-		t.Fatal("expected error on invalid docker subcommand interactive, got nil")
-	}
-
-	// 3. Context cancellation handling
-	canceledCtx, cancel := context.WithCancel(context.Background())
-	cancel()
-	_, err = runner.Run(canceledCtx, "", "docker", "version")
-	if err == nil {
-		t.Fatal("expected error with canceled context, got nil")
-	}
-
-	timedOutCtx, timeoutCancel := context.WithTimeout(context.Background(), 1*time.Nanosecond)
-	defer timeoutCancel()
-	time.Sleep(1 * time.Millisecond)
-	_, err = runner.Run(timedOutCtx, "", "docker", "version")
-	if err == nil {
-		t.Fatal("expected error with timed out context, got nil")
-	}
+		timedOutCtx, timeoutCancel := context.WithTimeout(context.Background(), 1*time.Nanosecond)
+		defer timeoutCancel()
+		time.Sleep(1 * time.Millisecond)
+		if _, err := runner.Run(timedOutCtx, "", "docker", "version"); err == nil {
+			t.Fatal("expected error with timed out context, got nil")
+		}
+	})
 }

@@ -311,7 +311,6 @@ func loadNetworkSettings(projectDir string) (networkSettings, error) {
 		s.Network.Website = s.Network.Domain
 	}
 
-	// Resolve active theme preset
 	s.resolvedTheme = i18n.ResolveTheme(s.Theme.Preset, s.Theme.Presets)
 	if s.Network.PrimaryColor != "" {
 		s.resolvedTheme.Primary = s.Network.PrimaryColor
@@ -322,7 +321,6 @@ func loadNetworkSettings(projectDir string) (networkSettings, error) {
 	s.Network.PrimaryColor = s.resolvedTheme.Primary
 	s.Network.SecondaryColor = s.resolvedTheme.Secondary
 
-	// Load localization bundle
 	if s.Locale == "" {
 		s.Locale = "en"
 	}

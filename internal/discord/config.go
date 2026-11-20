@@ -56,7 +56,6 @@ func LoadConfig(configPath, localesDir, lang string) (*Config, error) {
 		return nil, fmt.Errorf("read discord config: %w", err)
 	}
 
-	// Expand environment variables in YAML content
 	expanded := os.ExpandEnv(string(b))
 
 	var cfg Config
@@ -71,7 +70,6 @@ func LoadConfig(configPath, localesDir, lang string) (*Config, error) {
 		cfg.Network.MaxPlayers = 50
 	}
 
-	// Load i18n messages
 	if localesDir != "" {
 		projectDir := filepath.Dir(localesDir)
 		msgs, err := i18n.LoadLocale(projectDir, lang)

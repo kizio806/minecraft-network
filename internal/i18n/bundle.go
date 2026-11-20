@@ -74,7 +74,6 @@ func LoadLocale(projectDir, lang string) (map[string]string, error) {
 
 	result := make(map[string]string)
 
-	// Load fallback English first if lang is not "en"
 	if lang != "en" {
 		enPath := filepath.Join(projectDir, "locales", "en.yml")
 		if b, err := os.ReadFile(enPath); err == nil {
