@@ -1,0 +1,20 @@
+# ==============================================================================
+# ajQueue Configuration (Velocity Proxy)
+# ==============================================================================
+# Managed declaratively via configs/network.yml and locales/*.yml
+
+queue:
+  max-players-per-server: __NETWORK_MAX_PLAYERS__
+  send-delay: 2
+  notify-interval: 5
+
+messages:
+  position: "__MSG_QUEUE_POSITION__"
+  connecting: "__MSG_QUEUE_CONNECTING__"
+
+# Priority groups matching LuckPerms groups (higher priority gets sent first)
+priority:
+  admin: 100
+  moderator: 80
+  vip: 50
+  default: 1

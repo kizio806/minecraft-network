@@ -867,3 +867,84 @@ plugins:
             - paper
         dependencies: []
         resolved-at: "2026-11-19T20:00:00Z"
+    maintenance:
+        project: VCAqN1ln
+        version: "5.1.1"
+        version-id: zn7u3GXX
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/VCAqN1ln/versions/zn7u3GXX/Maintenance-Velocity-5.1.1.jar
+        filename: Maintenance-Velocity-5.1.1.jar
+        sha256: ""
+        sha512: dd5b8b02282138a32b63e2ae5699f0f0cbbf29e4fbf2ce7ac0ec0d02a11f1249045c94b4a57cca1ee5fa511fcc48ba1561e786f7d94b353c4578160adaa77b5f
+        size: 1943855
+        game-versions:
+            - 1.21.11
+        loaders:
+            - velocity
+        dependencies: []
+        resolved-at: "2026-11-20T18:00:00Z"
+    cleanstaffchat:
+        project: Mvc3WDLr
+        version: "1.17.8"
+        version-id: SoUyxizz
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/Mvc3WDLr/versions/SoUyxizz/CleanStaffChat.jar
+        filename: CleanStaffChat.jar
+        sha256: ""
+        sha512: 0ca2605b835647f564a6a2add9cb72fd60a46a970b0dcd9094fb5d794c5e86adc31bb472090d562b15648178edc217485e5f8a174a5d3361861d1f02a2b839dc
+        size: 528179
+        game-versions:
+            - 1.21.11
+        loaders:
+            - velocity
+        dependencies: []
+        resolved-at: "2026-11-20T18:00:00Z"
+    velocityreport:
+        project: mqGjZEIE
+        version: "3.11.8"
+        version-id: eN6HMuqx
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/mqGjZEIE/versions/eN6HMuqx/VelocityReport%20v3.11.8.jar
+        filename: VelocityReport v3.11.8.jar
+        sha256: ""
+        sha512: e3bcc32be934c135234a3fa48ff2b60b851aa714b237a83dcf22a0a1b0fbf5d19cc3f6475047a5ce918a54597417b53607d97f0afbfc1a4470842c8d25b59548
+        size: 4341848
+        game-versions:
+            - 1.21.11
+        loaders:
+            - velocity
+        dependencies: []
+        resolved-at: "2026-11-20T18:00:00Z"
+    ajqueue:
+        project: dzacATni
+        version: "2.9.1-b278"
+        version-id: 3dOOpBS1
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/dzacATni/versions/3dOOpBS1/ajQueue-2.9.1-b278.jar
+        filename: ajQueue-2.9.1-b278.jar
+        sha256: ""
+        sha512: afe5001ec2c281aa0fbac49a48010efd4eb90f9193709eb6289d64a1155e3755c7e058104f973cd3221116ed26a725308fae10cf849369c5e61ad2ca0699479b
+        size: 2160918
+        game-versions:
+            - 1.21.11
+        loaders:
+            - velocity
+            - paper
+        dependencies: []
+        resolved-at: "2026-11-20T18:00:00Z"
+    supervanish:
+        project: rabHya7R
+        version: "3.3"
+        version-id: Y63mab0U
+        source: modrinth
+        download-url: https://cdn.modrinth.com/data/rabHya7R/versions/Y63mab0U/SuperVanish-1.21.x_3.3.jar
+        filename: SuperVanish-1.21.x_3.3.jar
+        sha256: ""
+        sha512: 8a2140c5b6d5fdea8177e222cca8ebe310f0e44b791954209d423ef912f1b089efbc4d27a9264f986b403876f02af91ff9cffa3f53f2dd61adb7fb6a99c34812
+        size: 12046
+        game-versions:
+            - 1.21.11
+        loaders:
+            - paper
+        dependencies: []
+        resolved-at: "2026-11-20T18:00:00Z"

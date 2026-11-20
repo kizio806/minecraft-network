@@ -70,6 +70,12 @@ init-dirs:
 build: init-dirs
 	$(GO_CMD) build -trimpath -ldflags '$(LDFLAGS)' -o $(BIN_DIR)/$(BINARY_NAME) ./cmd/network
 
+## build-bot: Compile native discord-bot daemon into bin/discord-bot
+.PHONY: build-bot
+build-bot: init-dirs
+	$(GO_CMD) build -trimpath -ldflags '-s -w' -o $(BIN_DIR)/discord-bot ./cmd/discord-bot
+
+
 ## test: Run Go unit tests
 .PHONY: test
 test: init-dirs

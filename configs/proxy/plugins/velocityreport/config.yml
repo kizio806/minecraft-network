@@ -1,0 +1,18 @@
+# ==============================================================================
+# VelocityReport Configuration (Velocity Proxy)
+# ==============================================================================
+# Managed declaratively via configs/network.yml and locales/*.yml
+
+settings:
+  permission: "network.report.staff"
+  cooldown-seconds: 60
+
+messages:
+  prefix: "__MSG_REPORT_PREFIX__"
+  usage: "__MSG_REPORT_USAGE__"
+  success: "__MSG_REPORT_SUCCESS__"
+  staff-alert: "__MSG_REPORT_STAFF_ALERT__"
+
+discord:
+  webhook-enabled: false
+  webhook-url: ""

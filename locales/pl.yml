@@ -239,3 +239,47 @@ messages:
   parkour_restart: "&7Restartowanie toru parkour..."
   parkour_finish: "&aGratulacje! &7Ukończyłeś tor &e%course% &7w czasie &e%time%&7!"
   parkour_checkpoint: "&aPunkt kontrolny &e%checkpoint% &azapisany!"
+
+  # Maintenance
+  maintenance_motd_line_1: "<gradient:__THEME_PRIMARY__:__THEME_SECONDARY__><bold>__NETWORK_NAME__</bold></gradient> <dark_gray>•</dark_gray> <red><bold>PRACE TECHNICZNE</bold></red>"
+  maintenance_motd_line_2: "<gray>Trwają zaplanowane prace techniczne. Zapraszamy wkrótce!</gray>"
+  maintenance_kick_message: "<red><bold>Sieć jest w trybie prac technicznych!</bold></red>\n\n<gray>Trwają zaplanowane prace konserwacyjne.\nŚledź postępy na Discordzie: <yellow>https://__NETWORK_DISCORD__</yellow></gray>"
+  maintenance_header: "<red>SERWER JEST AKTUALNIE NIEDOSTĘPNY</red>"
+
+  # Staff Chat & Admin Chat
+  staffchat_tag: "<dark_gray>[<red>StaffChat</red>]</dark_gray>"
+  adminchat_tag: "<dark_gray>[<dark_red>AdminChat</dark_red>]</dark_gray>"
+
+  # Reports (VelocityReport)
+  report_prefix: "<gold><bold>ZGŁOSZENIE</bold></gold> <dark_gray>»</dark_gray>"
+  report_usage: "<gray>Użycie: <yellow>/report <gracz> <powód></yellow></gray>"
+  report_success: "<green>Twoje zgłoszenie gracza <gold>{target}</gold> zostało wysłane do administracji!</green>"
+  report_staff_alert: "<gold><bold>[ZGŁOSZENIE]</bold></gold> <yellow>{reporter}</yellow> zgłosił <red>{target}</red> <gray>na</gray> <gold>{server}</gold><gray>: <white>{reason}</white>"
+
+  # ajQueue
+  queue_position: "<gradient:__THEME_PRIMARY__:__THEME_SECONDARY__>Kolejka:</gradient> <white>Pozycja #{position} z {total}</white> <gray>•</gray> <yellow>Szacowany czas: ~{time}s</yellow>"
+  queue_connecting: "<green>Łączenie z serwerem <gold>{server}</gold>...</green>"
+
+  # SuperVanish
+  vanish_enabled: "&aJesteś teraz całkowicie niewidoczny dla innych graczy."
+  vanish_disabled: "&cJesteś teraz widoczny dla wszystkich graczy."
+  vanish_actionbar: "&a[VANISH] &7Jesteś ukryty przed wszystkimi graczami."
+
+  # Discord Bot
+  discord_status_title: "✦ __NETWORK_NAME__ • STATUS SIECI SERWERÓW ✦"
+  discord_status_desc: "Bieżący monitoring stanu serwerów i panel połączeń."
+  discord_status_online: "🟢 Działa"
+  discord_status_offline: "🔴 Niedostępny"
+  discord_status_players: "Graczy online: **%d / __NETWORK_MAX_PLAYERS__**"
+  discord_btn_link: "Połącz konto"
+  discord_btn_how_to_join: "Jak dołączyć"
+  discord_btn_refresh: "Odśwież"
+  discord_modal_title: "Weryfikacja Konta Minecraft"
+  discord_modal_nick_label: "Twój nick w grze Minecraft"
+  discord_modal_nick_placeholder: "np. Steve"
+  discord_link_success: "✅ Sukces! Twoje konto Discord zostało połączone z nickiem **%s**."
+  discord_link_already: "⚠️ Twoje konto Discord jest już powiązane z nickiem **%s**."
+  discord_whitelist_added: "✅ Dodano gracza **%s** do whitelisty serwera."
+  discord_whitelist_removed: "❌ Usunięto gracza **%s** z whitelisty serwera."
+  discord_how_to_join_title: "✦ JAK DOŁĄCZYĆ DO __NETWORK_NAME__ ✦"
+  discord_how_to_join_text: "1. Uruchom Minecraft Java Edition **1.21.x**\n2. Wejdź w Tryb Wieloosobowy -> Dodaj Serwer\n3. Adres Serwera: `__NETWORK_DOMAIN__`\n4. Dołącz i ciesz się rozgrywką!"

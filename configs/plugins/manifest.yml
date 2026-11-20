@@ -881,3 +881,88 @@ plugins:
     config-dir: configs/lobby/plugins/parkour
     config-target-dir: Parkour
     license: GPL-3.0
+  maintenance:
+    display-name: Maintenance
+    enabled: true
+    source: modrinth
+    project: VCAqN1ln
+    version: "5.1.1"
+    version-id: zn7u3GXX
+    platform: velocity
+    servers: [proxy]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/proxy/plugins/maintenance
+    config-target-dir: Maintenance
+    license: MIT
+  cleanstaffchat:
+    display-name: CleanStaffChat
+    enabled: true
+    source: modrinth
+    project: Mvc3WDLr
+    version: "1.17.8"
+    version-id: SoUyxizz
+    platform: velocity
+    servers: [proxy]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/proxy/plugins/cleanstaffchat
+    config-target-dir: CleanStaffChat
+    license: GPL-3.0
+  velocityreport:
+    display-name: VelocityReport
+    enabled: true
+    source: modrinth
+    project: mqGjZEIE
+    version: "3.11.8"
+    version-id: eN6HMuqx
+    platform: velocity
+    servers: [proxy]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/proxy/plugins/velocityreport
+    config-target-dir: VelocityReport
+    license: GPL-3.0
+  ajqueue:
+    display-name: ajQueue
+    enabled: true
+    source: modrinth
+    project: dzacATni
+    version: "2.9.1-b278"
+    version-id: 3dOOpBS1
+    platform: velocity
+    servers: [proxy, lobby, survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/proxy/plugins/ajqueue
+    config-target-dir: ajQueue
+    license: GPL-3.0
+  supervanish:
+    display-name: SuperVanish
+    enabled: true
+    source: modrinth
+    project: rabHya7R
+    version: "3.3"
+    version-id: Y63mab0U
+    platform: paper
+    servers: [lobby, survival]
+    release-channel: release
+    update-policy: manual
+    dependencies: []
+    incompatible-with: []
+    required-java: "21"
+    config-dir: configs/survival/plugins/supervanish
+    config-target-dir: SuperVanish
+    license: GPL-3.0

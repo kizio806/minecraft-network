@@ -1,0 +1,42 @@
+# ==============================================================================
+# Discord Bot Configuration
+# ==============================================================================
+# Managed declaratively via configs/network.yml and locales/*.yml
+
+discord:
+  # The Discord Guild (Server) ID
+  guild-id: "${DISCORD_GUILD_ID:-}"
+
+  # Status dashboard channel (where the bot posts and updates the live status card)
+  status-channel-id: "${DISCORD_STATUS_CHANNEL_ID:-}"
+
+  # Interval in seconds to update the live status message
+  status-update-interval: 30
+
+  # Chat bridge channel ID (optional)
+  chat-channel-id: "${DISCORD_CHAT_CHANNEL_ID:-}"
+
+  # Staff alerts channel ID (for reports and maintenance notices)
+  staff-channel-id: "${DISCORD_STAFF_CHANNEL_ID:-}"
+
+  # Roles given upon account verification / linking
+  roles:
+    linked-role-id: "${DISCORD_LINKED_ROLE_ID:-}"
+    staff-role-id: "${DISCORD_STAFF_ROLE_ID:-}"
+
+network:
+  name: "__NETWORK_NAME__"
+  domain: "__NETWORK_DOMAIN__"
+  max-players: __NETWORK_MAX_PLAYERS__
+
+# Server targets to poll for health and player counts
+servers:
+  - name: "Proxy"
+    host: "proxy"
+    port: 25565
+  - name: "Lobby"
+    host: "lobby"
+    port: 25565
+  - name: "Survival"
+    host: "survival"
+    port: 25565

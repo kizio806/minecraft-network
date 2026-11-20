@@ -1,0 +1,26 @@
+# ==============================================================================
+# CleanStaffChat Configuration (Velocity Proxy)
+# ==============================================================================
+# Managed declaratively via configs/network.yml and locales/*.yml
+
+settings:
+  # Staff chat format across all backend servers
+  staff-chat-format: "__MSG_STAFFCHAT_TAG__ <gray>(</gray><gold>{server}</gold><gray>)</gray> <white>{player}</white><gray>:</gray> <yellow>{message}</yellow>"
+
+  # Admin chat format
+  admin-chat-format: "__MSG_ADMINCHAT_TAG__ <gray>(</gray><gold>{server}</gold><gray>)</gray> <white>{player}</white><gray>:</gray> <red>{message}</red>"
+
+  # Permissions required to read/write in staff chat
+  staff-permission: "network.staffchat.use"
+  admin-permission: "network.adminchat.use"
+
+  # Toggle mode (entering chat without /sc each time)
+  enable-toggle: true
+
+  # Sound alert on incoming staff message
+  play-sound: true
+  sound-name: "entity.experience_orb.pickup"
+
+  # Optional Discord webhook logging
+  discord-webhook-enabled: false
+  discord-webhook-url: ""

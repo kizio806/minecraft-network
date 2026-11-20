@@ -239,3 +239,47 @@ messages:
   parkour_restart: "&7Restarting parkour course..."
   parkour_finish: "&aCongratulations! &7You finished course &e%course% &7in &e%time%&7!"
   parkour_checkpoint: "&aCheckpoint &e%checkpoint% &asaved!"
+
+  # Maintenance
+  maintenance_motd_line_1: "<gradient:__THEME_PRIMARY__:__THEME_SECONDARY__><bold>__NETWORK_NAME__</bold></gradient> <dark_gray>•</dark_gray> <red><bold>MAINTENANCE</bold></red>"
+  maintenance_motd_line_2: "<gray>Scheduled maintenance is currently in progress. We will be back soon!</gray>"
+  maintenance_kick_message: "<red><bold>Network is under maintenance!</bold></red>\n\n<gray>Scheduled maintenance is currently ongoing.\nJoin our Discord for updates: <yellow>https://__NETWORK_DISCORD__</yellow></gray>"
+  maintenance_header: "<red>SERVER CURRENTLY UNAVAILABLE</red>"
+
+  # Staff Chat & Admin Chat
+  staffchat_tag: "<dark_gray>[<red>StaffChat</red>]</dark_gray>"
+  adminchat_tag: "<dark_gray>[<dark_red>AdminChat</dark_red>]</dark_gray>"
+
+  # Reports (VelocityReport)
+  report_prefix: "<gold><bold>REPORT</bold></gold> <dark_gray>»</dark_gray>"
+  report_usage: "<gray>Usage: <yellow>/report <player> <reason></yellow></gray>"
+  report_success: "<green>Your report against <gold>{target}</gold> has been submitted to online staff!</green>"
+  report_staff_alert: "<gold><bold>[REPORT]</bold></gold> <yellow>{reporter}</yellow> reported <red>{target}</red> <gray>on</gray> <gold>{server}</gold><gray>: <white>{reason}</white>"
+
+  # ajQueue
+  queue_position: "<gradient:__THEME_PRIMARY__:__THEME_SECONDARY__>In Queue:</gradient> <white>Position #{position} of {total}</white> <gray>•</gray> <yellow>Estimated: ~{time}s</yellow>"
+  queue_connecting: "<green>Connecting to <gold>{server}</gold>...</green>"
+
+  # SuperVanish
+  vanish_enabled: "&aYou are now completely invisible to other players."
+  vanish_disabled: "&cYou are now visible to everyone."
+  vanish_actionbar: "&a[VANISHED] &7You are hidden from all players."
+
+  # Discord Bot
+  discord_status_title: "✦ __NETWORK_NAME__ • SERVER NETWORK STATUS ✦"
+  discord_status_desc: "Real-time network status and connection dashboard."
+  discord_status_online: "🟢 Online"
+  discord_status_offline: "🔴 Offline"
+  discord_status_players: "Online Players: **%d / __NETWORK_MAX_PLAYERS__**"
+  discord_btn_link: "Link Account"
+  discord_btn_how_to_join: "How to Join"
+  discord_btn_refresh: "Refresh"
+  discord_modal_title: "Minecraft Account Verification"
+  discord_modal_nick_label: "Your Minecraft Nickname"
+  discord_modal_nick_placeholder: "e.g. Steve"
+  discord_link_success: "✅ Success! Your Discord account has been linked to Minecraft nickname **%s**."
+  discord_link_already: "⚠️ Your Discord account is already linked to **%s**."
+  discord_whitelist_added: "✅ Added **%s** to the server whitelist."
+  discord_whitelist_removed: "❌ Removed **%s** from the server whitelist."
+  discord_how_to_join_title: "✦ HOW TO JOIN __NETWORK_NAME__ ✦"
+  discord_how_to_join_text: "1. Launch Minecraft Java Edition **1.21.x**\n2. Open Multiplayer -> Add Server\n3. Server Address: `__NETWORK_DOMAIN__`\n4. Connect and enjoy your adventure!"

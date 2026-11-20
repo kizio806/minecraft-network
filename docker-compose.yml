@@ -92,6 +92,23 @@ services:
     healthcheck: {test: [CMD-SHELL, "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"], interval: 10s, timeout: 5s, retries: 5}
     deploy: {resources: {limits: {cpus: "1.0", memory: 512M, pids: 256}}}
 
+  discord-bot:
+    <<: *common
+    build:
+      context: .
+      dockerfile: Dockerfile.discord-bot
+    user: "${MC_UID:-1000}:${MC_GID:-1000}"
+    command: ["-config", "/configs/discord/config.yml", "-locales", "/locales", "-lang", "${LOCALE:-en}"]
+    volumes:
+      - ./configs/discord:/configs/discord:ro
+      - ./locales:/locales:ro
+    secrets: [discord_bot_token, postgres_password]
+    networks: [proxy_net, data_net]
+    depends_on:
+      postgres: {condition: service_healthy}
+    healthcheck: {test: ["CMD", "/app/discord-bot", "-health"], interval: 30s, timeout: 5s, retries: 3, start_period: 10s}
+    deploy: {resources: {limits: {cpus: "0.25", memory: 64M, pids: 64}}}
+
   node-exporter:
     profiles: [monitoring]
     <<: *common
@@ -150,6 +167,7 @@ secrets:
   grafana_admin_password: {file: ./secrets/grafana_admin_password}
   ultimateteams_password: {file: ./secrets/ultimateteams_password}
   libertybans_password: {file: ./secrets/libertybans_password}
+  discord_bot_token: {file: ./secrets/discord_bot_token}
 
 networks:
   proxy_net:

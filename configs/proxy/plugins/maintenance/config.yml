@@ -1,0 +1,26 @@
+# ==============================================================================
+# Maintenance Configuration (Velocity Proxy)
+# ==============================================================================
+# Managed declaratively via configs/network.yml and locales/*.yml
+
+maintenance-enabled: false
+
+# Ping message / MOTD displayed when maintenance is active
+pingmessage: "__MSG_MAINTENANCE_MOTD_LINE_1__\n__MSG_MAINTENANCE_MOTD_LINE_2__"
+
+# Shown on player kick when maintenance starts or when an unprivileged player joins
+kickmessage: "__MSG_MAINTENANCE_KICK_MESSAGE__"
+
+# MiniMessage header shown above player count in server list
+header: "__MSG_MAINTENANCE_HEADER__"
+
+# Whitelisted player UUIDs / names that bypass maintenance
+whitelisted-players: []
+
+# Send maintenance status webhook to Discord (optional)
+discord-webhook: ""
+
+# Waiting/countdown timer settings
+timer:
+  enabled: true
+  broadcast-interval: 60

@@ -1,0 +1,25 @@
+# syntax=docker/dockerfile:1
+# Multi-stage build for native, minimal Discord bot daemon
+
+FROM golang:1.24-alpine@sha256:8bee1901f1e530bfb4a7850aa7a479d17ae3a18beb6e09064ed54cfd245b7191 AS builder
+
+WORKDIR /src
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY cmd/ cmd/
+COPY internal/ internal/
+
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o /bin/discord-bot ./cmd/discord-bot
+
+# Final minimal runtime container
+FROM alpine:3.21@sha256:bc21487101ae47172509130ee1092cc273a831968d64b617776d1f69c81e42ab
+
+RUN apk --no-cache add ca-certificates tzdata
+
+USER 1000:1000
+WORKDIR /app
+
+COPY --from=builder /bin/discord-bot /app/discord-bot
+
+ENTRYPOINT ["/app/discord-bot"]

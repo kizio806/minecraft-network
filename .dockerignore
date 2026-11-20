@@ -1,0 +1,10 @@
+.git
+.cache
+.agents
+.plugin-manager
+bin
+backups
+servers
+secrets
+*.tar.gz
+*.age

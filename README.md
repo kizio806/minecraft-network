@@ -24,6 +24,8 @@
 - **Encrypted Age Backups:** Native asymmetric cryptography via `age` (`*.tar.gz.age`) with offsite identity separation and SHA-256 integrity files.
 - **Database Consolidation & Zero Redis:** All permissions (LuckPerms), logins (VeloAuth), teams, and punishments (LibertyBans) reside in isolated schemas on PostgreSQL 16 Alpine. Zero Redis bloat.
 - **Dynamic Theming & Localization (i18n):** Switch color palettes (`amber-sunset`, `cyber-blue`, `emerald-forest`, `amethyst-purple`) and language bundles (`en`, `pl`) in seconds from `configs/network.yml`.
+- **Turnkey Administration & Moderation Suite:** Declarative maintenance schedules (`Maintenance`), network-wide proxy staff chat (`CleanStaffChat`), proxy reporting system (`VelocityReport`), dynamic priority queues (`ajQueue`), and stealth administrator vanish (`SuperVanish`).
+- **Native Discord Bot (Go 1.24):** Containerized bot using modern Discord Components V2 (ActionRow buttons, ephemeral modals for `/link` and verification, live status dashboard, whitelist management, and chat bridge) directly connected to the stack.
 - **Vanilla+ Enhanced SMP:** 3-dimension world overhauls (TerraformGenerator Overworld, Incendium Nether, Nullscape End) running 100% server-side with zero required client-side mods.
 
 ---
@@ -122,6 +124,7 @@ The repository includes a comprehensive `Makefile` with zero host dependencies (
 
 ```bash
 make build       # Compile ./bin/network with embedded Git commit and build date
+make build-bot   # Compile ./bin/discord-bot native Go binary
 make test        # Run unit tests across all packages
 make test-race   # Run unit tests with Go race detector (-race)
 make lint        # Run golangci-lint with gosec, errcheck, staticcheck
@@ -129,21 +132,6 @@ make fmt         # Format Go source code
 make vet         # Run go vet
 make doctor      # Execute full system diagnostic check
 make health      # Inspect running container health status
-```
-
-Commands:
-  install            Prepare directories, render configs, generate secrets (0600), sync plugins & datapacks
-  start              Launch services (optional: --monitoring)
-  stop               Safely shut down services
-  restart            Restart services with recalculated templates
-  status             Display container states and health checks
-  health             Verify cluster readiness and port availability
-  logs [service]     Tail service logs (--follow, --lines N)
-  console <service>  Attach interactively to server console (proxy, lobby, survival)
-  backup             Create age-encrypted archive with PostgreSQL dump
-  restore <file>     Atomically restore state from encrypted backup (--yes)
-  update             Check pinned images and plugin versions (--dry-run, --apply)
-  plugins <cmd>      Validate, list, plan, verify, sync, components, rollback
 ```
 
 ---

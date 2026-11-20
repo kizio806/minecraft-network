@@ -1,0 +1,22 @@
+# ==============================================================================
+# SuperVanish Configuration (Lobby Hub)
+# ==============================================================================
+# Managed declaratively via configs/network.yml and locales/*.yml
+
+Configuration:
+  ServerType: "Paper"
+  CheckForUpdates: false
+
+Messages:
+  VanishMessage: "__MSG_VANISH_ENABLED__"
+  ReappearMessage: "__MSG_VANISH_DISABLED__"
+  ActionBarMessage: "__MSG_VANISH_ACTIONBAR__"
+
+Invisibility:
+  HideInTablist: true
+  HidePlayersFromTarget: true
+  PreventBlockPlacement: false
+  SilentChestOpening: true
+  DisableMobTarget: true
+  DisableHunger: true
+  DisableDamage: true
