@@ -4,8 +4,11 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
+	"os"
+	"os/exec"
 	"testing"
 	"time"
 
@@ -610,19 +613,136 @@ func TestBot_InteractionHandling(t *testing.T) {
 	})
 }
 
+func TestResolveDockerPath(t *testing.T) {
+	origStat := statFunc
+	origLookPath := lookPathFunc
+	defer func() {
+		statFunc = origStat
+		lookPathFunc = origLookPath
+	}()
+
+	t.Run("found in candidates", func(t *testing.T) {
+		statFunc = func(name string) (os.FileInfo, error) {
+			if name == "/usr/bin/docker" {
+				return nil, nil
+			}
+			return nil, os.ErrNotExist
+		}
+		if p := resolveDockerPath(); p != "/usr/bin/docker" {
+			t.Fatalf("expected /usr/bin/docker, got %s", p)
+		}
+	})
+
+	t.Run("found via lookPath absolute", func(t *testing.T) {
+		statFunc = func(string) (os.FileInfo, error) {
+			return nil, os.ErrNotExist
+		}
+		lookPathFunc = func(string) (string, error) {
+			return "/custom/bin/docker", nil
+		}
+		if p := resolveDockerPath(); p != "/custom/bin/docker" {
+			t.Fatalf("expected /custom/bin/docker, got %s", p)
+		}
+	})
+
+	t.Run("fallback to default", func(t *testing.T) {
+		statFunc = func(string) (os.FileInfo, error) {
+			return nil, os.ErrNotExist
+		}
+		lookPathFunc = func(string) (string, error) {
+			return "relative-docker", nil
+		}
+		if p := resolveDockerPath(); p != "/usr/bin/docker" {
+			t.Fatalf("expected /usr/bin/docker, got %s", p)
+		}
+	})
+}
+
 func TestDockerConsoleExecutor(t *testing.T) {
 	ctx := context.Background()
-	exec := &DockerConsoleExecutor{ComposeFile: "docker-compose.yml"}
+	origCmd := execCommandContext
+	defer func() { execCommandContext = origCmd }()
+
+	execRunner := &DockerConsoleExecutor{ComposeFile: "docker-compose.yml"}
 
 	t.Run("invalid server target", func(t *testing.T) {
-		_, err := exec.Execute(ctx, "invalid_srv", "help")
+		_, err := execRunner.Execute(ctx, "invalid_srv", "help")
 		if err == nil {
 			t.Fatalf("expected error for invalid server, got nil")
 		}
 	})
 
-	t.Run("valid servers invocation check", func(_ *testing.T) {
-		_, _ = exec.Execute(ctx, "proxy", "help")
-		_, _ = exec.Execute(ctx, "lobby", "help")
+	t.Run("successful execution with output", func(t *testing.T) {
+		execCommandContext = func(ctx context.Context, _ string, _ ...string) *exec.Cmd {
+			cs := []string{"-test.run=TestHelperProcessSubprocess", "--", "mock_success"}
+			//nolint:gosec // Subprocess invocation is strictly restricted to test binary
+			return exec.CommandContext(ctx, os.Args[0], cs...)
+		}
+		res, err := execRunner.Execute(ctx, "proxy", "list")
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if res != "success output" {
+			t.Fatalf("expected success output, got %q", res)
+		}
 	})
+
+	t.Run("successful execution with empty output", func(t *testing.T) {
+		execCommandContext = func(ctx context.Context, _ string, _ ...string) *exec.Cmd {
+			cs := []string{"-test.run=TestHelperProcessSubprocess", "--", "mock_empty"}
+			//nolint:gosec // Subprocess invocation is strictly restricted to test binary
+			return exec.CommandContext(ctx, os.Args[0], cs...)
+		}
+		res, err := execRunner.Execute(ctx, "lobby", "list")
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if res != "Command executed successfully (no output)." {
+			t.Fatalf("unexpected result: %q", res)
+		}
+	})
+
+	t.Run("execution error with stderr", func(t *testing.T) {
+		execCommandContext = func(ctx context.Context, _ string, _ ...string) *exec.Cmd {
+			cs := []string{"-test.run=TestHelperProcessSubprocess", "--", "mock_stderr"}
+			//nolint:gosec // Subprocess invocation is strictly restricted to test binary
+			return exec.CommandContext(ctx, os.Args[0], cs...)
+		}
+		_, err := execRunner.Execute(ctx, "survival", "stop")
+		if err == nil || err.Error() != "fatal server error" {
+			t.Fatalf("expected fatal server error, got: %v", err)
+		}
+	})
+
+	t.Run("execution error with empty stderr", func(t *testing.T) {
+		execCommandContext = func(ctx context.Context, _ string, _ ...string) *exec.Cmd {
+			cs := []string{"-test.run=TestHelperProcessSubprocess", "--", "mock_exit_only"}
+			//nolint:gosec // Subprocess invocation is strictly restricted to test binary
+			return exec.CommandContext(ctx, os.Args[0], cs...)
+		}
+		noFileExec := &DockerConsoleExecutor{}
+		_, err := noFileExec.Execute(ctx, "survival", "stop")
+		if err == nil {
+			t.Fatal("expected error, got nil")
+		}
+	})
+}
+
+func TestHelperProcessSubprocess(_ *testing.T) {
+	if len(os.Args) < 3 || os.Args[len(os.Args)-2] != "--" {
+		return
+	}
+	mode := os.Args[len(os.Args)-1]
+	switch mode {
+	case "mock_success":
+		fmt.Print("success output")
+		os.Exit(0)
+	case "mock_empty":
+		os.Exit(0)
+	case "mock_stderr":
+		fmt.Fprint(os.Stderr, "fatal server error")
+		os.Exit(1)
+	case "mock_exit_only":
+		os.Exit(1)
+	}
 }

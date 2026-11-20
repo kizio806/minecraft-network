@@ -18,14 +18,20 @@ type ConsoleExecutor interface {
 	Execute(ctx context.Context, server, command string) (string, error)
 }
 
+var (
+	dockerCandidates   = []string{"/usr/bin/docker", "/usr/local/bin/docker"}
+	statFunc           = os.Stat
+	lookPathFunc       = exec.LookPath
+	execCommandContext = exec.CommandContext
+)
+
 func resolveDockerPath() string {
-	candidates := []string{"/usr/bin/docker", "/usr/local/bin/docker"}
-	for _, p := range candidates {
-		if _, err := os.Stat(p); err == nil {
+	for _, p := range dockerCandidates {
+		if _, err := statFunc(p); err == nil {
 			return p
 		}
 	}
-	if p, err := exec.LookPath("docker"); err == nil && filepath.IsAbs(p) {
+	if p, err := lookPathFunc("docker"); err == nil && filepath.IsAbs(p) {
 		return p
 	}
 	return "/usr/bin/docker"
@@ -56,7 +62,7 @@ func (d *DockerConsoleExecutor) Execute(ctx context.Context, server, command str
 
 	dockerBin := resolveDockerPath()
 	//nolint:gosec // G204: server and arguments are validated against strict whitelist
-	cmd := exec.CommandContext(ctx, dockerBin, append([]string{"compose"}, args...)...)
+	cmd := execCommandContext(ctx, dockerBin, append([]string{"compose"}, args...)...)
 	cmd.Env = append(os.Environ(), "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin")
 	var out, stderr bytes.Buffer
 	cmd.Stdout = &out

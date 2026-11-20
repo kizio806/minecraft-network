@@ -102,8 +102,8 @@ func (m *Manager) ensureStopped(ctx context.Context, targets []string) error {
 		return err
 	}
 	args := []string{"compose", "-f", compose, "ps", "--status", "running", "--services"}
-	dockerBin := "/usr/bin/docker"
-	if p, lookErr := exec.LookPath("docker"); lookErr == nil && filepath.IsAbs(p) {
+	dockerBin := "docker"
+	if p, lookErr := exec.LookPath("docker"); lookErr == nil {
 		dockerBin = p
 	}
 	out, err := exec.CommandContext(ctx, dockerBin, args...).CombinedOutput()
