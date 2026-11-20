@@ -38,6 +38,7 @@ Applies to `./bin/network` and its interaction with Docker Compose, secret manag
 | **`plugins`** | `network plugins validate\|sync\|report` | Interface to `plugin-manager`. |
 | **`config`** | `network config validate\|show` | Validates configuration files against schemas. |
 | **`update`** | `network update check\|--apply` | Checks for new image digests and creates pre-update backup. |
+| **`completion`** | `network completion [bash\|zsh\|fish]` | Generates shell autocompletion script. |
 
 ### 3. Exit Codes
 

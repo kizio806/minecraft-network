@@ -48,6 +48,9 @@ func (a App) Execute(ctx context.Context, args []string) error {
 		fmt.Fprintln(a.Out, Version)
 		return nil
 	}
+	if rest[0] == "completion" {
+		return a.completion(rest[1:])
+	}
 	cfg, err := Load(project, output)
 	if err != nil {
 		return &ExitError{3, err}
@@ -93,7 +96,7 @@ func (a App) Execute(ctx context.Context, args []string) error {
 
 func (a App) help() {
 	fmt.Fprintln(a.Out, `network [global flags] <command>
-Commands: init [--non-interactive], doctor, config validate|show, install, start|stop|restart [--monitoring] [service], console <service>, status, logs [service], health, backup [list], restore <id> --yes, update check|--dry-run|--apply, plugins <command>
+Commands: init [--non-interactive], doctor, config validate|show, install, start|stop|restart [--monitoring] [service], console <service>, status, logs [service], health, backup [list], restore <id> --yes, update check|--dry-run|--apply, plugins <command>, completion [bash|zsh|fish]
 Global flags: --project-dir PATH --output table|json --yes --dry-run --follow --monitoring --lines N`)
 }
 

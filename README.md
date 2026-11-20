@@ -114,6 +114,20 @@ Commands:
   restore <file>     Atomically restore state from encrypted backup (--yes)
   update             Check pinned images and plugin versions (--dry-run, --apply)
   plugins <cmd>      Validate, list, plan, verify, sync, components, rollback
+  completion [sh]    Generate shell autocompletion script (bash, zsh, fish)
+```
+
+### Shell Autocompletion
+Generate instant tab-completion for commands, console-enabled servers, container services, and flags:
+```bash
+# Bash
+source <(./bin/network completion bash)
+
+# Zsh
+source <(./bin/network completion zsh)
+
+# Fish
+./bin/network completion fish | source
 ```
 
 ---
