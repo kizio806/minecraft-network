@@ -70,7 +70,8 @@ messages:
   tab_status_disabled: "&aWyłączone"
   rank_owner: "WŁAŚCICIEL"
   rank_admin: "ADMIN"
-  rank_vip: "VIP"
+  rank_mod: "MOD"
+  rank_helper: "HELPER"
   rank_player: "Gracz"
 
   # Auth (NanoLimbo)
@@ -283,3 +284,41 @@ messages:
   discord_whitelist_removed: "❌ Usunięto gracza **%s** z whitelisty serwera."
   discord_how_to_join_title: "✦ JAK DOŁĄCZYĆ DO __NETWORK_NAME__ ✦"
   discord_how_to_join_text: "1. Uruchom Minecraft Java Edition **1.21.x**\n2. Wejdź w Tryb Wieloosobowy -> Dodaj Serwer\n3. Adres Serwera: `__NETWORK_DOMAIN__`\n4. Dołącz i ciesz się rozgrywką!"
+
+  # Discord Bot - Rules & Verification
+  discord_rules_title: "📜 __NETWORK_NAME__ • REGULAMIN SERWERA"
+  discord_rules_body: "Witaj na **__NETWORK_NAME__**!\n\nPrzed rozpoczęciem gry prosimy o zapoznanie się z regulaminem naszej społeczności:\n\n**1. Szacunek i kultura osobista**\nTraktuj innych graczy i administrację z szacunkiem. Obrażanie, toksyczność i mowa nienawiści są zabronione.\n\n**2. Zakaz cheatów i wspomagaczy**\nUżywanie nieautoryzowanych modyfikacji, auto-clickerów, paczek X-Ray lub wykorzystywanie błędów gry grozi permbanem.\n\n**3. Bezpieczeństwo i czat**\nZakaz współdzielenia kont, spamu oraz reklamowania innych serwerów i stron.\n\n**4. Decyzje administracji**\nStosuj się do poleceń administracji. Decyzje moderatorów są ostateczne.\n\nKliknij przycisk poniżej, aby zaakceptować regulamin i odblokować rangę zweryfikowanego!"
+  discord_btn_accept_rules: "Akceptuję Regulamin"
+  discord_verify_success: "✅ Dziękujemy! Zaakceptowałeś regulamin i otrzymałeś rolę Zweryfikowany. Witamy na __NETWORK_NAME__!"
+  discord_verify_already: "ℹ️ Zaakceptowałeś już regulamin i posiadasz weryfikację."
+  discord_rules_published: "✅ Regulamin i panel weryfikacji zostały opublikowane na kanale <#%s>!"
+
+  # Discord Bot - Moderation & Reports
+  discord_report_title: "🚨 Zgłoszenie Gracza"
+  discord_report_submitted: "✅ Zgłoszenie gracza **%s** zostało przesłane do administracji! Dziękujemy za dbanie o porządek."
+  discord_report_field_target: "Zgłoszony gracz"
+  discord_report_field_reporter: "Zgłaszający"
+  discord_report_field_reason: "Powód"
+  discord_report_field_status: "Status"
+  discord_report_field_resolved_by: "Rozpatrzone przez"
+  discord_report_status_pending: "⏳ Oczekuje na rozpatrzenie"
+  discord_report_status_resolved: "✅ Rozpatrzone"
+  discord_report_status_dismissed: "❌ Odrzucone"
+  discord_btn_report_resolve: "Rozpatrz"
+  discord_btn_report_dismiss: "Odrzuć"
+  discord_btn_report_punish: "Ukaraj"
+  discord_report_resolved_msg: "✅ Zgłoszenie #%d zostało oznaczone jako rozpatrzone przez %s."
+  discord_report_dismissed_msg: "❌ Zgłoszenie #%d zostało odrzucone przez %s."
+  discord_modal_punish_title: "Panel Kary Administracyjnej"
+  discord_modal_punish_duration_label: "Czas (np. 1h, 12h, 24h, 7d, 30d, perm)"
+  discord_modal_punish_reason_label: "Powód kary / dowód"
+  discord_punish_success: "🔨 Gracz **%s** został ukarany na czas **%s** (Powód: %s)."
+
+  # Discord Bot - Rank Sync & Console
+  discord_sync_title: "🔄 Synchronizacja Rangi LuckPerms"
+  discord_sync_success: "✅ Zsynchronizowano rangę **%s** dla gracza **%s**. Role Discord zostały zaktualizowane!"
+  discord_sync_not_linked: "⚠️ Twoje konto Discord nie jest połączone z kontem Minecraft. Użyj najpierw `/link`."
+  discord_sync_default: "ℹ️ Posiadasz domyślną rangę (**Gracz**). Nie przypisano ról administracyjnych."
+  discord_rcon_title: "💻 Zdalna Konsola Serwera"
+  discord_rcon_invalid_server: "❌ Nieprawidłowy serwer docelowy. Dostępne: proxy, lobby, survival."
+  discord_no_permission: "⛔ Nie posiadasz uprawnień administracyjnych do wykonania tej komendy."

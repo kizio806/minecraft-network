@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 	"sync"
 	"time"
 
@@ -28,26 +29,33 @@ type Bot struct {
 	Config   *Config
 	Session  *discordgo.Session
 	Querier  NetworkQuerier
+	Store    Store
 	Linker   AccountLinker
+	Executor ConsoleExecutor
 	mu       sync.Mutex
 	statusID string
 }
 
-// NewBot initializes a new Discord bot instance.
-func NewBot(cfg *Config, s *discordgo.Session, q NetworkQuerier, l AccountLinker) *Bot {
-	b := &Bot{
-		Config:  cfg,
-		Session: s,
-		Querier: q,
-		Linker:  l,
+// NewBot initializes a new Discord bot instance with all domain handlers.
+func NewBot(cfg *Config, s *discordgo.Session, q NetworkQuerier, store Store, exec ConsoleExecutor) *Bot {
+	if q == nil {
+		q = &DefaultQuerier{}
 	}
-	if b.Querier == nil {
-		b.Querier = &DefaultQuerier{}
+	if store == nil {
+		store = NewMemoryStore()
 	}
-	if b.Linker == nil {
-		b.Linker = &DefaultLinker{}
+	if exec == nil {
+		exec = &DefaultConsoleExecutor{}
 	}
-	return b
+
+	return &Bot{
+		Config:   cfg,
+		Session:  s,
+		Querier:  q,
+		Store:    store,
+		Linker:   store,
+		Executor: exec,
+	}
 }
 
 // RegisterHandlers binds event listeners to the Discord session.
@@ -55,9 +63,10 @@ func (b *Bot) RegisterHandlers() {
 	b.Session.AddHandler(b.handleInteraction)
 }
 
-// SlashCommands returns the list of application slash commands.
+// SlashCommands returns the complete registry of application slash commands.
 func (b *Bot) SlashCommands() []*discordgo.ApplicationCommand {
 	adminPerm := int64(discordgo.PermissionAdministrator)
+
 	return []*discordgo.ApplicationCommand{
 		{
 			Name:        "status",
@@ -75,6 +84,57 @@ func (b *Bot) SlashCommands() []*discordgo.ApplicationCommand {
 					Type:        discordgo.ApplicationCommandOptionString,
 					Name:        "nickname",
 					Description: "Your Minecraft in-game username",
+					Required:    true,
+				},
+			},
+		},
+		{
+			Name:        "sync",
+			Description: "Synchronizes your in-game LuckPerms rank with Discord roles",
+		},
+		{
+			Name:        "report",
+			Description: "Submit an in-game player report for staff investigation",
+			Options: []*discordgo.ApplicationCommandOption{
+				{
+					Type:        discordgo.ApplicationCommandOptionString,
+					Name:        "player",
+					Description: "Reported player Minecraft nickname",
+					Required:    true,
+				},
+				{
+					Type:        discordgo.ApplicationCommandOptionString,
+					Name:        "reason",
+					Description: "Reason for the report (e.g. cheating, toxicity, griefing)",
+					Required:    true,
+				},
+			},
+		},
+		{
+			Name:                     "rules",
+			Description:              "Publishes the server rules and verification panel (Staff only)",
+			DefaultMemberPermissions: &adminPerm,
+		},
+		{
+			Name:                     "rcon",
+			Description:              "Executes a console command on a network backend (Administrator only)",
+			DefaultMemberPermissions: &adminPerm,
+			Options: []*discordgo.ApplicationCommandOption{
+				{
+					Type:        discordgo.ApplicationCommandOptionString,
+					Name:        "server",
+					Description: "Target backend server",
+					Required:    true,
+					Choices: []*discordgo.ApplicationCommandOptionChoice{
+						{Name: "Proxy (Velocity)", Value: "proxy"},
+						{Name: "Lobby (Purpur)", Value: "lobby"},
+						{Name: "Survival (Paper)", Value: "survival"},
+					},
+				},
+				{
+					Type:        discordgo.ApplicationCommandOptionString,
+					Name:        "command",
+					Description: "Console command to execute",
 					Required:    true,
 				},
 			},
@@ -115,7 +175,7 @@ func (b *Bot) SlashCommands() []*discordgo.ApplicationCommand {
 	}
 }
 
-// HandleInteraction routes incoming Discord interactions.
+// handleInteraction routes incoming Discord interactions to domain-specific handlers.
 func (b *Bot) handleInteraction(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	switch i.Type {
 	case discordgo.InteractionApplicationCommand:
@@ -194,6 +254,18 @@ func (b *Bot) handleCommand(s *discordgo.Session, i *discordgo.InteractionCreate
 			},
 		})
 
+	case "sync":
+		HandleSyncCommand(s, i, b.Config, b.Store)
+
+	case "report":
+		HandleReportCommand(s, i, b.Config, b.Store)
+
+	case "rules":
+		HandleRulesCommand(s, i, b.Config)
+
+	case "rcon":
+		HandleRconCommand(s, i, b.Config, b.Executor)
+
 	case "whitelist":
 		if len(data.Options) == 0 {
 			return
@@ -230,15 +302,15 @@ func (b *Bot) handleCommand(s *discordgo.Session, i *discordgo.InteractionCreate
 
 func (b *Bot) handleComponent(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	data := i.MessageComponentData()
-	switch data.CustomID {
-	case IDBtnLinkAccount:
+	switch {
+	case data.CustomID == IDBtnLinkAccount:
 		modal := BuildLinkAccountModal(b.Config)
 		_ = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 			Type: discordgo.InteractionResponseModal,
 			Data: &modal,
 		})
 
-	case IDBtnHowToJoin:
+	case data.CustomID == IDBtnHowToJoin:
 		embed := BuildHowToJoinEmbed(b.Config)
 		_ = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 			Type: discordgo.InteractionResponseChannelMessageWithSource,
@@ -248,7 +320,7 @@ func (b *Bot) handleComponent(s *discordgo.Session, i *discordgo.InteractionCrea
 			},
 		})
 
-	case IDBtnRefreshStatus:
+	case data.CustomID == IDBtnRefreshStatus:
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 		statuses := b.Querier.QueryStatuses(ctx, b.Config.Servers)
@@ -262,58 +334,68 @@ func (b *Bot) handleComponent(s *discordgo.Session, i *discordgo.InteractionCrea
 				Components: []discordgo.MessageComponent{actions},
 			},
 		})
+
+	case data.CustomID == IDBtnAcceptRules:
+		HandleAcceptRules(s, i, b.Config)
+
+	case strings.HasPrefix(data.CustomID, IDBtnReportResolvePrefix),
+		strings.HasPrefix(data.CustomID, IDBtnReportDismissPrefix),
+		strings.HasPrefix(data.CustomID, IDBtnReportPunishPrefix):
+		HandleReportButton(s, i, b.Config, b.Store, b.Executor)
 	}
 }
 
 func (b *Bot) handleModal(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	data := i.ModalSubmitData()
-	if data.CustomID != IDModalLinkAccount {
-		return
-	}
-
-	var nick string
-	for _, comp := range data.Components {
-		if row, ok := comp.(*discordgo.ActionsRow); ok {
-			for _, input := range row.Components {
-				if textInput, ok := input.(*discordgo.TextInput); ok && textInput.CustomID == IDInputMinecraftNick {
-					nick = textInput.Value
+	switch {
+	case data.CustomID == IDModalLinkAccount:
+		var nick string
+		for _, comp := range data.Components {
+			if row, ok := comp.(*discordgo.ActionsRow); ok {
+				for _, input := range row.Components {
+					if textInput, ok := input.(*discordgo.TextInput); ok && textInput.CustomID == IDInputMinecraftNick {
+						nick = textInput.Value
+					}
 				}
 			}
 		}
-	}
 
-	if nick == "" {
-		return
-	}
+		if nick == "" {
+			return
+		}
 
-	discordID := i.Member.User.ID
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
+		discordID := i.Member.User.ID
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
 
-	if err := b.Linker.LinkAccount(ctx, discordID, nick); err != nil {
-		msg := fmt.Sprintf(b.Config.Msg("discord_link_already", "Already linked to %s"), nick)
+		if err := b.Linker.LinkAccount(ctx, discordID, nick); err != nil {
+			msg := fmt.Sprintf(b.Config.Msg("discord_link_already", "Already linked to %s"), nick)
+			_ = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+				Type: discordgo.InteractionResponseChannelMessageWithSource,
+				Data: &discordgo.InteractionResponseData{
+					Content: msg,
+					Flags:   discordgo.MessageFlagsEphemeral,
+				},
+			})
+			return
+		}
+
+		if b.Config.Discord.Roles.LinkedRoleID != "" && i.GuildID != "" {
+			_ = s.GuildMemberRoleAdd(i.GuildID, discordID, b.Config.Discord.Roles.LinkedRoleID)
+		}
+
+		respMsg := fmt.Sprintf(b.Config.Msg("discord_link_success", "Linked to %s"), nick)
 		_ = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 			Type: discordgo.InteractionResponseChannelMessageWithSource,
 			Data: &discordgo.InteractionResponseData{
-				Content: msg,
+				Content: respMsg,
 				Flags:   discordgo.MessageFlagsEphemeral,
 			},
 		})
-		return
-	}
 
-	if b.Config.Discord.Roles.LinkedRoleID != "" && i.GuildID != "" {
-		_ = s.GuildMemberRoleAdd(i.GuildID, discordID, b.Config.Discord.Roles.LinkedRoleID)
+	case strings.HasPrefix(data.CustomID, IDModalPunishPrefix):
+		HandlePunishModalSubmit(s, i, b.Config, b.Store, b.Executor)
 	}
-
-	respMsg := fmt.Sprintf(b.Config.Msg("discord_link_success", "Linked to %s"), nick)
-	_ = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseChannelMessageWithSource,
-		Data: &discordgo.InteractionResponseData{
-			Content: respMsg,
-			Flags:   discordgo.MessageFlagsEphemeral,
-		},
-	})
 }
 
 // StartStatusLoop runs a background loop updating the pinned status dashboard.
@@ -387,50 +469,7 @@ func (DefaultQuerier) QueryStatuses(_ context.Context, targets []ServerTarget) [
 	return result
 }
 
-// DefaultLinker provides an in-memory or fallback account linker.
+// DefaultLinker provides an in-memory or fallback account linker for backwards compatibility.
 type DefaultLinker struct {
-	mu        sync.Mutex
-	linked    map[string]string
-	whitelist map[string]bool
-}
-
-func (d *DefaultLinker) LinkAccount(_ context.Context, discordID, username string) error {
-	d.mu.Lock()
-	defer d.mu.Unlock()
-	if d.linked == nil {
-		d.linked = make(map[string]string)
-	}
-	if existing, ok := d.linked[discordID]; ok && existing != username {
-		return fmt.Errorf("already linked to %s", existing)
-	}
-	d.linked[discordID] = username
-	return nil
-}
-
-func (d *DefaultLinker) GetLinkedAccount(_ context.Context, discordID string) (string, error) {
-	d.mu.Lock()
-	defer d.mu.Unlock()
-	if nick, ok := d.linked[discordID]; ok {
-		return nick, nil
-	}
-	return "", fmt.Errorf("account not linked")
-}
-
-func (d *DefaultLinker) AddToWhitelist(_ context.Context, username string) error {
-	d.mu.Lock()
-	defer d.mu.Unlock()
-	if d.whitelist == nil {
-		d.whitelist = make(map[string]bool)
-	}
-	d.whitelist[username] = true
-	return nil
-}
-
-func (d *DefaultLinker) RemoveFromWhitelist(_ context.Context, username string) error {
-	d.mu.Lock()
-	defer d.mu.Unlock()
-	if d.whitelist != nil {
-		delete(d.whitelist, username)
-	}
-	return nil
+	MemoryStore
 }

@@ -19,8 +19,13 @@ type ServerTarget struct {
 
 // RolesConfig holds Discord role IDs.
 type RolesConfig struct {
-	LinkedRoleID string `yaml:"linked-role-id"`
-	StaffRoleID  string `yaml:"staff-role-id"`
+	VerifiedRoleID string `yaml:"verified-role-id"`
+	LinkedRoleID   string `yaml:"linked-role-id"`
+	StaffRoleID    string `yaml:"staff-role-id"`
+	HelperRoleID   string `yaml:"helper-role-id"`
+	ModRoleID      string `yaml:"mod-role-id"`
+	AdminRoleID    string `yaml:"admin-role-id"`
+	OwnerRoleID    string `yaml:"owner-role-id"`
 }
 
 // DiscordSection holds Discord-specific options.
@@ -30,7 +35,14 @@ type DiscordSection struct {
 	StatusUpdateInterval int         `yaml:"status-update-interval"`
 	ChatChannelID        string      `yaml:"chat-channel-id"`
 	StaffChannelID       string      `yaml:"staff-channel-id"`
+	RulesChannelID       string      `yaml:"rules-channel-id"`
+	ReportChannelID      string      `yaml:"report-channel-id"`
 	Roles                RolesConfig `yaml:"roles"`
+}
+
+// DatabaseSection holds database connection parameters.
+type DatabaseSection struct {
+	URL string `yaml:"url"`
 }
 
 // NetworkSection holds basic network identity.
@@ -42,9 +54,10 @@ type NetworkSection struct {
 
 // Config represents the complete Discord bot configuration.
 type Config struct {
-	Discord  DiscordSection `yaml:"discord"`
-	Network  NetworkSection `yaml:"network"`
-	Servers  []ServerTarget `yaml:"servers"`
+	Discord  DiscordSection  `yaml:"discord"`
+	Database DatabaseSection `yaml:"database"`
+	Network  NetworkSection  `yaml:"network"`
+	Servers  []ServerTarget  `yaml:"servers"`
 	Messages map[string]string
 }
 

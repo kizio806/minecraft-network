@@ -116,15 +116,13 @@ flowchart TD
 
 - **PostgreSQL 16 Alpine Consolidation:** All databases (`luckperms`, `veloauth`, `ultimateteams`, `libertybans`) run in dedicated schemas with least-privilege user isolation.
 - **Zero Redis Policy (ADR 0012):** Redis is permanently eliminated. Permission synchronization uses native `pluginmsg` channels, and skin caching runs in-memory, saving RAM and operational complexity.
-- **Declarative Permissions Seeding:** LuckPerms is automatically initialized on startup via `infrastructure/postgres/seed-luckperms.sql`, defining the 7-tier rank model:
+- **Declarative Permissions Seeding:** LuckPerms is automatically initialized on startup via `infrastructure/postgres/seed-luckperms.sql`, defining the clean 5-tier rank hierarchy (zero P2W/bought ranks):
   1. `default` (weight 10)
-  2. `vip` (weight 20)
-  3. `svip` (weight 30)
-  4. `helper` (weight 40)
-  5. `moderator` (weight 60)
-  6. `administrator` (weight 80)
-  7. `owner` (weight 100)
-  Tracks: `staff` and `donor`.
+  2. `helper` (weight 40)
+  3. `moderator` (weight 60)
+  4. `administrator` (weight 80)
+  5. `owner` (weight 100)
+  Track: `staff`.
 
 ---
 

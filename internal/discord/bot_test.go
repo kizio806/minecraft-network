@@ -9,11 +9,11 @@ import (
 
 func TestBot_SlashCommands(t *testing.T) {
 	cfg := &discord.Config{}
-	bot := discord.NewBot(cfg, nil, nil, nil)
+	bot := discord.NewBot(cfg, nil, nil, nil, nil)
 
 	cmds := bot.SlashCommands()
-	if len(cmds) != 4 {
-		t.Fatalf("expected 4 slash commands, got %d", len(cmds))
+	if len(cmds) != 8 {
+		t.Fatalf("expected 8 slash commands, got %d", len(cmds))
 	}
 
 	expectedNames := map[string]bool{
@@ -21,6 +21,10 @@ func TestBot_SlashCommands(t *testing.T) {
 		"players":   true,
 		"link":      true,
 		"whitelist": true,
+		"sync":      true,
+		"report":    true,
+		"rules":     true,
+		"rcon":      true,
 	}
 
 	for _, cmd := range cmds {
@@ -48,7 +52,9 @@ func TestDefaultQuerier(t *testing.T) {
 }
 
 func TestDefaultLinker(t *testing.T) {
-	linker := &discord.DefaultLinker{}
+	linker := &discord.DefaultLinker{
+		MemoryStore: *discord.NewMemoryStore(),
+	}
 	ctx := context.Background()
 
 	err := linker.LinkAccount(ctx, "discord_123", "Steve")
@@ -83,7 +89,7 @@ func TestDefaultLinker(t *testing.T) {
 
 func TestBot_StatusLoopNoChannel(_ *testing.T) {
 	cfg := &discord.Config{}
-	bot := discord.NewBot(cfg, nil, nil, nil)
+	bot := discord.NewBot(cfg, nil, nil, nil, nil)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()

@@ -1,5 +1,5 @@
 -- ==============================================================================
--- LuckPerms 7-Rank Hierarchy Schema & Seed for PostgreSQL
+-- LuckPerms 5-Rank Hierarchy Schema & Seed for PostgreSQL
 -- ==============================================================================
 
 CREATE TABLE IF NOT EXISTS luckperms_players (
@@ -54,12 +54,10 @@ CREATE TABLE IF NOT EXISTS luckperms_group_permissions (
 CREATE INDEX IF NOT EXISTS luckperms_group_permissions_name_idx ON luckperms_group_permissions (name);
 
 -- ------------------------------------------------------------------------------
--- 1. Insert Groups (7-Tier Model)
+-- 1. Insert Groups (5-Tier Model)
 -- ------------------------------------------------------------------------------
 INSERT INTO luckperms_groups (name) VALUES
     ('default'),
-    ('vip'),
-    ('svip'),
     ('helper'),
     ('moderator'),
     ('administrator'),
@@ -70,8 +68,7 @@ ON CONFLICT (name) DO NOTHING;
 -- 2. Insert Tracks
 -- ------------------------------------------------------------------------------
 INSERT INTO luckperms_tracks (name, groups) VALUES
-    ('staff', '["helper", "moderator", "administrator", "owner"]'),
-    ('donor', '["vip", "svip"]')
+    ('staff', '["helper", "moderator", "administrator", "owner"]')
 ON CONFLICT (name) DO UPDATE SET groups = EXCLUDED.groups;
 
 -- ------------------------------------------------------------------------------
@@ -81,14 +78,6 @@ INSERT INTO luckperms_group_permissions (name, permission, value, server, world,
     -- default
     ('default', 'weight.10', true, 'global', 'global', 0, '{}'),
     ('default', 'prefix.10.&7Player &8» &f', true, 'global', 'global', 0, '{}'),
-    -- vip
-    ('vip', 'weight.20', true, 'global', 'global', 0, '{}'),
-    ('vip', 'prefix.20.&#f6d365&lVIP &#f6d365» &f', true, 'global', 'global', 0, '{}'),
-    ('vip', 'group.default', true, 'global', 'global', 0, '{}'),
-    -- svip
-    ('svip', 'weight.30', true, 'global', 'global', 0, '{}'),
-    ('svip', 'prefix.30.&#a18cd1&lSVIP &#a18cd1» &f', true, 'global', 'global', 0, '{}'),
-    ('svip', 'group.vip', true, 'global', 'global', 0, '{}'),
     -- helper
     ('helper', 'weight.40', true, 'global', 'global', 0, '{}'),
     ('helper', 'prefix.40.&#2ecc71&lHELPER &#2ecc71» &f', true, 'global', 'global', 0, '{}'),
@@ -142,16 +131,6 @@ INSERT INTO luckperms_group_permissions (name, permission, value, server, world,
     ('default', 'bukkit.command.version', false, 'global', 'global', 0, '{}'),
     ('default', 'bukkit.command.help', false, 'global', 'global', 0, '{}'),
     ('default', 'minecraft.command.me', false, 'global', 'global', 0, '{}'),
-    -- vip permissions
-    ('vip', 'essentials.workbench', true, 'global', 'global', 0, '{}'),
-    ('vip', 'essentials.hat', true, 'global', 'global', 0, '{}'),
-    ('vip', 'essentials.chat.color', true, 'global', 'global', 0, '{}'),
-    ('vip', 'essentials.sethome.multiple.vip', true, 'global', 'global', 0, '{}'),
-    -- svip permissions
-    ('svip', 'essentials.enderchest', true, 'global', 'global', 0, '{}'),
-    ('svip', 'essentials.anvil', true, 'global', 'global', 0, '{}'),
-    ('svip', 'essentials.near', true, 'global', 'global', 0, '{}'),
-    ('svip', 'essentials.sethome.multiple.svip', true, 'global', 'global', 0, '{}'),
     -- helper permissions
     ('helper', 'libertybans.mute', true, 'global', 'global', 0, '{}'),
     ('helper', 'libertybans.warn', true, 'global', 'global', 0, '{}'),

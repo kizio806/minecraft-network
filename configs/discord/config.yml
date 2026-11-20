@@ -19,10 +19,24 @@ discord:
   # Staff alerts channel ID (for reports and maintenance notices)
   staff-channel-id: "${DISCORD_STAFF_CHANNEL_ID:-}"
 
-  # Roles given upon account verification / linking
+  # Rules & verification channel ID
+  rules-channel-id: "${DISCORD_RULES_CHANNEL_ID:-}"
+
+  # In-game reports channel ID (defaults to staff channel if unset)
+  report-channel-id: "${DISCORD_REPORT_CHANNEL_ID:-}"
+
+  # Roles given upon account verification / linking / staff rank synchronization
   roles:
+    verified-role-id: "${DISCORD_VERIFIED_ROLE_ID:-}"
     linked-role-id: "${DISCORD_LINKED_ROLE_ID:-}"
     staff-role-id: "${DISCORD_STAFF_ROLE_ID:-}"
+    helper-role-id: "${DISCORD_HELPER_ROLE_ID:-}"
+    mod-role-id: "${DISCORD_MOD_ROLE_ID:-}"
+    admin-role-id: "${DISCORD_ADMIN_ROLE_ID:-}"
+    owner-role-id: "${DISCORD_OWNER_ROLE_ID:-}"
+
+database:
+  url: "${DATABASE_URL:-}"
 
 network:
   name: "__NETWORK_NAME__"

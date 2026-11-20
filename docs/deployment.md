@@ -93,7 +93,7 @@ Verify service health:
 
 During the first start of PostgreSQL, the `init-databases.sh` script automatically:
 - Creates isolated users and databases for `luckperms`, `veloauth`, `ultimateteams`, and `libertybans`.
-- Applies `seed-luckperms.sql` into the `luckperms` database, establishing the 7-tier rank hierarchy (`default`, `vip`, `svip`, `helper`, `moderator`, `administrator`, `owner`), prefixes, weights, and tracks (`staff`, `donor`).
+- Applies `seed-luckperms.sql` into the `luckperms` database, establishing the 5-tier rank hierarchy (`default`, `helper`, `moderator`, `administrator`, `owner`), prefixes, weights, and staff track (`staff`).
 
 To promote the network owner, execute via console:
 ```bash

@@ -14,7 +14,8 @@ messages:
 
 # Priority groups matching LuckPerms groups (higher priority gets sent first)
 priority:
-  admin: 100
+  owner: 100
+  administrator: 90
   moderator: 80
-  vip: 50
+  helper: 60
   default: 1

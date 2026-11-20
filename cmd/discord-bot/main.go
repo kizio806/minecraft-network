@@ -52,12 +52,33 @@ func main() {
 		log.Fatalf("[ERROR] Failed to load discord config: %v", err)
 	}
 
+	var store discord.Store
+	dbURL := strings.TrimSpace(cfg.Database.URL)
+	if dbURL == "" {
+		dbURL = strings.TrimSpace(os.Getenv("DATABASE_URL"))
+	}
+	if dbURL != "" {
+		pgStore, err := discord.NewPostgresStore(dbURL)
+		if err != nil {
+			log.Printf("[WARN] Failed to connect to PostgreSQL (%v). Falling back to in-memory store.", err)
+			store = discord.NewMemoryStore()
+		} else {
+			log.Println("[INFO] Connected to PostgreSQL for Discord persistent storage.")
+			store = pgStore
+		}
+	} else {
+		log.Println("[INFO] No DATABASE_URL specified. Running with in-memory store.")
+		store = discord.NewMemoryStore()
+	}
+	defer store.Close()
+
 	session, err := discordgo.New("Bot " + token)
 	if err != nil {
 		log.Fatalf("[ERROR] Failed to create Discord session: %v", err)
 	}
 
-	bot := discord.NewBot(cfg, session, nil, nil)
+	executor := &discord.DockerConsoleExecutor{}
+	bot := discord.NewBot(cfg, session, nil, store, executor)
 	bot.RegisterHandlers()
 
 	if err := session.Open(); err != nil {

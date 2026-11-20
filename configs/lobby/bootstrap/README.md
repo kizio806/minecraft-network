@@ -6,8 +6,8 @@ The repository automatically provisions LuckPerms groups, permissions, tracks, a
 
 ## 1. Automated Ranks & Permissions
 
-The PostgreSQL `luckperms` database is automatically seeded on first launch with the 7-tier rank model:
-`default -> vip -> svip -> helper -> moderator -> administrator -> owner`
+The PostgreSQL `luckperms` database is automatically seeded on first launch with the 5-tier clean rank hierarchy:
+`default -> helper -> moderator -> administrator -> owner`
 
 ### Assigning Owner Privileges
 To promote the server owner, assign the `owner` group explicitly by player UUID (never by mutable username) via the server console:

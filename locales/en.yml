@@ -70,7 +70,8 @@ messages:
   tab_status_disabled: "&aDisabled"
   rank_owner: "OWNER"
   rank_admin: "ADMIN"
-  rank_vip: "VIP"
+  rank_mod: "MOD"
+  rank_helper: "HELPER"
   rank_player: "Player"
 
   # Auth (NanoLimbo)
@@ -283,3 +284,41 @@ messages:
   discord_whitelist_removed: "❌ Removed **%s** from the server whitelist."
   discord_how_to_join_title: "✦ HOW TO JOIN __NETWORK_NAME__ ✦"
   discord_how_to_join_text: "1. Launch Minecraft Java Edition **1.21.x**\n2. Open Multiplayer -> Add Server\n3. Server Address: `__NETWORK_DOMAIN__`\n4. Connect and enjoy your adventure!"
+
+  # Discord Bot - Rules & Verification
+  discord_rules_title: "📜 __NETWORK_NAME__ • NETWORK RULES & GUIDELINES"
+  discord_rules_body: "Welcome to **__NETWORK_NAME__**!\n\nPlease read and accept our community rules before playing:\n\n**1. Respect & Fair Play**\nTreat all players and staff with respect. No harassment, hate speech, or toxicity.\n\n**2. No Cheating or Exploits**\nHacked clients, auto-clickers, X-ray texture packs, or bug abuse result in a permanent ban.\n\n**3. Account & Chat Safety**\nDo not share accounts, spam chat, or advertise external servers/links.\n\n**4. Staff Authority**\nFollow staff instructions at all times. Staff decisions are final.\n\nClick the button below to accept the rules and obtain verified access!"
+  discord_btn_accept_rules: "Accept Rules & Verify"
+  discord_verify_success: "✅ Thank you! You have accepted the network rules and received the Verified role. Welcome to __NETWORK_NAME__!"
+  discord_verify_already: "ℹ️ You have already accepted the rules and are verified."
+  discord_rules_published: "✅ Server rules and verification panel published to <#%s>!"
+
+  # Discord Bot - Moderation & Reports
+  discord_report_title: "🚨 In-Game Player Report"
+  discord_report_submitted: "✅ Report for player **%s** has been submitted to staff! Thank you for helping keep our community clean."
+  discord_report_field_target: "Reported Player"
+  discord_report_field_reporter: "Reporter"
+  discord_report_field_reason: "Reason"
+  discord_report_field_status: "Status"
+  discord_report_field_resolved_by: "Resolved By"
+  discord_report_status_pending: "⏳ Pending Staff Review"
+  discord_report_status_resolved: "✅ Resolved"
+  discord_report_status_dismissed: "❌ Dismissed"
+  discord_btn_report_resolve: "Resolve"
+  discord_btn_report_dismiss: "Dismiss"
+  discord_btn_report_punish: "Punish"
+  discord_report_resolved_msg: "✅ Report #%d marked as resolved by %s."
+  discord_report_dismissed_msg: "❌ Report #%d marked as dismissed by %s."
+  discord_modal_punish_title: "Staff Moderation • Punish Player"
+  discord_modal_punish_duration_label: "Duration (e.g. 1h, 12h, 24h, 7d, 30d, perm)"
+  discord_modal_punish_reason_label: "Punishment Reason / Evidence"
+  discord_punish_success: "🔨 Player **%s** has been punished for **%s** (Reason: %s)."
+
+  # Discord Bot - Rank Sync & Console
+  discord_sync_title: "🔄 LuckPerms Rank Sync"
+  discord_sync_success: "✅ Synchronized rank **%s** for player **%s**. Discord roles have been updated!"
+  discord_sync_not_linked: "⚠️ Your Discord account is not linked to any Minecraft account. Use `/link` first."
+  discord_sync_default: "ℹ️ You are in the default group (**Player**). No staff roles assigned."
+  discord_rcon_title: "💻 Server Console Execution"
+  discord_rcon_invalid_server: "❌ Invalid server target. Allowed: proxy, lobby, survival."
+  discord_no_permission: "⛔ You do not have administrative permission to execute this command."
