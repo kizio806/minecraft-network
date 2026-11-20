@@ -27,6 +27,19 @@ jobs:
         run: |
           go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
 
+      - name: Verify minimum test coverage threshold (88%)
+        run: |
+          total_cov=$(go tool cover -func=coverage.txt | grep total: | awk '{print $3}' | tr -d '%')
+          echo "Total statement coverage: ${total_cov}%"
+          awk -v cov="$total_cov" 'BEGIN {
+            if (cov < 88.0) {
+              print "ERROR: Statement coverage " cov "% is below mandatory 88.0% quality gate!";
+              exit 1;
+            } else {
+              print "SUCCESS: Statement coverage " cov "% satisfies quality gate (>= 88.0%).";
+            }
+          }'
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:

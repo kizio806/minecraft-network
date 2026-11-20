@@ -155,9 +155,18 @@ func BuildWizardForm(cfg *InitConfig, maxPlayersStr *string) *huh.Form {
 	)
 }
 
+var (
+	isTerminal = func(fd uintptr) bool {
+		return term.IsTerminal(fd)
+	}
+	runForm = func(f *huh.Form) error {
+		return f.Run()
+	}
+)
+
 // RunWizard launches an interactive terminal form to configure network parameters.
 func RunWizard(cfg *InitConfig) error {
-	if cfg.NonInteractive || !term.IsTerminal(os.Stdin.Fd()) {
+	if cfg.NonInteractive || !isTerminal(os.Stdin.Fd()) {
 		return nil
 	}
 
@@ -168,7 +177,7 @@ func RunWizard(cfg *InitConfig) error {
 
 	maxPlayersStr := strconv.Itoa(cfg.MaxPlayers)
 	form := BuildWizardForm(cfg, &maxPlayersStr)
-	if err := form.Run(); err != nil {
+	if err := runForm(form); err != nil {
 		return err
 	}
 

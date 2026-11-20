@@ -31,7 +31,6 @@ func TestFileSHA256(t *testing.T) {
 		t.Fatalf("expected hash %s, got %s", expectedHex, gotHex)
 	}
 
-	// Non-existent file
 	if _, err := backup.FileSHA256(filepath.Join(temp, "non-existent.txt")); err == nil {
 		t.Fatal("expected error for non-existent file, got nil")
 	}
@@ -40,13 +39,11 @@ func TestFileSHA256(t *testing.T) {
 func TestSecureKeyFile(t *testing.T) {
 	temp := t.TempDir()
 
-	// Missing file
 	missing := filepath.Join(temp, "missing.key")
 	if err := backup.SecureKeyFile(missing); err == nil {
 		t.Fatal("expected error for missing key file, got nil")
 	}
 
-	// Directory instead of regular file
 	dirPath := filepath.Join(temp, "dir.key")
 	if err := os.Mkdir(dirPath, 0700); err != nil {
 		t.Fatal(err)
@@ -55,7 +52,6 @@ func TestSecureKeyFile(t *testing.T) {
 		t.Fatal("expected error for directory key, got nil")
 	}
 
-	// Insecure permissions 0644
 	insecureFile := filepath.Join(temp, "insecure.key")
 	if err := os.WriteFile(insecureFile, []byte("key"), 0644); err != nil {
 		t.Fatal(err)
@@ -64,7 +60,6 @@ func TestSecureKeyFile(t *testing.T) {
 		t.Fatal("expected error for 0644 key file, got nil")
 	}
 
-	// Valid 0600 regular file
 	validFile := filepath.Join(temp, "valid.key")
 	if err := os.WriteFile(validFile, []byte("key"), 0600); err != nil {
 		t.Fatal(err)
@@ -77,7 +72,6 @@ func TestSecureKeyFile(t *testing.T) {
 func TestEncryptBackup_Errors(t *testing.T) {
 	temp := t.TempDir()
 
-	// Insecure recipient file
 	insecureRecipient := filepath.Join(temp, "rec_bad.txt")
 	_ = os.WriteFile(insecureRecipient, []byte("key"), 0644)
 	inputFile := filepath.Join(temp, "input.txt")
@@ -88,14 +82,12 @@ func TestEncryptBackup_Errors(t *testing.T) {
 		t.Fatal("expected error for insecure recipient file, got nil")
 	}
 
-	// Corrupted/invalid recipient key string
 	invalidRecipient := filepath.Join(temp, "rec_invalid.txt")
 	_ = os.WriteFile(invalidRecipient, []byte("not-an-age-recipient"), 0600)
 	if err := backup.EncryptBackup(inputFile, outFile, invalidRecipient); err == nil || !strings.Contains(err.Error(), "invalid backup recipient") {
 		t.Fatalf("expected invalid backup recipient error, got: %v", err)
 	}
 
-	// Missing input file with valid recipient
 	id, err := age.GenerateX25519Identity()
 	if err != nil {
 		t.Fatal(err)
@@ -107,12 +99,16 @@ func TestEncryptBackup_Errors(t *testing.T) {
 	if err := backup.EncryptBackup(missingInput, outFile, validRecipient); err == nil {
 		t.Fatal("expected error for missing input file, got nil")
 	}
+
+	invalidOutput := filepath.Join(temp, "missing_dir", "out.age")
+	if err := backup.EncryptBackup(inputFile, invalidOutput, validRecipient); err == nil {
+		t.Fatal("expected error for non-existent output directory, got nil")
+	}
 }
 
 func TestDecryptBackup_Errors(t *testing.T) {
 	temp := t.TempDir()
 
-	// Insecure identity file
 	insecureIdentity := filepath.Join(temp, "id_bad.txt")
 	_ = os.WriteFile(insecureIdentity, []byte("key"), 0644)
 	encFile := filepath.Join(temp, "test.age")
@@ -122,14 +118,12 @@ func TestDecryptBackup_Errors(t *testing.T) {
 		t.Fatal("expected error for insecure identity file, got nil")
 	}
 
-	// Invalid identity file content
 	invalidIdentity := filepath.Join(temp, "id_invalid.txt")
 	_ = os.WriteFile(invalidIdentity, []byte("invalid-identity-content\n"), 0600)
 	if _, err := backup.DecryptBackup(encFile, invalidIdentity); err == nil || !strings.Contains(err.Error(), "invalid backup identity") {
 		t.Fatalf("expected invalid backup identity error, got: %v", err)
 	}
 
-	// Valid identity but missing input file
 	id1, _ := age.GenerateX25519Identity()
 	validIdentity1 := filepath.Join(temp, "id_valid1.txt")
 	_ = os.WriteFile(validIdentity1, []byte(id1.String()+"\n"), 0600)
@@ -139,14 +133,12 @@ func TestDecryptBackup_Errors(t *testing.T) {
 		t.Fatal("expected error for missing input file, got nil")
 	}
 
-	// Decrypt corrupt ciphertext
 	corruptInput := filepath.Join(temp, "corrupt.age")
 	_ = os.WriteFile(corruptInput, []byte("not-real-age-ciphertext"), 0600)
 	if _, err := backup.DecryptBackup(corruptInput, validIdentity1); err == nil || !strings.Contains(err.Error(), "backup decryption failed") {
 		t.Fatalf("expected backup decryption failed error, got: %v", err)
 	}
 
-	// Decrypt with wrong identity (encrypted with id2, decrypted with id1)
 	id2, _ := age.GenerateX25519Identity()
 	rec2Path := filepath.Join(temp, "rec2.txt")
 	_ = os.WriteFile(rec2Path, []byte(id2.Recipient().String()+"\n"), 0600)
@@ -158,7 +150,6 @@ func TestDecryptBackup_Errors(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// Try decrypting with id1
 	if _, err := backup.DecryptBackup(outAgeFile, validIdentity1); err == nil || !strings.Contains(err.Error(), "backup decryption failed") {
 		t.Fatalf("expected backup decryption failed for wrong key, got: %v", err)
 	}

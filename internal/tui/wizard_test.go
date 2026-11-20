@@ -4,6 +4,8 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/charmbracelet/huh"
 )
 
 func TestDefaultInitConfig(t *testing.T) {
@@ -138,5 +140,29 @@ func TestBuildWizardForm(t *testing.T) {
 	form := BuildWizardForm(&cfg, &maxPlayers)
 	if form == nil {
 		t.Fatal("expected non-nil form from BuildWizardForm")
+	}
+}
+
+func TestRunWizardInteractive(t *testing.T) {
+	origTerm := isTerminal
+	origRun := runForm
+	defer func() {
+		isTerminal = origTerm
+		runForm = origRun
+	}()
+
+	isTerminal = func(uintptr) bool { return true }
+	runForm = func(_ *huh.Form) error { return nil }
+
+	cfg := DefaultInitConfig()
+	cfg.NonInteractive = false
+
+	if err := RunWizard(&cfg); err != nil {
+		t.Fatalf("expected interactive wizard to succeed, got %v", err)
+	}
+
+	runForm = func(_ *huh.Form) error { return os.ErrPermission }
+	if err := RunWizard(&cfg); err == nil {
+		t.Fatal("expected error on form failure, got nil")
 	}
 }

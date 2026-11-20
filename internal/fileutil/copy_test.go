@@ -28,19 +28,20 @@ func TestCopyFile(t *testing.T) {
 		t.Fatalf("expected %q, got %q", string(content), string(got))
 	}
 
-	// Missing source file test
 	if err := CopyFile(filepath.Join(dir, "missing.txt"), dst, 0600); err == nil {
 		t.Fatal("expected error for missing source file")
 	}
 
-	// Destination directory creation failure
 	if err := CopyFile(src, filepath.Join(src, "invalid", "target.txt"), 0600); err == nil {
 		t.Fatal("expected error when destination directory cannot be created")
 	}
 
-	// Destination file open failure (dst is a directory)
 	if err := CopyFile(src, dir, 0600); err == nil {
 		t.Fatal("expected error when destination cannot be opened as a regular file")
+	}
+
+	if err := CopyFile(dir, filepath.Join(dir, "cannot_copy_dir.txt"), 0600); err == nil {
+		t.Fatal("expected error when attempting to copy directory as regular file")
 	}
 }
 
@@ -73,12 +74,10 @@ func TestCopyTree(t *testing.T) {
 		t.Fatalf("unexpected nested content: %s %v", string(nestedGot), err)
 	}
 
-	// Source missing test
 	if err := CopyTree(filepath.Join(dir, "nonexistent"), filepath.Join(dir, "out"), 0600); err == nil {
 		t.Fatal("expected error when walking non-existent source directory")
 	}
 
-	// Target directory creation collision (dst has regular file where directory is needed)
 	blockedDst := filepath.Join(dir, "blocked_dst")
 	_ = os.MkdirAll(blockedDst, 0750)
 	_ = os.WriteFile(filepath.Join(blockedDst, "a"), []byte("blocking-file"), 0600)

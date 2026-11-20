@@ -55,6 +55,8 @@ docker-data/
 .network-operation.lock
 bin/
 *.test
+*.out
+coverage.txt
 /network
 /plugin-manager
 
