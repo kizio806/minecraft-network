@@ -62,10 +62,15 @@ func IsMonitoringService(s string) bool {
 // ValidService verifies if a service identifier is supported by the network.
 func ValidService(s string) bool {
 	switch s {
-	case "proxy", "auth", "lobby", "survival", "postgres", "node-exporter", "prometheus", "grafana", "uptime-kuma", "minecraft-exporter":
+	case "proxy", "auth", "lobby", "survival", "postgres", "discord-bot", "node-exporter", "prometheus", "grafana", "uptime-kuma", "minecraft-exporter":
 		return true
 	}
 	return false
+}
+
+// IsBotService checks whether a service belongs to the bot stack.
+func IsBotService(s string) bool {
+	return s == "discord-bot"
 }
 
 // IsConsoleService checks if interactive console attachment is supported.

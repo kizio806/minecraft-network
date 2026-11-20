@@ -193,7 +193,7 @@ func TestCheckHealth(t *testing.T) {
 }
 
 func TestServiceValidation(t *testing.T) {
-	services := []string{"proxy", "auth", "lobby", "survival", "postgres", "node-exporter", "prometheus", "grafana", "uptime-kuma", "minecraft-exporter"}
+	services := []string{"proxy", "auth", "lobby", "survival", "postgres", "discord-bot", "node-exporter", "prometheus", "grafana", "uptime-kuma", "minecraft-exporter"}
 	for _, s := range services {
 		if !compose.ValidService(s) {
 			t.Errorf("expected %s to be a valid service", s)
@@ -201,6 +201,13 @@ func TestServiceValidation(t *testing.T) {
 	}
 	if compose.ValidService("unknown-svc") {
 		t.Error("expected unknown-svc to be invalid")
+	}
+
+	if !compose.IsBotService("discord-bot") {
+		t.Error("expected discord-bot to be recognized as bot service")
+	}
+	if compose.IsBotService("proxy") {
+		t.Error("expected proxy NOT to be a bot service")
 	}
 
 	monitoringServices := []string{"node-exporter", "prometheus", "grafana", "uptime-kuma", "minecraft-exporter"}

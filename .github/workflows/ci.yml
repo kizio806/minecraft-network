@@ -106,7 +106,7 @@ jobs:
       - name: Setup Mock Environment for Validation
         run: |
           install -d -m 0700 secrets
-          for s in postgres_password luckperms_password forwarding_secret grafana_admin_password veloauth_password ultimateteams_password libertybans_password; do
+          for s in postgres_password luckperms_password forwarding_secret grafana_admin_password veloauth_password ultimateteams_password libertybans_password discord_bot_token; do
             echo "mock_secret_value_32_characters_long" > "secrets/$s"
             chmod 0600 "secrets/$s"
           done
@@ -116,14 +116,22 @@ jobs:
       - name: Validate Docker Compose Configuration
         run: |
           docker compose -f docker-compose.yml config --quiet
-          docker compose -f docker-compose.yml --profile monitoring config --quiet
+          docker compose -f docker-compose.yml --profile monitoring --profile bot config --quiet
 
       - name: Reject Mutable Image Tags (Invariant #2)
         run: |
           set -Eeuo pipefail
           while IFS= read -r image; do
+            if [[ "$image" =~ discord-bot ]]; then
+              continue
+            fi
             [[ "$image" =~ @sha256:[0-9a-f]{64}$ ]] || { echo "ERROR: Unpinned image digest found: $image" >&2; exit 1; }
-          done < <(docker compose -f docker-compose.yml --profile monitoring config --images)
+          done < <(docker compose -f docker-compose.yml --profile monitoring --profile bot config --images)
+
+          # Verify Dockerfile pinned base images
+          while IFS= read -r base; do
+            [[ "$base" =~ @sha256:[0-9a-f]{64} ]] || { echo "ERROR: Unpinned Dockerfile base image: $base" >&2; exit 1; }
+          done < <(grep -E '^FROM ' Dockerfile.discord-bot)
 
       - name: Build and Validate CLI
         run: |

@@ -93,6 +93,7 @@ services:
     deploy: {resources: {limits: {cpus: "1.0", memory: 512M, pids: 256}}}
 
   discord-bot:
+    profiles: [bot]
     <<: *common
     build:
       context: .
