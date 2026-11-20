@@ -18,14 +18,14 @@ func TestParsePunishDuration(t *testing.T) {
 
 	t.Run("valid time units", func(t *testing.T) {
 		tests := map[string]string{
-			"1h":   "1h",
-			"12h":  "12h",
-			"24h":  "24h",
-			"7d":   "7d",
-			"30d":  "30d",
-			"5m":   "5m",
-			"2w":   "2w",
-			"1y":   "1y",
+			"1h":    "1h",
+			"12h":   "12h",
+			"24h":   "24h",
+			"7d":    "7d",
+			"30d":   "30d",
+			"5m":    "5m",
+			"2w":    "2w",
+			"1y":    "1y",
 			" 10h ": "10h",
 		}
 		for input, expected := range tests {

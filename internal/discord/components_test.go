@@ -89,8 +89,8 @@ func TestBuildRulesEmbedAndActionRow(t *testing.T) {
 			Domain: "play.example.com",
 		},
 		Messages: map[string]string{
-			"discord_rules_title":     "Network Rules",
-			"discord_rules_body":      "1. Be respectful\n2. No cheats",
+			"discord_rules_title":      "Network Rules",
+			"discord_rules_body":       "1. Be respectful\n2. No cheats",
 			"discord_btn_accept_rules": "I Agree",
 		},
 	}

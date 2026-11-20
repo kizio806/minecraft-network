@@ -184,9 +184,9 @@ func BuildReportEmbed(cfg *Config, r *Report) *discordgo.MessageEmbed {
 	}
 
 	return &discordgo.MessageEmbed{
-		Title:  fmt.Sprintf("%s #%d", cfg.Msg("discord_report_title", "🚨 In-Game Player Report"), r.ID),
-		Color:  color,
-		Fields: fields,
+		Title:     fmt.Sprintf("%s #%d", cfg.Msg("discord_report_title", "🚨 In-Game Player Report"), r.ID),
+		Color:     color,
+		Fields:    fields,
 		Timestamp: r.CreatedAt.Format("2006-01-02T15:04:05Z07:00"),
 		Footer: &discordgo.MessageEmbedFooter{
 			Text: cfg.Network.Domain,
