@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -14,6 +16,19 @@ import (
 // ConsoleExecutor executes console commands against network backend containers.
 type ConsoleExecutor interface {
 	Execute(ctx context.Context, server, command string) (string, error)
+}
+
+func resolveDockerPath() string {
+	candidates := []string{"/usr/bin/docker", "/usr/local/bin/docker"}
+	for _, p := range candidates {
+		if _, err := os.Stat(p); err == nil {
+			return p
+		}
+	}
+	if p, err := exec.LookPath("docker"); err == nil && filepath.IsAbs(p) {
+		return p
+	}
+	return "/usr/bin/docker"
 }
 
 // DockerConsoleExecutor runs commands via docker compose exec.
@@ -39,8 +54,10 @@ func (d *DockerConsoleExecutor) Execute(ctx context.Context, server, command str
 		args = append(args, "exec", "-T", server, "rcon-cli", command)
 	}
 
+	dockerBin := resolveDockerPath()
 	//nolint:gosec // G204: server and arguments are validated against strict whitelist
-	cmd := exec.CommandContext(ctx, "docker", append([]string{"compose"}, args...)...)
+	cmd := exec.CommandContext(ctx, dockerBin, append([]string{"compose"}, args...)...)
+	cmd.Env = append(os.Environ(), "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin")
 	var out, stderr bytes.Buffer
 	cmd.Stdout = &out
 	cmd.Stderr = &stderr
