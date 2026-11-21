@@ -214,6 +214,23 @@ components:
 	_ = os.Remove(filepath.Join(opConf.ProjectDir, "secrets/postgres_password"))
 	_ = os.Remove(filepath.Join(opConf.ProjectDir, "secrets/forwarding_secret"))
 
+	// Test error reading ultimateteams_password when it's a directory
+	badDir := t.TempDir()
+	_ = os.MkdirAll(filepath.Join(badDir, "configs"), 0750)
+	_ = os.WriteFile(filepath.Join(badDir, "configs/network.yml"), []byte(networkYml), 0600)
+	_ = os.MkdirAll(filepath.Join(badDir, "secrets/ultimateteams_password"), 0750)
+	badConf := Config{ProjectDir: badDir}
+	if err := prepareRuntimeConfigs(badConf); err == nil {
+		t.Fatal("expected error when ultimateteams_password is a directory")
+	}
+
+	// Test error reading libertybans_password when it's a directory
+	_ = os.RemoveAll(filepath.Join(badDir, "secrets/ultimateteams_password"))
+	_ = os.MkdirAll(filepath.Join(badDir, "secrets/libertybans_password"), 0750)
+	if err := prepareRuntimeConfigs(badConf); err == nil {
+		t.Fatal("expected error when libertybans_password is a directory")
+	}
+
 	// NativeInstall will run: secrets generation + validation + compose config + sync (dry-run/apply mock)
 	// Even if sync calls real download, we verify secret generation & permissions
 	_ = successApp.nativeInstall(context.Background(), opConf)
