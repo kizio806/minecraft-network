@@ -216,8 +216,12 @@ docker compose -f docker-compose.yml --profile monitoring config --quiet
 
 ---
 
-## Contributing & License
+## Contributing, Support & License
 
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before opening a pull request.
+- **Governance & Contributing:** [CONTRIBUTING.md](CONTRIBUTING.md)
+- **Code of Conduct:** [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- **Support & Inquiries:** [SUPPORT.md](SUPPORT.md)
+- **Project Roadmap:** [ROADMAP.md](ROADMAP.md)
+- **Security Policy:** [SECURITY.md](SECURITY.md)
 
 This project is licensed under the [MIT License](LICENSE).
