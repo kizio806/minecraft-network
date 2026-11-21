@@ -56,12 +56,12 @@ func TestParsePunishDuration(t *testing.T) {
 
 		invalidNames := []string{
 			"",
-			"ab",                       // too short (<3)
+			"ab",                            // too short (<3)
 			"this_name_is_way_too_long_123", // too long (>16)
-			"steve\nop",                // command injection newline
-			"alex;rm -rf",              // command injection semicolon
-			"player 1",                 // space
-			"user@domain",              // special char
+			"steve\nop",                     // command injection newline
+			"alex;rm -rf",                   // command injection semicolon
+			"player 1",                      // space
+			"user@domain",                   // special char
 		}
 		for _, name := range invalidNames {
 			if err := discord.ValidateMinecraftUsername(name); err == nil {

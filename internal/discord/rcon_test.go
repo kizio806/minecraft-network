@@ -147,7 +147,7 @@ func sendMockPacket(w io.Writer, id, pktType int32, body string) {
 func TestNetworkRconClientAndExecutor(t *testing.T) {
 	password := "supersecret123"
 	responses := map[string]string{
-		"list": "There are 2 out of 50 players online: Steve, Alex",
+		"list":               "There are 2 out of 50 players online: Steve, Alex",
 		"ban Steve Griefing": "Steve has been banned.",
 	}
 
