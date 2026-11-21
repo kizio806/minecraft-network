@@ -3,12 +3,45 @@ package discord
 import (
 	"context"
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/bwmarrin/discordgo"
 )
+
+var validMinecraftUsernameRegex = regexp.MustCompile(`^[a-zA-Z0-9_]{3,16}$`)
+
+// ValidateMinecraftUsername ensures the username strictly conforms to standard Minecraft specifications (3-16 chars, alphanumeric + underscores).
+func ValidateMinecraftUsername(username string) error {
+	trimmed := strings.TrimSpace(username)
+	if !validMinecraftUsernameRegex.MatchString(trimmed) {
+		return fmt.Errorf("invalid Minecraft username %q: must be 3-16 characters and contain only letters, numbers, and underscores", username)
+	}
+	return nil
+}
+
+// SanitizePunishReason strips control characters, normalizes whitespace, and truncates to max 128 characters to prevent console injection.
+func SanitizePunishReason(reason string) string {
+	cleaned := strings.Map(func(r rune) rune {
+		if r == '\n' || r == '\r' || r == '\t' || r == '\x00' {
+			return ' '
+		}
+		if r < 32 || r == 127 {
+			return -1
+		}
+		return r
+	}, reason)
+	cleaned = strings.Join(strings.Fields(cleaned), " ")
+	if cleaned == "" {
+		return "Violation of server rules"
+	}
+	if len(cleaned) > 128 {
+		cleaned = cleaned[:128]
+	}
+	return cleaned
+}
 
 // ParsePunishDuration validates and normalizes a punishment duration string.
 func ParsePunishDuration(raw string) (string, error) {
@@ -61,6 +94,18 @@ func HandleReportCommand(s *discordgo.Session, i *discordgo.InteractionCreate, c
 		})
 		return
 	}
+
+	if err := ValidateMinecraftUsername(targetPlayer); err != nil {
+		_ = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+			Type: discordgo.InteractionResponseChannelMessageWithSource,
+			Data: &discordgo.InteractionResponseData{
+				Content: fmt.Sprintf("Invalid player name: %v", err),
+				Flags:   discordgo.MessageFlagsEphemeral,
+			},
+		})
+		return
+	}
+	reason = SanitizePunishReason(reason)
 
 	reporterID := i.Member.User.ID
 	reporterTag := i.Member.User.Username
@@ -217,6 +262,17 @@ func HandlePunishModalSubmit(s *discordgo.Session, i *discordgo.InteractionCreat
 	reportID, _ := strconv.ParseInt(parts[0], 10, 64)
 	targetPlayer := parts[1]
 
+	if err := ValidateMinecraftUsername(targetPlayer); err != nil {
+		_ = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+			Type: discordgo.InteractionResponseChannelMessageWithSource,
+			Data: &discordgo.InteractionResponseData{
+				Content: fmt.Sprintf("Invalid target player: %v", err),
+				Flags:   discordgo.MessageFlagsEphemeral,
+			},
+		})
+		return
+	}
+
 	var rawDuration, reason string
 	for _, comp := range data.Components {
 		if row, ok := comp.(*discordgo.ActionsRow); ok {
@@ -245,6 +301,8 @@ func HandlePunishModalSubmit(s *discordgo.Session, i *discordgo.InteractionCreat
 		return
 	}
 
+	reason = SanitizePunishReason(reason)
+
 	var cmd string
 	if duration == "permanent" {
 		cmd = fmt.Sprintf("ban %s %s", targetPlayer, reason)
@@ -256,7 +314,7 @@ func HandlePunishModalSubmit(s *discordgo.Session, i *discordgo.InteractionCreat
 	defer cancel()
 
 	if exec != nil {
-		_, _ = exec.Execute(ctx, "lobby", cmd)
+		_, _ = exec.Execute(ctx, "survival", cmd)
 	}
 
 	staffUser := i.Member.User.Username

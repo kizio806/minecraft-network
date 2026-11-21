@@ -202,6 +202,146 @@ network:
 	}
 }
 
+func TestRun_WithRconAndSecretFiles(t *testing.T) {
+	origNew := newDiscordSession
+	origOpen := openSession
+	defer func() {
+		newDiscordSession = origNew
+		openSession = origOpen
+	}()
+
+	newDiscordSession = func(token string) (*discordgo.Session, error) {
+		s, err := discordgo.New("Bot " + token)
+		if err == nil {
+			s.Client.Transport = &mockTransport{}
+			s.State.User = &discordgo.User{ID: "bot_123", Username: "NetworkBot"}
+		}
+		return s, err
+	}
+	openSession = func(_ *discordgo.Session) error {
+		return nil
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
+	defer cancel()
+
+	tmpDir := t.TempDir()
+	cfgPath := filepath.Join(tmpDir, "config.yml")
+	cfgContent := `
+discord:
+  guild-id: "guild_1"
+  status-channel-id: "status_chan"
+  status-update-interval: 1
+network:
+  name: "Test Network"
+`
+	if err := os.WriteFile(cfgPath, []byte(cfgContent), 0600); err != nil {
+		t.Fatal(err)
+	}
+
+	t.Setenv("DISCORD_BOT_TOKEN", "valid_mock_token")
+	t.Setenv("DISCORD_CONFIG", cfgPath)
+	t.Setenv("RCON_PASSWORD", "mock_rcon_pass")
+	t.Setenv("DATABASE_URL", "")
+
+	_ = os.MkdirAll("secrets", 0750)
+	defer os.RemoveAll("secrets")
+	_ = os.WriteFile("secrets/postgres_password", []byte("secret_pg"), 0600)
+	_ = os.WriteFile("secrets/rcon_password", []byte("secret_rcon"), 0600)
+
+	var stdout, stderr bytes.Buffer
+	code := run(ctx, []string{"-locales", ""}, &stdout, &stderr)
+	if code != 0 {
+		t.Fatalf("expected code 0, got %d (stderr: %s)", code, stderr.String())
+	}
+	if !bytes.Contains(stdout.Bytes(), []byte("Initialized native NetworkRconExecutor")) {
+		t.Errorf("expected native RCON log in stdout, got %s", stdout.String())
+	}
+}
+
+func TestRun_FallbackAndCustomRconHosts(t *testing.T) {
+	origNew := newDiscordSession
+	origOpen := openSession
+	defer func() {
+		newDiscordSession = origNew
+		openSession = origOpen
+	}()
+
+	newDiscordSession = func(token string) (*discordgo.Session, error) {
+		s, err := discordgo.New("Bot " + token)
+		if err == nil {
+			s.Client.Transport = &mockTransport{}
+			s.State.User = &discordgo.User{ID: "bot_123", Username: "NetworkBot"}
+		}
+		return s, err
+	}
+	openSession = func(_ *discordgo.Session) error {
+		return nil
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
+	defer cancel()
+
+	tmpDir := t.TempDir()
+	cfgPath := filepath.Join(tmpDir, "config.yml")
+	cfgContent := `
+discord:
+  guild-id: "guild_1"
+  status-channel-id: "status_chan"
+  status-update-interval: 1
+network:
+  name: "Test Network"
+`
+	if err := os.WriteFile(cfgPath, []byte(cfgContent), 0600); err != nil {
+		t.Fatal(err)
+	}
+
+	t.Setenv("DISCORD_BOT_TOKEN", "valid_mock_token")
+	t.Setenv("DISCORD_CONFIG", cfgPath)
+	t.Setenv("RCON_PASSWORD", "")
+	t.Setenv("RCON_LOBBY_HOST", "custom_lobby:25575")
+	t.Setenv("RCON_SURVIVAL_HOST", "custom_survival:25575")
+	t.Setenv("DATABASE_URL", "")
+
+	_ = os.MkdirAll("secrets", 0750)
+	defer os.RemoveAll("secrets")
+	_ = os.WriteFile("secrets/postgres_password", []byte("secret_pg"), 0600)
+	_ = os.Remove("secrets/rcon_password")
+
+	t.Setenv("POSTGRES_USER", "custom_u")
+	t.Setenv("POSTGRES_HOST", "custom_h")
+	t.Setenv("POSTGRES_DB", "custom_d")
+
+	var stdout, stderr bytes.Buffer
+	code := run(ctx, []string{"-locales", ""}, &stdout, &stderr)
+	if code != 0 {
+		t.Fatalf("expected code 0, got %d (stderr: %s)", code, stderr.String())
+	}
+	if !bytes.Contains(stdout.Bytes(), []byte("No RCON_PASSWORD set. Falling back to DockerConsoleExecutor")) {
+		t.Errorf("expected DockerConsoleExecutor fallback log in stdout, got %s", stdout.String())
+	}
+}
+
+func TestRun_TokenFromSecretFile(t *testing.T) {
+	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
+	defer cancel()
+
+	_ = os.MkdirAll("secrets", 0750)
+	defer os.RemoveAll("secrets")
+	_ = os.WriteFile("secrets/discord_bot_token", []byte("placeholder_token_change_me"), 0600)
+
+	t.Setenv("DISCORD_BOT_TOKEN", "")
+
+	var stdout, stderr bytes.Buffer
+	code := run(ctx, []string{}, &stdout, &stderr)
+	if code != 0 {
+		t.Fatalf("expected code 0, got %d", code)
+	}
+	if !bytes.Contains(stdout.Bytes(), []byte("standby mode")) {
+		t.Errorf("expected standby mode log, got %s", stdout.String())
+	}
+}
+
 func TestMainInvocation(t *testing.T) {
 	if os.Getenv("FLAG_TEST_DISCORD_MAIN") == "1" {
 		os.Args = []string{"discord-bot", "-health"}
@@ -214,5 +354,86 @@ func TestMainInvocation(t *testing.T) {
 	err := cmd.Run()
 	if err != nil {
 		t.Fatalf("main failed: %v", err)
+	}
+}
+
+func TestRun_SecretsPathResolution(t *testing.T) {
+	origNew := newDiscordSession
+	origOpen := openSession
+	origPgSecret := runSecretsPostgresPath
+	origRconSecret := runSecretsRconPath
+	defer func() {
+		newDiscordSession = origNew
+		openSession = origOpen
+		runSecretsPostgresPath = origPgSecret
+		runSecretsRconPath = origRconSecret
+	}()
+
+	newDiscordSession = func(_ string) (*discordgo.Session, error) {
+		s, err := discordgo.New("Bot test_token")
+		if err != nil {
+			return nil, err
+		}
+		s.Client.Transport = &mockTransport{}
+		s.State.User = &discordgo.User{ID: "bot_test_123", Username: "TestBot"}
+		return s, nil
+	}
+	openSession = func(_ *discordgo.Session) error {
+		return nil
+	}
+
+	tmpDir := t.TempDir()
+	cfgPath := filepath.Join(tmpDir, "config.yml")
+	if err := os.WriteFile(cfgPath, []byte("discord:\n  guild-id: '123'\n"), 0600); err != nil {
+		t.Fatal(err)
+	}
+
+	// 1. Test runSecrets paths with default environment variables (empty user, host, db)
+	fakePgSecret := filepath.Join(tmpDir, "run_pg_pw")
+	fakeRconSecret := filepath.Join(tmpDir, "run_rcon_pw")
+	_ = os.WriteFile(fakePgSecret, []byte("run_secret_pg"), 0600)
+	_ = os.WriteFile(fakeRconSecret, []byte("run_secret_rcon"), 0600)
+
+	runSecretsPostgresPath = fakePgSecret
+	runSecretsRconPath = fakeRconSecret
+
+	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
+	defer cancel()
+
+	t.Setenv("DISCORD_BOT_TOKEN", "test_token_live_123")
+	t.Setenv("DISCORD_CONFIG", cfgPath)
+	t.Setenv("DATABASE_URL", "")
+	t.Setenv("RCON_PASSWORD", "")
+	t.Setenv("POSTGRES_USER", "")
+	t.Setenv("POSTGRES_HOST", "")
+	t.Setenv("POSTGRES_DB", "")
+
+	var stdout, stderr bytes.Buffer
+	code := run(ctx, []string{"-locales", ""}, &stdout, &stderr)
+	if code != 0 {
+		t.Fatalf("expected code 0, got %d (stderr: %s)", code, stderr.String())
+	}
+	if !bytes.Contains(stdout.Bytes(), []byte("Initialized native NetworkRconExecutor")) {
+		t.Errorf("expected NetworkRconExecutor in stdout, got %s", stdout.String())
+	}
+
+	// 2. Test secrets/rcon_password fallback
+	runSecretsPostgresPath = "/nonexistent/pg_pw"
+	runSecretsRconPath = "/nonexistent/rcon_pw"
+	_ = os.MkdirAll("secrets", 0750)
+	defer os.RemoveAll("secrets")
+	_ = os.WriteFile("secrets/rcon_password", []byte("secrets_dir_rcon"), 0600)
+	_ = os.Remove("secrets/postgres_password")
+
+	ctx2, cancel2 := context.WithTimeout(context.Background(), 50*time.Millisecond)
+	defer cancel2()
+
+	var stdout2, stderr2 bytes.Buffer
+	code2 := run(ctx2, []string{"-locales", ""}, &stdout2, &stderr2)
+	if code2 != 0 {
+		t.Fatalf("expected code 0, got %d (stderr: %s)", code2, stderr2.String())
+	}
+	if !bytes.Contains(stdout2.Bytes(), []byte("Initialized native NetworkRconExecutor")) {
+		t.Errorf("expected NetworkRconExecutor from secrets/rcon_password, got %s", stdout2.String())
 	}
 }

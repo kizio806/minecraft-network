@@ -117,10 +117,14 @@ func prepareRuntimeConfigs(c Config) error {
 	var ultimateteamsValue string
 	if ultimateteamsSecret, err := os.ReadFile(filepath.Join(c.ProjectDir, "secrets", "ultimateteams_password")); err == nil {
 		ultimateteamsValue = strings.TrimSpace(string(ultimateteamsSecret))
+	} else if !errors.Is(err, os.ErrNotExist) {
+		return fmt.Errorf("read ultimateteams_password: %w", err)
 	}
 	var libertybansValue string
 	if libertybansSecret, err := os.ReadFile(filepath.Join(c.ProjectDir, "secrets", "libertybans_password")); err == nil {
 		libertybansValue = strings.TrimSpace(string(libertybansSecret))
+	} else if !errors.Is(err, os.ErrNotExist) {
+		return fmt.Errorf("read libertybans_password: %w", err)
 	}
 	passwords := map[string]string{
 		"__VELOAUTH_PASSWORD__":      veloauthValue,

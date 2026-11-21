@@ -246,6 +246,22 @@ func TestBot_InteractionHandling(t *testing.T) {
 				},
 			},
 		})
+
+		bot.handleInteraction(s, &discordgo.InteractionCreate{
+			Interaction: &discordgo.Interaction{
+				Type: discordgo.InteractionApplicationCommand,
+				Member: &discordgo.Member{
+					User: &discordgo.User{ID: "reporter_1", Username: "ReporterUser"},
+				},
+				Data: discordgo.ApplicationCommandInteractionData{
+					Name: "report",
+					Options: []*discordgo.ApplicationCommandInteractionDataOption{
+						{Name: "player", Type: discordgo.ApplicationCommandOptionString, Value: "inv@lid!"},
+						{Name: "reason", Type: discordgo.ApplicationCommandOptionString, Value: "Speed hacking"},
+					},
+				},
+			},
+		})
 	})
 
 	t.Run("command: rules", func(_ *testing.T) {
@@ -596,6 +612,24 @@ func TestBot_InteractionHandling(t *testing.T) {
 							},
 						},
 					},
+				},
+			},
+		})
+
+		bot.handleInteraction(s, &discordgo.InteractionCreate{
+			Interaction: &discordgo.Interaction{
+				Type: discordgo.InteractionModalSubmit,
+				Data: discordgo.ModalSubmitInteractionData{
+					CustomID: IDModalPunishPrefix + "invalid_split",
+				},
+			},
+		})
+
+		bot.handleInteraction(s, &discordgo.InteractionCreate{
+			Interaction: &discordgo.Interaction{
+				Type: discordgo.InteractionModalSubmit,
+				Data: discordgo.ModalSubmitInteractionData{
+					CustomID: IDModalPunishPrefix + "1_inv@lid!",
 				},
 			},
 		})

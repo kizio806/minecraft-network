@@ -10,6 +10,7 @@ import (
 	"os/signal"
 	"strings"
 	"syscall"
+	"time"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/kizio806/minecraft-network/internal/discord"
@@ -22,6 +23,8 @@ var (
 	openSession = func(s *discordgo.Session) error {
 		return s.Open()
 	}
+	runSecretsPostgresPath = "/run/secrets/postgres_password" // #nosec G101
+	runSecretsRconPath     = "/run/secrets/rcon_password"     // #nosec G101
 )
 
 func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
@@ -74,6 +77,37 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 	if dbURL == "" {
 		dbURL = strings.TrimSpace(os.Getenv("DATABASE_URL"))
 	}
+	if dbURL == "" {
+		if pwBytes, err := os.ReadFile(runSecretsPostgresPath); err == nil {
+			pgUser := os.Getenv("POSTGRES_USER")
+			if pgUser == "" {
+				pgUser = "minecraft"
+			}
+			pgHost := os.Getenv("POSTGRES_HOST")
+			if pgHost == "" {
+				pgHost = "postgres"
+			}
+			pgDB := os.Getenv("POSTGRES_DB")
+			if pgDB == "" {
+				pgDB = "luckperms"
+			}
+			dbURL = fmt.Sprintf("postgres://%s:%s@%s:5432/%s?sslmode=disable", pgUser, strings.TrimSpace(string(pwBytes)), pgHost, pgDB)
+		} else if pwBytes, err := os.ReadFile("secrets/postgres_password"); err == nil {
+			pgUser := os.Getenv("POSTGRES_USER")
+			if pgUser == "" {
+				pgUser = "minecraft"
+			}
+			pgHost := os.Getenv("POSTGRES_HOST")
+			if pgHost == "" {
+				pgHost = "localhost"
+			}
+			pgDB := os.Getenv("POSTGRES_DB")
+			if pgDB == "" {
+				pgDB = "luckperms"
+			}
+			dbURL = fmt.Sprintf("postgres://%s:%s@%s:5432/%s?sslmode=disable", pgUser, strings.TrimSpace(string(pwBytes)), pgHost, pgDB)
+		}
+	}
 	if dbURL != "" {
 		pgStore, err := discord.NewPostgresStore(dbURL)
 		if err != nil {
@@ -95,7 +129,39 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 		return 1
 	}
 
-	executor := &discord.DockerConsoleExecutor{}
+	rconPassword := strings.TrimSpace(os.Getenv("RCON_PASSWORD"))
+	if rconPassword == "" {
+		if b, err := os.ReadFile(runSecretsRconPath); err == nil {
+			rconPassword = strings.TrimSpace(string(b))
+		} else if b, err := os.ReadFile("secrets/rcon_password"); err == nil {
+			rconPassword = strings.TrimSpace(string(b))
+		}
+	}
+
+	targets := map[string]string{
+		"lobby":    "lobby:25575",
+		"survival": "survival:25575",
+	}
+	if lobbyHost := os.Getenv("RCON_LOBBY_HOST"); lobbyHost != "" {
+		targets["lobby"] = lobbyHost
+	}
+	if survHost := os.Getenv("RCON_SURVIVAL_HOST"); survHost != "" {
+		targets["survival"] = survHost
+	}
+
+	var executor discord.ConsoleExecutor
+	if rconPassword != "" {
+		executor = &discord.NetworkRconExecutor{
+			Targets:     targets,
+			Password:    rconPassword,
+			DialTimeout: 4 * time.Second,
+			Fallback:    &discord.DockerConsoleExecutor{},
+		}
+		logger.Println("[INFO] Initialized native NetworkRconExecutor with Docker fallback.")
+	} else {
+		logger.Println("[WARN] No RCON_PASSWORD set. Falling back to DockerConsoleExecutor.")
+		executor = &discord.DockerConsoleExecutor{}
+	}
 	bot := discord.NewBot(cfg, session, nil, store, executor)
 	bot.RegisterHandlers()
 

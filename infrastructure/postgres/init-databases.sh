@@ -31,6 +31,13 @@ elif [ -f "$(dirname "$0")/seed-luckperms.sql" ]; then
     psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "luckperms" -f "$(dirname "$0")/seed-luckperms.sql"
 fi
 
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "luckperms" <<-EOSQL
+    GRANT ALL PRIVILEGES ON DATABASE luckperms TO "$POSTGRES_USER";
+    GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO "$POSTGRES_USER";
+    GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO "$POSTGRES_USER";
+    ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO "$POSTGRES_USER";
+EOSQL
+
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
     -- VeloAuth user & database
     DO \$\$

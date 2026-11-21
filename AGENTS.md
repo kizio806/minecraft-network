@@ -17,6 +17,7 @@ Under no circumstance may an AI agent violate these five core architectural rule
 3. **Declarative Plugin Supply Chain:** Never manually place JAR files into `servers/*/plugins/`. All plugins must be declared in `configs/plugins/manifest.yml`, verified with SHA-512 digests in `configs/plugins/lock.yml`, and synchronized via `./bin/network install`.
 4. **Secret Protection:** Passwords, HMAC tokens, and private keys reside in `./secrets/` with strict mode `0600` (directory `0700`). Never commit secrets, and never inject passwords as plaintext string literals in Compose files.
 5. **Database Consolidation & Zero Redis:** All persistent authentication and permissions reside in isolated schemas on PostgreSQL 16 Alpine. Redis is strictly banned across all services.
+6. **Native Protocols & Zero Docker Socket Mounts:** Daemon containers such as `discord-bot` must NEVER mount `/var/run/docker.sock` or invoke the host Docker CLI. Inter-service administration must strictly use authenticated TCP network protocols (Source RCON, PostgreSQL wire protocol). All user arguments must be sanitized against command injection.
 
 ---
 
@@ -31,6 +32,8 @@ Detailed documentation is modularized under `.agents/` by responsibility:
 - [`cli-reference.md`](.agents/context/cli-reference.md) — Complete command reference, global flags, and exit codes for `./bin/network`.
 - [`plugin-matrix.md`](.agents/context/plugin-matrix.md) — Active plugin inventory, versioning, open-source licenses, and prohibited plugins.
 - [`decision-index.md`](.agents/context/decision-index.md) — Architectural decisions index and summary for AI agents.
+- [`development.md`](docs/development.md) — Developer setup, local testing, and build targets.
+- [`discord-bot.md`](docs/discord-bot.md) — Discord daemon architecture, privileged intents, and TCP RCON.
 - **Master ADR Repository:** [`docs/decisions/`](docs/decisions/) — The single source of truth for all Architecture Decision Records.
 
 ### Agent Roles (`.agents/roles/`)
