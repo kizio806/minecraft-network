@@ -235,4 +235,64 @@ func TestNetworkRconClientAndExecutor(t *testing.T) {
 			t.Fatalf("expected target not found error, got nil")
 		}
 	})
+
+	t.Run("network rcon executor default targets and fallback on connection failure", func(t *testing.T) {
+		execDefault := discord.NewNetworkRconExecutor("pwd123", nil)
+		if len(execDefault.Targets) != 2 || execDefault.Targets["lobby"] == "" || execDefault.Targets["survival"] == "" {
+			t.Errorf("expected default targets lobby and survival, got: %v", execDefault.Targets)
+		}
+
+		// Target connects to non-listening port with fallback
+		fallback := &discord.DefaultConsoleExecutor{MockOutput: "fallback on conn error"}
+		execFailedConn := &discord.NetworkRconExecutor{
+			Targets:     map[string]string{"lobby": "127.0.0.1:54321"},
+			Password:    "pwd",
+			DialTimeout: 50 * time.Millisecond,
+			Fallback:    fallback,
+		}
+		out, err := execFailedConn.Execute(ctx, "lobby", "list")
+		if err != nil || out != "fallback on conn error" {
+			t.Errorf("expected fallback on connection error, got out=%q err=%v", out, err)
+		}
+
+		// Without fallback
+		execFailedConnNoFallback := &discord.NetworkRconExecutor{
+			Targets:     map[string]string{"lobby": "127.0.0.1:54321"},
+			Password:    "pwd",
+			DialTimeout: 50 * time.Millisecond,
+		}
+		_, err = execFailedConnNoFallback.Execute(ctx, "lobby", "list")
+		if err == nil {
+			t.Errorf("expected connection error, got nil")
+		}
+	})
+
+	t.Run("rcon client empty command output", func(t *testing.T) {
+		emptyCmdResponses := map[string]string{
+			"silent_command": "",
+		}
+		emptyAddr, emptyCleanup := startMockRconServer(t, password, emptyCmdResponses)
+		defer emptyCleanup()
+
+		client, err := discord.DialRcon(ctx, emptyAddr, password, 0)
+		if err != nil {
+			t.Fatalf("unexpected dial error: %v", err)
+		}
+		defer client.Close()
+
+		out, err := client.Execute(ctx, "silent_command")
+		if err != nil {
+			t.Fatalf("unexpected execute error: %v", err)
+		}
+		if out != "Command executed successfully (no output)." {
+			t.Errorf("expected empty output placeholder, got %q", out)
+		}
+		// Test multiple close calls
+		if err := client.Close(); err != nil {
+			t.Errorf("expected clean close, got %v", err)
+		}
+		if err := client.Close(); err != nil {
+			t.Errorf("expected idempotent close, got %v", err)
+		}
+	})
 }
