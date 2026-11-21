@@ -259,6 +259,89 @@ network:
 	}
 }
 
+func TestRun_FallbackAndCustomRconHosts(t *testing.T) {
+	origNew := newDiscordSession
+	origOpen := openSession
+	defer func() {
+		newDiscordSession = origNew
+		openSession = origOpen
+	}()
+
+	newDiscordSession = func(token string) (*discordgo.Session, error) {
+		s, err := discordgo.New("Bot " + token)
+		if err == nil {
+			s.Client.Transport = &mockTransport{}
+			s.State.User = &discordgo.User{ID: "bot_123", Username: "NetworkBot"}
+		}
+		return s, err
+	}
+	openSession = func(_ *discordgo.Session) error {
+		return nil
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
+	defer cancel()
+
+	tmpDir := t.TempDir()
+	cfgPath := filepath.Join(tmpDir, "config.yml")
+	cfgContent := `
+discord:
+  guild-id: "guild_1"
+  status-channel-id: "status_chan"
+  status-update-interval: 1
+network:
+  name: "Test Network"
+`
+	if err := os.WriteFile(cfgPath, []byte(cfgContent), 0600); err != nil {
+		t.Fatal(err)
+	}
+
+	t.Setenv("DISCORD_BOT_TOKEN", "valid_mock_token")
+	t.Setenv("DISCORD_CONFIG", cfgPath)
+	t.Setenv("RCON_PASSWORD", "")
+	t.Setenv("RCON_LOBBY_HOST", "custom_lobby:25575")
+	t.Setenv("RCON_SURVIVAL_HOST", "custom_survival:25575")
+	t.Setenv("DATABASE_URL", "")
+
+	_ = os.MkdirAll("secrets", 0750)
+	defer os.RemoveAll("secrets")
+	_ = os.WriteFile("secrets/postgres_password", []byte("secret_pg"), 0600)
+	_ = os.Remove("secrets/rcon_password")
+
+	t.Setenv("POSTGRES_USER", "custom_u")
+	t.Setenv("POSTGRES_HOST", "custom_h")
+	t.Setenv("POSTGRES_DB", "custom_d")
+
+	var stdout, stderr bytes.Buffer
+	code := run(ctx, []string{"-locales", ""}, &stdout, &stderr)
+	if code != 0 {
+		t.Fatalf("expected code 0, got %d (stderr: %s)", code, stderr.String())
+	}
+	if !bytes.Contains(stdout.Bytes(), []byte("No RCON_PASSWORD set. Falling back to DockerConsoleExecutor")) {
+		t.Errorf("expected DockerConsoleExecutor fallback log in stdout, got %s", stdout.String())
+	}
+}
+
+func TestRun_TokenFromSecretFile(t *testing.T) {
+	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
+	defer cancel()
+
+	_ = os.MkdirAll("secrets", 0750)
+	defer os.RemoveAll("secrets")
+	_ = os.WriteFile("secrets/discord_bot_token", []byte("placeholder_token_change_me"), 0600)
+
+	t.Setenv("DISCORD_BOT_TOKEN", "")
+
+	var stdout, stderr bytes.Buffer
+	code := run(ctx, []string{}, &stdout, &stderr)
+	if code != 0 {
+		t.Fatalf("expected code 0, got %d", code)
+	}
+	if !bytes.Contains(stdout.Bytes(), []byte("standby mode")) {
+		t.Errorf("expected standby mode log, got %s", stdout.String())
+	}
+}
+
 func TestMainInvocation(t *testing.T) {
 	if os.Getenv("FLAG_TEST_DISCORD_MAIN") == "1" {
 		os.Args = []string{"discord-bot", "-health"}

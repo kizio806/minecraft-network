@@ -295,4 +295,72 @@ func TestNetworkRconClientAndExecutor(t *testing.T) {
 			t.Errorf("expected idempotent close, got %v", err)
 		}
 	})
+
+	t.Run("rcon packet encoding errors and decoding variations", func(t *testing.T) {
+		// Test encode with oversized body
+		oversized := make([]byte, 70000)
+		_, err := discord.EncodeRconPacketForTest(1, 2, string(oversized))
+		if err == nil {
+			t.Errorf("expected error for oversized rcon payload, got nil")
+		}
+
+		// Test decode with length < 10
+		shortBuf := new(bytes.Buffer)
+		_ = binary.Write(shortBuf, binary.LittleEndian, int32(5))
+		shortBuf.Write([]byte{0, 0, 0, 0, 0})
+		_, err = discord.DecodeRconPacketForTest(shortBuf)
+		if err == nil {
+			t.Errorf("expected error for length < 10, got nil")
+		}
+
+		// Test decode with length > 65535
+		hugeBuf := new(bytes.Buffer)
+		_ = binary.Write(hugeBuf, binary.LittleEndian, int32(70000))
+		_, err = discord.DecodeRconPacketForTest(hugeBuf)
+		if err == nil {
+			t.Errorf("expected error for length > 65535, got nil")
+		}
+
+		// Test decode with truncated payload
+		truncatedBuf := new(bytes.Buffer)
+		_ = binary.Write(truncatedBuf, binary.LittleEndian, int32(20))
+		truncatedBuf.Write([]byte{1, 2, 3}) // only 3 bytes instead of 20
+		_, err = discord.DecodeRconPacketForTest(truncatedBuf)
+		if err == nil {
+			t.Errorf("expected error for truncated payload, got nil")
+		}
+
+		// Test decode with single null terminator
+		singleNullBuf := new(bytes.Buffer)
+		singlePayload := new(bytes.Buffer)
+		_ = binary.Write(singlePayload, binary.LittleEndian, int32(101))
+		_ = binary.Write(singlePayload, binary.LittleEndian, int32(0))
+		singlePayload.WriteString("hello")
+		singlePayload.WriteByte(0x00) // only 1 null byte
+		_ = binary.Write(singleNullBuf, binary.LittleEndian, int32(singlePayload.Len()))
+		singleNullBuf.Write(singlePayload.Bytes())
+		pkt, err := discord.DecodeRconPacketForTest(singleNullBuf)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if pkt.Body != "hello" || pkt.ID != 101 {
+			t.Errorf("expected body 'hello' and id 101, got body=%q id=%d", pkt.Body, pkt.ID)
+		}
+
+		// Test decode with no null terminator
+		noNullBuf := new(bytes.Buffer)
+		noNullPayload := new(bytes.Buffer)
+		_ = binary.Write(noNullPayload, binary.LittleEndian, int32(102))
+		_ = binary.Write(noNullPayload, binary.LittleEndian, int32(0))
+		noNullPayload.WriteString("world")
+		_ = binary.Write(noNullBuf, binary.LittleEndian, int32(noNullPayload.Len()))
+		noNullBuf.Write(noNullPayload.Bytes())
+		pkt2, err := discord.DecodeRconPacketForTest(noNullBuf)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if pkt2.Body != "world" || pkt2.ID != 102 {
+			t.Errorf("expected body 'world' and id 102, got body=%q id=%d", pkt2.Body, pkt2.ID)
+		}
+	})
 }
