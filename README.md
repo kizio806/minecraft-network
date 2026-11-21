@@ -216,12 +216,17 @@ docker compose -f docker-compose.yml --profile monitoring config --quiet
 
 ---
 
-## Contributing, Support & License
+## Documentation, Governance & Support
 
+- **Wiki Documentation:** [docs/wiki/Home.md](docs/wiki/Home.md)
+- **Architecture Guide:** [docs/architecture.md](docs/architecture.md)
+- **Deployment Guide:** [docs/deployment.md](docs/deployment.md)
+- **Plugin Management:** [docs/plugin-management.md](docs/plugin-management.md)
+- **Security Policy:** [SECURITY.md](SECURITY.md)
 - **Governance & Contributing:** [CONTRIBUTING.md](CONTRIBUTING.md)
 - **Code of Conduct:** [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 - **Support & Inquiries:** [SUPPORT.md](SUPPORT.md)
 - **Project Roadmap:** [ROADMAP.md](ROADMAP.md)
-- **Security Policy:** [SECURITY.md](SECURITY.md)
+- **AI Guidelines & Architecture Manual:** [AGENTS.md](AGENTS.md)
 
 This project is licensed under the [MIT License](LICENSE).
