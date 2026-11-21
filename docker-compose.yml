@@ -99,6 +99,10 @@ services:
       context: .
       dockerfile: Dockerfile.discord-bot
     user: "${MC_UID:-1000}:${MC_GID:-1000}"
+    environment:
+      POSTGRES_DB: "luckperms"
+      POSTGRES_USER: "${POSTGRES_USER:-minecraft}"
+      POSTGRES_HOST: "postgres"
     command: ["-config", "/configs/discord/config.yml", "-locales", "/locales", "-lang", "${LOCALE:-en}"]
     volumes:
       - ./configs/discord:/configs/discord:ro

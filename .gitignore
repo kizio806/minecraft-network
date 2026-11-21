@@ -57,6 +57,9 @@ bin/
 *.test
 *.out
 coverage.txt
+cov.txt
+coverage*.txt
+coverage*.out
 /network
 /plugin-manager
 

@@ -93,6 +93,54 @@ It then automatically initializes `.env`, generates 256-bit cryptographically se
 
 ---
 
+## Live Demo & Local Sandbox Guide
+
+You can run and evaluate the entire network stack locally on any development machine without public DNS, registered domain names, or external Discord bot credentials.
+
+### Step 1: Initialize Local Sandbox
+Run the non-interactive setup targeting localhost:
+```bash
+./bin/network init --non-interactive --name "Local Sandbox" --domain "localhost" --locale en --theme cyber-blue --max-players 20
+```
+
+### Step 2: Boot Services & Check Health
+```bash
+# Start containers (daemonized via docker compose)
+./bin/network start
+
+# Confirm all healthchecks pass
+./bin/network health
+```
+
+### Step 3: Connect with Minecraft Client
+1. Launch **Minecraft Java Edition** (version **1.21.x**).
+2. Open **Multiplayer** -> **Direct Connection** (or **Add Server**).
+3. Connect to server address: `127.0.0.1` or `localhost` (port `25565` is default).
+4. **Gameplay Flow:**
+   - Premium Mojang accounts complete cryptographic verification and route directly to the **Lobby**.
+   - Offline / Non-premium accounts enter the **NanoLimbo** holding pen and receive an on-screen prompt to register or authenticate via VeloAuth (`/register <password>` or `/login <password>`).
+   - Use `/server survival` or pass through the lobby portal to transition to the enhanced Survival SMP world.
+
+### Step 4: Local Discord Bot & Console Testing
+The Discord bot supports running locally without a Discord token in standby mode for testing, or with a developer bot token:
+```bash
+# Standby check (verifies configuration and healthcheck handler)
+make build-bot
+./bin/discord-bot -health
+
+# Execute console commands directly via CLI or native RCON
+./bin/network status
+docker compose exec -T survival rcon-cli list
+```
+
+### Step 5: Teardown Sandbox
+```bash
+# Gracefully stop containers and preserve persistent database volumes
+./bin/network stop
+```
+
+---
+
 ## Management CLI (`./bin/network`)
 
 The native Go binary `./bin/network` manages the entire operational lifecycle:
