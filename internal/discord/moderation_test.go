@@ -79,6 +79,7 @@ func TestParsePunishDuration(t *testing.T) {
 			{"  Spaces around  ", "Spaces around"},
 			{"Multiple   spaces\tin\tmiddle", "Multiple spaces in middle"},
 			{"Line1\nLine2\rLine3\000Line4", "Line1 Line2 Line3 Line4"},
+			{"Control\x01\x1fchars\x7f", "Controlchars"},
 			{"", "Violation of server rules"},
 			{"   \t\n   ", "Violation of server rules"},
 		}

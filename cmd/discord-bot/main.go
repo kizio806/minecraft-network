@@ -23,6 +23,8 @@ var (
 	openSession = func(s *discordgo.Session) error {
 		return s.Open()
 	}
+	runSecretsPostgresPath = "/run/secrets/postgres_password" // #nosec G101
+	runSecretsRconPath     = "/run/secrets/rcon_password"     // #nosec G101
 )
 
 func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
@@ -76,7 +78,7 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 		dbURL = strings.TrimSpace(os.Getenv("DATABASE_URL"))
 	}
 	if dbURL == "" {
-		if pwBytes, err := os.ReadFile("/run/secrets/postgres_password"); err == nil {
+		if pwBytes, err := os.ReadFile(runSecretsPostgresPath); err == nil {
 			pgUser := os.Getenv("POSTGRES_USER")
 			if pgUser == "" {
 				pgUser = "minecraft"
@@ -129,7 +131,7 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 
 	rconPassword := strings.TrimSpace(os.Getenv("RCON_PASSWORD"))
 	if rconPassword == "" {
-		if b, err := os.ReadFile("/run/secrets/rcon_password"); err == nil {
+		if b, err := os.ReadFile(runSecretsRconPath); err == nil {
 			rconPassword = strings.TrimSpace(string(b))
 		} else if b, err := os.ReadFile("secrets/rcon_password"); err == nil {
 			rconPassword = strings.TrimSpace(string(b))

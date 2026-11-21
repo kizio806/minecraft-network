@@ -172,6 +172,10 @@ func (c *RconClient) Execute(ctx context.Context, command string) (string, error
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
+	if c.conn == nil {
+		return "", errors.New("rcon connection is closed")
+	}
+
 	reqID := atomic.AddInt32(&c.nextID, 1)
 	pkt := rconPacket{
 		ID:   reqID,

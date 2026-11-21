@@ -363,4 +363,150 @@ func TestNetworkRconClientAndExecutor(t *testing.T) {
 			t.Errorf("expected body 'world' and id 102, got body=%q id=%d", pkt2.Body, pkt2.ID)
 		}
 	})
+
+	t.Run("rcon server responds with empty response before auth success", func(t *testing.T) {
+		ln, err := net.Listen("tcp", "127.0.0.1:0")
+		if err != nil {
+			t.Fatalf("failed to listen: %v", err)
+		}
+		defer ln.Close()
+
+		go func() {
+			conn, err := ln.Accept()
+			if err != nil {
+				return
+			}
+			defer conn.Close()
+
+			var length int32
+			_ = binary.Read(conn, binary.LittleEndian, &length)
+			payload := make([]byte, length)
+			_, _ = io.ReadFull(conn, payload)
+
+			var reqID int32
+			_ = binary.Read(bytes.NewReader(payload[0:4]), binary.LittleEndian, &reqID)
+
+			// Send empty response first (Type 0 = rconPacketResponse)
+			sendMockPacket(conn, reqID, 0, "")
+			// Then send auth response (Type 2 = rconPacketAuthResponse)
+			sendMockPacket(conn, reqID, 2, "")
+		}()
+
+		client, err := discord.DialRcon(ctx, ln.Addr().String(), "secret", 500*time.Millisecond)
+		if err != nil {
+			t.Fatalf("expected successful dial with empty preceding packet, got err: %v", err)
+		}
+		_ = client.Close()
+	})
+
+	t.Run("rcon server closes connection following empty packet during auth", func(t *testing.T) {
+		ln, err := net.Listen("tcp", "127.0.0.1:0")
+		if err != nil {
+			t.Fatalf("failed to listen: %v", err)
+		}
+		defer ln.Close()
+
+		go func() {
+			conn, err := ln.Accept()
+			if err != nil {
+				return
+			}
+			defer conn.Close()
+
+			var length int32
+			_ = binary.Read(conn, binary.LittleEndian, &length)
+			payload := make([]byte, length)
+			_, _ = io.ReadFull(conn, payload)
+
+			var reqID int32
+			_ = binary.Read(bytes.NewReader(payload[0:4]), binary.LittleEndian, &reqID)
+
+			// Send empty response first and immediately close socket
+			sendMockPacket(conn, reqID, 0, "")
+		}()
+
+		_, err = discord.DialRcon(ctx, ln.Addr().String(), "secret", 500*time.Millisecond)
+		if err == nil {
+			t.Fatalf("expected error when server closes after empty packet, got nil")
+		}
+	})
+
+	t.Run("rcon server immediate disconnect on auth", func(t *testing.T) {
+		ln, err := net.Listen("tcp", "127.0.0.1:0")
+		if err != nil {
+			t.Fatalf("failed to listen: %v", err)
+		}
+		defer ln.Close()
+
+		go func() {
+			conn, err := ln.Accept()
+			if err != nil {
+				return
+			}
+			_ = conn.Close()
+		}()
+
+		_, err = discord.DialRcon(ctx, ln.Addr().String(), "secret", 500*time.Millisecond)
+		if err == nil {
+			t.Fatalf("expected EOF error on immediate disconnect, got nil")
+		}
+	})
+
+	t.Run("rcon execute on closed client connection", func(t *testing.T) {
+		addr, cleanup := startMockRconServer(t, password, responses)
+		defer cleanup()
+
+		client, err := discord.DialRcon(ctx, addr, password, 0)
+		if err != nil {
+			t.Fatalf("unexpected dial error: %v", err)
+		}
+		_ = client.Close()
+
+		_, err = client.Execute(ctx, "list")
+		if err == nil {
+			t.Fatalf("expected error executing on closed client, got nil")
+		}
+	})
+
+	t.Run("rcon execute server disconnects before response", func(t *testing.T) {
+		ln, err := net.Listen("tcp", "127.0.0.1:0")
+		if err != nil {
+			t.Fatalf("failed to listen: %v", err)
+		}
+		defer ln.Close()
+
+		go func() {
+			conn, err := ln.Accept()
+			if err != nil {
+				return
+			}
+			defer conn.Close()
+
+			// Auth phase
+			var length int32
+			_ = binary.Read(conn, binary.LittleEndian, &length)
+			payload := make([]byte, length)
+			_, _ = io.ReadFull(conn, payload)
+
+			var reqID int32
+			_ = binary.Read(bytes.NewReader(payload[0:4]), binary.LittleEndian, &reqID)
+			sendMockPacket(conn, reqID, 2, "")
+
+			// Exec command read, then close without answering
+			_ = binary.Read(conn, binary.LittleEndian, &length)
+			payload = make([]byte, length)
+			_, _ = io.ReadFull(conn, payload)
+		}()
+
+		client, err := discord.DialRcon(ctx, ln.Addr().String(), "secret", 500*time.Millisecond)
+		if err != nil {
+			t.Fatalf("unexpected dial error: %v", err)
+		}
+		defer client.Close()
+
+		_, err = client.Execute(ctx, "say hello")
+		if err == nil {
+			t.Fatalf("expected error on server disconnect during execute, got nil")
+		}
+	})
 }

@@ -64,7 +64,7 @@ jobs:
       - name: Generate SHA-256 Checksums
         working-directory: ./release-assets
         run: |
-          sha256sum *.tar.gz > SHA256SUMS.txt
+          sha256sum ./*.tar.gz > SHA256SUMS.txt
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
