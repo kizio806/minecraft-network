@@ -39,8 +39,11 @@ type rconPacket struct {
 
 func encodeRconPacket(p rconPacket) ([]byte, error) {
 	bodyBytes := []byte(p.Body)
+	if len(bodyBytes) > 65535 {
+		return nil, errors.New("rcon payload exceeds maximum size")
+	}
 	// packet length: 4 (ID) + 4 (Type) + len(body) + 2 (terminating nulls)
-	length := int32(4 + 4 + len(bodyBytes) + 2)
+	length := int32(4 + 4 + len(bodyBytes) + 2) // #nosec G115
 
 	buf := new(bytes.Buffer)
 	if err := binary.Write(buf, binary.LittleEndian, length); err != nil {
@@ -73,8 +76,13 @@ func decodeRconPacket(r io.Reader) (rconPacket, error) {
 		return rconPacket{}, err
 	}
 
-	id := int32(binary.LittleEndian.Uint32(payload[0:4]))
-	pktType := int32(binary.LittleEndian.Uint32(payload[4:8]))
+	var id, pktType int32
+	if err := binary.Read(bytes.NewReader(payload[0:4]), binary.LittleEndian, &id); err != nil {
+		return rconPacket{}, err
+	}
+	if err := binary.Read(bytes.NewReader(payload[4:8]), binary.LittleEndian, &pktType); err != nil {
+		return rconPacket{}, err
+	}
 	// null-terminated body
 	bodyBytes := payload[8:]
 	if len(bodyBytes) >= 2 && bodyBytes[len(bodyBytes)-1] == 0x00 && bodyBytes[len(bodyBytes)-2] == 0x00 {
@@ -103,7 +111,7 @@ func DialRcon(ctx context.Context, address, password string, dialTimeout time.Du
 		dialTimeout = defaultRconDialTimeout
 	}
 
-	var d net.Dialer
+	d := net.Dialer{Timeout: dialTimeout}
 	conn, err := d.DialContext(ctx, "tcp", address)
 	if err != nil {
 		return nil, fmt.Errorf("dial rcon at %s: %w", address, err)

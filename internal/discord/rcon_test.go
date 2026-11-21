@@ -90,8 +90,9 @@ func startMockRconServer(t *testing.T, expectedPassword string, commandResponses
 						return
 					}
 
-					reqID := int32(binary.LittleEndian.Uint32(payload[0:4]))
-					pktType := int32(binary.LittleEndian.Uint32(payload[4:8]))
+					var reqID, pktType int32
+					_ = binary.Read(bytes.NewReader(payload[0:4]), binary.LittleEndian, &reqID)
+					_ = binary.Read(bytes.NewReader(payload[4:8]), binary.LittleEndian, &pktType)
 					bodyBytes := payload[8:]
 					if len(bodyBytes) >= 2 {
 						bodyBytes = bodyBytes[:len(bodyBytes)-2]
@@ -133,7 +134,7 @@ func startMockRconServer(t *testing.T, expectedPassword string, commandResponses
 
 func sendMockPacket(w io.Writer, id, pktType int32, body string) {
 	bodyBytes := []byte(body)
-	length := int32(4 + 4 + len(bodyBytes) + 2)
+	length := int32(4 + 4 + len(bodyBytes) + 2) // #nosec G115
 	buf := new(bytes.Buffer)
 	_ = binary.Write(buf, binary.LittleEndian, length)
 	_ = binary.Write(buf, binary.LittleEndian, id)
