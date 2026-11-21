@@ -9,7 +9,7 @@ Use this workflow whenever introducing new CLI subcommands, new configuration ca
 ## Steps
 
 ### Step 1: Architectural Proposal & Alignment
-1. Check alignment with [PROJECT.md](PROJECT.md), [AGENTS.md](AGENTS.md), and architectural decisions in [`docs/decisions/`](../../docs/decisions/).
+1. Check alignment with [`PROJECT.md`](../../PROJECT.md), [`AGENTS.md`](../../AGENTS.md), and architectural decisions in [`docs/decisions/`](../../docs/decisions/).
 2. Confirm zero port exposure, adherence to the 12 GB RAM budget, and zero Redis.
 3. Present RFC/proposal and obtain approval before coding.
 
