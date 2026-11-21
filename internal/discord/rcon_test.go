@@ -336,7 +336,7 @@ func TestNetworkRconClientAndExecutor(t *testing.T) {
 		_ = binary.Write(singlePayload, binary.LittleEndian, int32(101))
 		_ = binary.Write(singlePayload, binary.LittleEndian, int32(0))
 		singlePayload.WriteString("hello")
-		singlePayload.WriteByte(0x00) // only 1 null byte
+		singlePayload.WriteByte(0x00)                                                    // only 1 null byte
 		_ = binary.Write(singleNullBuf, binary.LittleEndian, int32(singlePayload.Len())) // #nosec G115
 		singleNullBuf.Write(singlePayload.Bytes())
 		pkt, err := discord.DecodeRconPacketForTest(singleNullBuf)
