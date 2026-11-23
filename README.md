@@ -226,7 +226,6 @@ docker compose -f docker-compose.yml --profile monitoring config --quiet
 - **Governance & Contributing:** [CONTRIBUTING.md](CONTRIBUTING.md)
 - **Code of Conduct:** [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 - **Support & Inquiries:** [SUPPORT.md](SUPPORT.md)
-- **Project Roadmap:** [ROADMAP.md](ROADMAP.md)
 - **AI Guidelines & Architecture Manual:** [AGENTS.md](AGENTS.md)
 
 This project is licensed under the [MIT License](LICENSE).

@@ -36,8 +36,7 @@ Use this workflow whenever introducing new CLI subcommands, new configuration ca
 
 ### Step 5: Documentation & Commit
 1. Update `.agents/context/cli-reference.md` with new flags or commands.
-2. Update `ROADMAP.md` task checklists.
-3. Commit with Conventional Commits: `feat(<scope>): <description>`.
+2. Commit with Conventional Commits: `feat(<scope>): <description>`.
 
 ## Required Checks
 - [ ] All unit tests pass with zero data races.

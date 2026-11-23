@@ -1,10 +1,10 @@
 # Rule: Documentation & Commits
 
 ## Purpose
-Maintain strict documentation accuracy, ensure single source of truth across architecture and roadmap documents, and enforce Conventional Commits.
+Maintain strict documentation accuracy, ensure single source of truth across architecture and project documents, and enforce Conventional Commits.
 
 ## Scope
-Applies to all Markdown documentation files (`AGENTS.md`, `.agents/`, `docs/`, `PROJECT.md`, `ROADMAP.md`), README files, and Git commit messages.
+Applies to all Markdown documentation files (`AGENTS.md`, `.agents/`, `docs/`, `PROJECT.md`), README files, and Git commit messages.
 
 ## MUST
 - **MUST** format all commit messages according to the Conventional Commits specification:
@@ -12,7 +12,7 @@ Applies to all Markdown documentation files (`AGENTS.md`, `.agents/`, `docs/`, `
   <type>(<scope>): <short description in imperative mood>
   ```
   Valid types: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `ci`.
-- **MUST** keep `PROJECT.md` and `ROADMAP.md` updated as the single source of truth whenever system behavior or task status changes.
+- **MUST** keep `PROJECT.md` updated as the single source of truth whenever system behavior or task status changes.
 - **MUST** write clean, structured Markdown using standard headings (`#`, `##`, `###`), tables, and code fences.
 - **MUST** preserve existing documentation integrity, licenses, and comments in configuration files.
 
