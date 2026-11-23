@@ -1,0 +1,16 @@
+title = "Minecraft Network Gitleaks Configuration"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allowlist for templates and dummy test fixtures"
+paths = [
+    '''(^|/)templates/''',
+    '''(^|/)tests/''',
+    '''(^|/)internal/cli/doctor/''',
+]
+regexTarget = "match"
+regexes = [
+    '''\$\{SONAR_TOKEN\}''',
+]
